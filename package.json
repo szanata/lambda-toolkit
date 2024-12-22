@@ -1,0 +1,27 @@
+{
+  "name": "lambda-toolkit",
+  "version": "0.0.0",
+  "description": "A set of tools to help and simplify Node Js code development for AWS Lambdas",
+  "main": "./src/index.js",
+  "author": "Stéfano Zanata",
+  "scripts": {
+    "test": "jest --env=node",
+    "lint:fix": "eslint",
+    "lint": "eslint --fix"
+  },
+  "license": "GNUv3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/szanata/lambda-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/szanata/lambda-toolkit/issues"
+  },
+  "homepage": "https://github.com/szanata/lambda-toolkit",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "29.7.0",
+    "eslint": "9.17.0",
+    "eslint-plugin-import": "2.31.0"
+  }
+}
