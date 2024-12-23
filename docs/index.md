@@ -5,3 +5,4 @@
 - [Math](./math/index.md)
 - [Object](./object/index.md)
 - [String](./string/index.md)
+- [Utils](./utils/index.md)
