@@ -17,8 +17,8 @@ describe( 'Camelize Spec', () => {
     expect( camelize( 'KEBAB-CASE' ) ).toEqual( 'kebabCase' );
   } );
 
-  it( 'Should not convert ALL_CAPS', () => {
-    expect( camelize( 'CONSTANT_SYNTAX' ) ).toEqual( 'CONSTANT_SYNTAX' );
+  it( 'Should convert ALL_CAPS', () => {
+    expect( camelize( 'ALL_CAPS' ) ).toEqual( 'allCaps' );
   } );
 
   it( 'Should interpret the last word of a sequence of uppercase as the first letter of the next sequence', () => {
@@ -35,11 +35,21 @@ describe( 'Camelize Spec', () => {
     expect( camelize( 'from_snake_case AndPascalCase and-kebab-case' ) ).toEqual( 'fromSnakeCase andPascalCase andKebabCase' );
   } );
 
-  it( 'Should keep ALL_CAPS if it is limited by spaces', () => {
-    expect( camelize( 'snake_case ALL_CAPS snake_case' ) ).toEqual( 'snakeCase ALL_CAPS snakeCase' );
-  } );
-
   it( 'Should keep any time of delimiters that match "\\s" in place', () => {
     expect( camelize( 'a_b\ra_b\u2003a_b  a_b\u00A0a_b' ) ).toEqual( 'aB\raB\u2003aB  aB\u00A0aB' );
+  } );
+
+  describe( 'Keep All Caps option', () => {
+    it( 'Should work normally', () => {
+      expect( camelize( 'snake_case', { keepAllCaps: true } ) ).toEqual( 'snakeCase' );
+    } );
+
+    it( 'Should keep ALL_CAPS', () => {
+      expect( camelize( 'ALL_CAPS', { keepAllCaps: true } ) ).toEqual( 'ALL_CAPS' );
+    } );
+
+    it( 'Should keep ALL_CAPS if it is limited by spaces', () => {
+      expect( camelize( 'snake_case ALL_CAPS snake_case', { keepAllCaps: true } ) ).toEqual( 'snakeCase ALL_CAPS snakeCase' );
+    } );
   } );
 } );

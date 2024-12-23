@@ -28,9 +28,10 @@ A new string which the value is the converted input.
 #### Transformation Chart
 |Input|Output|Description|
 |---|---|---|
-|from_snake_case|fromSnakeCase|"snake_case" is properly converted|
-|PascalCase|pascalCase|"PascalCase" is properly converted|
-|CONSTANT_SYNTAX|CONSTANT_SYNTAX|Constants ALL_CAPS are kept|
+|from_snake_case|fromSnakeCase|"snake_case" is converted|
+|PascalCase|pascalCase|"PascalCase" is converted|
+|ALL_CAPS|allCaps|"ALL_CAPS" is converted|
+|ALL_CAPS|ALL_CAPS|"ALL_CAPS" are kept if using "keepAllCaps" property|
 |from_snake_case_AndPascalCase|fromSnakeCaseAndPascalCase|Mixed cases are converted|
 |from_snake_case AndPascalCase|fromSnakeCase andPascalCase|Spaces are delimiters|
 |ABBlood|abBlood|Last uppercase in a sequence followed by lower case is handled as delimiter|
@@ -51,6 +52,8 @@ Given a string capitalize each word bound by space delimiters
 |Name|Type|Description|Default|
 |---|---|---|---|
 |text|String|The string to convert||
+|options|Object|An option object with options|{}|
+|options.keepAllCaps|Boolean|The flag to keep or convert all caps|false|
 
 #### Return
 
@@ -72,6 +75,8 @@ Transform a string to "snake_case". It will convert each sequence bound by space
 |Name|Type|Description|Default|
 |---|---|---|---|
 |text|String|The string to convert||
+|options|Object|An option object with options|{}|
+|options.keepAllCaps|Boolean|The flag to keep or convert all caps|false|
 
 #### Return
 
@@ -80,9 +85,10 @@ A new string which the value is the converted input.
 #### Transformation Chart
 |Input|Output|Description|
 |---|---|---|
-|fromCamelCase|from_camel_case|"snake_case" is properly converted|
-|PascalCase|pascal_case|"pascal_case" is properly converted|
-|CONSTANT_SYNTAX|CONSTANT_SYNTAX|Constants ALL_CAPS are kept|
+|fromCamelCase|from_camel_case|"snake_case" is converted|
+|PascalCase|pascal_case|"pascal_case" is converted|
+|ALL_CAPS|all_caps|"ALL_CAPS" is converted|
+|ALL_CAPS|ALL_CAPS|"ALL_CAPS" are kept if using "keepAllCaps" option|
 |fromCamelCase-and-kebab-case|from_camel_case_and_kebab_case|Mixed cases are converted|
 |fromCamelCase and-kebab-case|from_camel_case and_kebab_case|Spaces are delimiters|
 

@@ -1,9 +1,9 @@
 // Convert a string to camelCase
-module.exports = input =>
+module.exports = ( input, { keepAllCaps = false } = {} ) =>
   // Break the string into sequences to rebuild later
   !input ? input : input.split( /\s/ )
     // ALL_CAPS terms are ignored
-    .map( term => [ term, /^[A-Z_]+$/g.test( term ) ? term : term
+    .map( term => [ term, keepAllCaps && /^[A-Z_]+$/g.test( term ) ? term : term
       // Matches the penultimate letter in a sequence of upper case followed by lower case and convert it to lower case
       // Effectively creating a word break eg: BDay => bDay
       .replace( /[A-Z](?=[A-Z][a-z])/g, c => `${c[0].toLowerCase()}` )
