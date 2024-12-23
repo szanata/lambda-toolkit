@@ -6,8 +6,8 @@
   "author": "Stéfano Zanata",
   "scripts": {
     "test": "jest --env=node",
-    "lint:fix": "eslint",
-    "lint": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "lint": "eslint"
   },
   "license": "GNUv3",
   "repository": {
