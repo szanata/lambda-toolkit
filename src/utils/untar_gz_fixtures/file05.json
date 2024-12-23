@@ -1,0 +1,272 @@
+[
+  {
+    "_id": "6769962c765a1222d19afb82",
+    "index": 0,
+    "guid": "eaa72a0e-fd75-4c56-80d8-abf20dc76982",
+    "isActive": true,
+    "balance": "$1,717.49",
+    "picture": "http://placehold.it/32x32",
+    "age": 37,
+    "eyeColor": "brown",
+    "name": "Page Fry",
+    "gender": "male",
+    "company": "COMBOGENE",
+    "email": "pagefry@combogene.com",
+    "phone": "+1 (932) 466-2464",
+    "address": "124 Dinsmore Place, Wheatfields, Puerto Rico, 2480",
+    "about": "In cillum qui ea excepteur sunt reprehenderit eu adipisicing. Id occaecat anim sit mollit minim laboris exercitation id nisi. Amet magna eu id minim enim deserunt occaecat laborum reprehenderit deserunt do. Aliquip ad sint do aliqua non cillum qui ullamco enim aliqua adipisicing cillum officia. Occaecat commodo cupidatat consectetur nisi et proident.\r\n",
+    "registered": "2018-06-16T04:50:20 -01:00",
+    "latitude": -84.828429,
+    "longitude": 101.669323,
+    "tags": [
+      "incididunt",
+      "pariatur",
+      "sit",
+      "exercitation",
+      "do",
+      "excepteur",
+      "ipsum"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Beck Rush"
+      },
+      {
+        "id": 1,
+        "name": "Callahan Grimes"
+      },
+      {
+        "id": 2,
+        "name": "Drake Tillman"
+      }
+    ],
+    "greeting": "Hello, Page Fry! You have 4 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "6769962cfcd61c5a73cc6fc9",
+    "index": 1,
+    "guid": "c0ae4ef0-dadc-4bbf-989d-8f3c2926fb34",
+    "isActive": true,
+    "balance": "$2,698.33",
+    "picture": "http://placehold.it/32x32",
+    "age": 29,
+    "eyeColor": "brown",
+    "name": "Hampton Vaughn",
+    "gender": "male",
+    "company": "COMCUBINE",
+    "email": "hamptonvaughn@comcubine.com",
+    "phone": "+1 (887) 567-3133",
+    "address": "861 Maple Avenue, Groton, Kansas, 3520",
+    "about": "Dolore laborum laborum adipisicing ex. Tempor pariatur reprehenderit officia cillum ullamco consequat cillum irure. Commodo excepteur est cillum fugiat ea aute ea consectetur non ad laborum consequat magna anim. Ut reprehenderit sunt duis anim esse ipsum cupidatat excepteur adipisicing sunt.\r\n",
+    "registered": "2020-05-20T11:43:44 -01:00",
+    "latitude": -74.887261,
+    "longitude": 126.816756,
+    "tags": [
+      "id",
+      "aliqua",
+      "eiusmod",
+      "commodo",
+      "nisi",
+      "laboris",
+      "adipisicing"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Kayla Rutledge"
+      },
+      {
+        "id": 1,
+        "name": "Melanie Kelly"
+      },
+      {
+        "id": 2,
+        "name": "Olive Orr"
+      }
+    ],
+    "greeting": "Hello, Hampton Vaughn! You have 10 unread messages.",
+    "favoriteFruit": "apple"
+  },
+  {
+    "_id": "6769962cab2b0f424008626a",
+    "index": 2,
+    "guid": "e14a6918-e5ed-4704-8c0b-de0ea7d07cdb",
+    "isActive": false,
+    "balance": "$3,809.98",
+    "picture": "http://placehold.it/32x32",
+    "age": 40,
+    "eyeColor": "brown",
+    "name": "Dale Armstrong",
+    "gender": "male",
+    "company": "BIOHAB",
+    "email": "dalearmstrong@biohab.com",
+    "phone": "+1 (850) 491-2761",
+    "address": "199 Alton Place, Succasunna, California, 5838",
+    "about": "Amet excepteur minim irure ex ex nulla consequat. Sunt fugiat ad anim ut non. Cupidatat sint laborum nisi amet voluptate veniam quis aliqua pariatur dolore exercitation tempor quis. Nostrud elit anim dolor sint voluptate ex eu. Elit officia occaecat in nulla cupidatat sit et. Commodo enim consequat elit cupidatat esse duis sint sit magna eiusmod nisi consequat reprehenderit.\r\n",
+    "registered": "2022-12-23T07:07:32 -00:00",
+    "latitude": 12.028621,
+    "longitude": -110.564787,
+    "tags": [
+      "anim",
+      "non",
+      "sint",
+      "aliqua",
+      "voluptate",
+      "sit",
+      "velit"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Isabel Russo"
+      },
+      {
+        "id": 1,
+        "name": "Mills Tyler"
+      },
+      {
+        "id": 2,
+        "name": "Cora Henderson"
+      }
+    ],
+    "greeting": "Hello, Dale Armstrong! You have 5 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "6769962c4c53fb42e32cc552",
+    "index": 3,
+    "guid": "28e154fe-575f-4051-8afc-bbc7f6e16662",
+    "isActive": false,
+    "balance": "$1,319.00",
+    "picture": "http://placehold.it/32x32",
+    "age": 31,
+    "eyeColor": "blue",
+    "name": "Bernice Ramirez",
+    "gender": "female",
+    "company": "ROCKLOGIC",
+    "email": "berniceramirez@rocklogic.com",
+    "phone": "+1 (892) 510-3654",
+    "address": "147 Suydam Street, Bentonville, Texas, 9436",
+    "about": "Quis irure adipisicing ad aliquip laborum irure. Aliqua mollit occaecat anim veniam aute dolore. Labore non laborum laborum culpa consequat enim irure occaecat aliqua enim sit Lorem laboris. Officia ad excepteur sit do ipsum excepteur occaecat sunt quis ex sint.\r\n",
+    "registered": "2024-08-04T08:28:22 -01:00",
+    "latitude": -11.526379,
+    "longitude": 138.264858,
+    "tags": [
+      "eiusmod",
+      "laborum",
+      "Lorem",
+      "ullamco",
+      "reprehenderit",
+      "officia",
+      "laboris"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Sonya Sparks"
+      },
+      {
+        "id": 1,
+        "name": "Cantrell Shaffer"
+      },
+      {
+        "id": 2,
+        "name": "Chaney Gutierrez"
+      }
+    ],
+    "greeting": "Hello, Bernice Ramirez! You have 1 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "6769962c450936e2910e20cf",
+    "index": 4,
+    "guid": "37bb4c28-5c1f-49af-94ce-d3437adc206a",
+    "isActive": true,
+    "balance": "$1,415.45",
+    "picture": "http://placehold.it/32x32",
+    "age": 36,
+    "eyeColor": "green",
+    "name": "Douglas Daniels",
+    "gender": "male",
+    "company": "PIVITOL",
+    "email": "douglasdaniels@pivitol.com",
+    "phone": "+1 (966) 457-2435",
+    "address": "796 Emmons Avenue, Roland, Marshall Islands, 1253",
+    "about": "Ea id fugiat eu enim aute consequat dolor pariatur cupidatat. Velit magna nostrud commodo laboris proident Lorem. Amet anim esse eu irure minim reprehenderit aliquip voluptate voluptate commodo consectetur. Nulla enim proident deserunt aliqua amet labore dolore excepteur officia ipsum incididunt.\r\n",
+    "registered": "2022-10-21T03:46:17 -01:00",
+    "latitude": -12.58614,
+    "longitude": -2.945579,
+    "tags": [
+      "nisi",
+      "dolore",
+      "magna",
+      "nulla",
+      "fugiat",
+      "cillum",
+      "ad"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Imogene Whitehead"
+      },
+      {
+        "id": 1,
+        "name": "Eloise Rasmussen"
+      },
+      {
+        "id": 2,
+        "name": "Marylou House"
+      }
+    ],
+    "greeting": "Hello, Douglas Daniels! You have 10 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "6769962cb209d6772746145d",
+    "index": 5,
+    "guid": "933cd5da-1023-4ab0-bd0a-474b43c6db5b",
+    "isActive": true,
+    "balance": "$1,400.56",
+    "picture": "http://placehold.it/32x32",
+    "age": 27,
+    "eyeColor": "brown",
+    "name": "Shelton Figueroa",
+    "gender": "male",
+    "company": "COMBOT",
+    "email": "sheltonfigueroa@combot.com",
+    "phone": "+1 (916) 425-2330",
+    "address": "293 Banker Street, Oley, Oklahoma, 9611",
+    "about": "Id non exercitation enim consectetur minim aute sit culpa veniam est tempor commodo non. Dolore duis cillum velit sit minim excepteur fugiat magna exercitation. Ea commodo exercitation eiusmod officia anim sint. Labore amet eiusmod occaecat laboris aliquip commodo. Aute incididunt ipsum labore qui proident.\r\n",
+    "registered": "2024-09-29T01:31:10 -01:00",
+    "latitude": 63.210788,
+    "longitude": -25.667522,
+    "tags": [
+      "consequat",
+      "consectetur",
+      "consectetur",
+      "est",
+      "voluptate",
+      "aute",
+      "do"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Chrystal Rowland"
+      },
+      {
+        "id": 1,
+        "name": "Tommie Campbell"
+      },
+      {
+        "id": 2,
+        "name": "Joyce Gates"
+      }
+    ],
+    "greeting": "Hello, Shelton Figueroa! You have 8 unread messages.",
+    "favoriteFruit": "strawberry"
+  }
+]
