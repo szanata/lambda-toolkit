@@ -1,4 +1,4 @@
-# String
+# Math
 
 Mathematical operations implemented in JS
 
