@@ -1,5 +1,4 @@
 const documentClientProvider = require( './document_client_provider' );
-const find = require( './find' );
 const get = require( './get' );
 const put = require( './put' );
 const putBatch = require( './put_batch' );
@@ -13,7 +12,6 @@ const update = require( './update' );
 const createInstance = require( '../core/create_instance' );
 
 const methods = {
-  find,
   get,
   put,
   putBatch,

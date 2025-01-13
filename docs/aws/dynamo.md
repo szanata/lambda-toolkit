@@ -3,7 +3,6 @@
 Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`
 
 ## Index
-- [`fn` find](#fn-find)
 - [`fn` get](#fn-get)
 - [`fn` putBatch](#fn-putbatch)
 - [`fn` put](#fn-put)
@@ -30,9 +29,9 @@ Since all commands are dispatched to `DynamoDBDocumentClient`, all data returned
 
 ## Members
 
-### `fn` find
+### `fn` get
 
-This function is an abstraction for DynamoDB's `getItem` action, using `GetCommand`. It will retrieve a single row from the database by its key. It is pure syntax sugar for the sdk `GetCommand` statements:
+This function is an abstraction for DynamoDB's `getItem` action, using `GetCommand`. It will retrieve a single row from the database by its key, either with a convenient syntax sugar, or with the native arguments.
 
 ```js
 const { aws: { dynamo } } = require( '<this-library>' );
@@ -44,6 +43,9 @@ const item = await dynamo.find( table, { pk: '123' } );
 
 |Name|Type|Description|Default|
 |---|---|---|---|
+|_If first argument is object_|
+|nativeArgs|Object|The `lib-dynamodb` SDK [GetCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/GetCommand/)||
+|_If first argument is string_|
 |tableName|String|The name of the table||
 |key|Object|An object containing the key (or keys) properties of the record to retrieve||
 
@@ -69,31 +71,6 @@ The AWS policy statement to use this function is:
   }]
 }
 ```
-
-### `fn` get
-
-This function is an abstraction for DynamoDB's `getItem` action, using `GetCommand`. It will retrieve a single row from the database by its key. But different from the [`.find`](#fn-find), it will use native DynamoDB arguments, allowing to use any statements.
-
-```js
-const { aws: { dynamo } } = require( '<this-library>' );
-
-const item = await dynamo.get( {
-  Key: { id: '123' },
-  ProjectionExpression: 'id',
-  TableName: 'my-table',
-  ConsistentRead: true
-} );
-```
-
-#### Arguments
-
-|Name|Type|Description|Default|
-|---|---|---|---|
-|nativeArgs|Object|The `lib-dynamodb` SDK [GetCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/GetCommand/)||
-
-#### Return
-
-The dynamodb row or null if it was not found.
 
 ### `fn` putBatch
 

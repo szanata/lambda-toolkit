@@ -12,7 +12,7 @@ const client = {
 const tableName = 'table';
 const item = { id: '123', value: 'foo' };
 
-describe( 'Put Spec', () => {
+describe( 'Dynamo Put Spec', () => {
   afterEach( () => {
     client.send.mockReset();
     PutCommand.mockReset();
