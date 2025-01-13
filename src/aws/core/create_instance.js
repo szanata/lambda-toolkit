@@ -1,5 +1,5 @@
 /**
- * This is base object each AWS abstraction will provide 
+ * This is base object each AWS abstraction will provide
  */
 module.exports = ( providerFn, methods ) => {
   // This creates the "instance",

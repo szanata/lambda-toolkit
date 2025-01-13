@@ -15,7 +15,7 @@ module.exports = class LambdaError extends Error {
     if ( statusCode === 200 ) {
       super( `Invoked function threw "[${lambdaErrorType}]${lambdaErrorMessage ? ' ' + lambdaErrorMessage : ''}"` );
     } else {
-      super( `Error invoking the function` );
+      super( 'Error invoking the function' );
     }
     this.statusCode = statusCode;
     this.lambdaErrorType = lambdaErrorType;

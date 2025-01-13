@@ -16,13 +16,13 @@ const client = {
 
 const functionName = 'my-function';
 const payload = { foo: 'bar' };
-const command = { name: 'command' };
+const commandInstance = jest.fn();
 
 const responsePayload = { foo: 'bar' };
 
 describe( 'Lambda invoke Spec', () => {
   beforeEach( () => {
-    InvokeCommand.mockReturnValue( command );
+    InvokeCommand.mockReturnValue( commandInstance );
   } );
 
   afterEach( () => {
@@ -40,7 +40,7 @@ describe( 'Lambda invoke Spec', () => {
     const result = await invoke( client, functionName, payload, 'RequestResponse' );
 
     expect( result ).toEqual( responsePayload );
-    expect( client.send ).toHaveBeenCalledWith( command );
+    expect( client.send ).toHaveBeenCalledWith( commandInstance );
     expect( InvokeCommand ).toHaveBeenCalledWith( {
       InvocationType: 'RequestResponse',
       FunctionName: functionName,
@@ -57,7 +57,7 @@ describe( 'Lambda invoke Spec', () => {
     const result = await invoke( client, functionName, payload, 'Event' );
 
     expect( result ).toEqual( true );
-    expect( client.send ).toHaveBeenCalledWith( command );
+    expect( client.send ).toHaveBeenCalledWith( commandInstance );
     expect( InvokeCommand ).toHaveBeenCalledWith( {
       InvocationType: 'Event',
       FunctionName: functionName,

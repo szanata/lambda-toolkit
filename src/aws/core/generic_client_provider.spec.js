@@ -11,7 +11,7 @@ const className = 'class-name';
 // This will be the "class", the fn represents the constructor
 const constructor = new Proxy( jest.fn(), {
   // this customizes the .name, since with jest.fn() this property is read-only
-  get: ( _this, prop ) => prop == 'name' ? className : _this[prop]
+  get: ( _this, prop ) => prop === 'name' ? className : _this[prop]
 } );
 
 // this is the supposed to be instance from constructor
@@ -44,18 +44,18 @@ describe( 'Generic Client Provider', () => {
   describe( 'If not on cache', () => {
     it( 'Should initialize constructor without arguments and save to cache', () => {
       const result = genericClientProvider( constructor );
-  
+
       expect( result ).toEqual( instance );
       expect( cache.get ).toHaveBeenCalledWith( `${className}()` );
       expect( cache.set ).toHaveBeenCalledWith( `${className}()`, instance );
       expect( constructor ).toHaveBeenCalledWith();
     } );
-  
+
     it( 'Should initialize constructor with arguments and save to cache', () => {
       const args = [ { option: 'none' }, 2, '3' ];
-  
+
       const result = genericClientProvider( constructor, args );
-  
+
       const key = `${className}({"option":"none"},2,"3")`;
       expect( result ).toEqual( instance );
       expect( cache.get ).toHaveBeenCalledWith( key );

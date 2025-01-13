@@ -17,8 +17,8 @@ describe( 'LambdaError spec', () => {
 
     expect( error ).toMatchObject( {
       statusCode: 200,
-      lambdaErrorMessage: "Something went very wrong",
-      lambdaErrorType: "SomeErrorType"
+      lambdaErrorMessage: 'Something went very wrong',
+      lambdaErrorType: 'SomeErrorType'
     } );
     expect( error.message ).toBe( 'Invoked function threw "[SomeErrorType] Something went very wrong"' );
   } );
@@ -36,7 +36,7 @@ describe( 'LambdaError spec', () => {
     expect( error ).toMatchObject( {
       statusCode: 500,
       lambdaErrorMessage: undefined,
-      lambdaErrorType: "Error"
+      lambdaErrorType: 'Error'
     } );
     expect( error.message ).toBe( 'Error invoking the function' );
   } );
@@ -53,8 +53,8 @@ describe( 'LambdaError spec', () => {
 
     expect( error ).toMatchObject( {
       statusCode: 200,
-      lambdaErrorMessage: "RequestId: xxx Process exited before completing request",
-      lambdaErrorType: "Error"
+      lambdaErrorMessage: 'RequestId: xxx Process exited before completing request',
+      lambdaErrorType: 'Error'
     } );
     expect( error.message ).toBe( 'Invoked function threw "[Error] RequestId: xxx Process exited before completing request"' );
   } );
