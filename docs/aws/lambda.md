@@ -13,7 +13,7 @@ The SDK Lambda client is instantiated with not options.
 
 ### `fn` invoke
 
-Invoked an AWS Lambda function. This abstracts the `InvokeCommand`.
+Invokes an AWS Lambda function. This abstracts the `InvokeCommand`.
 
 Example:
 ```js
