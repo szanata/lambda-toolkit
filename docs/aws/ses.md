@@ -3,14 +3,14 @@
 Abstraction over `@aws-sdk/client-sesv2`
 
 ## Index
-- [`fn` deleteSuppressedDestination,](#fn-deletesuppresseddestination,)
+- [`fn` deleteSuppressedDestination](#fn-deletesuppresseddestination)
 - [`fn` sendEmail](#fn-sendemail)
 
 ## Members
 
 ### `fn` deleteSuppressedDestination
 
-Removes and address from the account suppression list. Abstracts the `CopyObjectCommand`.
+Removes and address from the account suppression list. Abstracts the `DeleteSuppressedDestination`.
 
 Example:
 ```js
@@ -27,7 +27,7 @@ await ses.deleteSuppressedDestination( 'user@not-a-domain' );
 
 #### Return
 
-The raw SDK response.
+The raw SDK [response](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Interface/DeleteSuppressedDestinationCommandOutput/).
 
 #### Permissions needed
 
