@@ -2,7 +2,11 @@
 
 Abstraction over `@aws-sdk/client-sns`
 
+## Namespace
+`.sns`
+
 ## Index
+- [client](#client)
 - [`fn` publish](#fn-publish)
 
 ## Client
@@ -30,7 +34,7 @@ await sns.publish( 'my-topic', {
 |---|---|---|---|
 |topicArn|String|the arn of the topic to publish the message||
 |message|String,Object|The content of the message, if it is not an String, it will be cast using `JSON.stringify`||
-|nativeArgs|Object|All `client-sns` SDK [PublishCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Class/PublishCommand/) except `TopicArn` and `Message`, which are defined by the previous arguments||
+|nativeArgs|Object|All `client-sns` SDK [PublishCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Class/PublishCommand/) except `TopicArn` and `Message`, which are defined by the previous arguments||
 
 #### Return
 

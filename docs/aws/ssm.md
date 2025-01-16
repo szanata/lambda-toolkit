@@ -2,7 +2,11 @@
 
 Abstraction over `@aws-sdk/client-ssm`
 
+## Namespace
+`.ssm`
+
 ## Index
+- [client](#client)
 - [`fn` get](#fn-get)
 
 ## Client

@@ -2,7 +2,11 @@
 
 Abstraction over `@aws-sdk/client-athena`
 
+## Namespace
+`.athena`
+
 ## Index
+- [client](#client)
 - [`fn` query](#fn-query)
 
 ## Client
@@ -34,7 +38,7 @@ SORT BY date ASC;`,
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|nativeArgs|Object|The native SDK [StartQueryCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/athena/command/StartQueryExecutionCommand/)||
+|nativeArgs|Object|The native SDK [StartQueryCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/athena/command/StartQueryExecutionCommand/)||
 |options|Object|Extra options||
 |options.recursive|Boolean|Whether to recursive query all results or to return a paginationToken after each page|false|
 |options.paginationToken|String|The pagination token received in the previous call to resume the query (only used when recursive = false)|null|

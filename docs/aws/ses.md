@@ -2,7 +2,11 @@
 
 Abstraction over `@aws-sdk/client-sesv2`
 
+## Namespace
+`.ses`
+
 ## Index
+- [client](#client)
 - [`fn` deleteSuppressedDestination](#fn-deletesuppresseddestination)
 - [`fn` sendEmail](#fn-sendemail)
 
@@ -31,7 +35,7 @@ await ses.deleteSuppressedDestination( 'user@not-a-domain' );
 
 #### Return
 
-The raw SDK [response](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Interface/DeleteSuppressedDestinationCommandOutput/).
+The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Interface/DeleteSuppressedDestinationCommandOutput/).
 
 #### Permissions needed
 
@@ -81,11 +85,11 @@ await s3.sendEmail( {
 |object.from|String|The sender address||
 |object.html|String|The HTML code of the email||
 |object.subject|String|The subject line of the email address||
-|nativeArgs|Object|All `client-sesv2` SDK [SendEmailCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Class/SendEmailCommand/) except `Destination`, `Content` and `FromEmailAddress`, which are defined by the previous arguments||
+|nativeArgs|Object|All `client-sesv2` SDK [SendEmailCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Class/SendEmailCommand/) except `Destination`, `Content` and `FromEmailAddress`, which are defined by the previous arguments||
 
 #### Return
 
-The raw SDK [response](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Interface/SendEmailCommandOutput/).
+The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Interface/SendEmailCommandOutput/).
 
 #### Permissions needed
 

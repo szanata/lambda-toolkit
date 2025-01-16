@@ -2,7 +2,11 @@
 
 Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`
 
+## Namespace
+`.dynamo`
+
 ## Index
+- [client](#client)
 - [`fn` get](#fn-get)
 - [`fn` putBatch](#fn-putbatch)
 - [`fn` put](#fn-put)
@@ -16,7 +20,7 @@ Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`
 
 ## Client
 
-This module uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. The former is instantiated with no options. The second is initialized with the following [configuration](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1):
+This module uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. The former is instantiated with no options. The second is initialized with the following [configuration](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1):
 
 - `marshallOptions.convertEmptyValues = true`, which will convert empty strings, blobs and sets to null;
 - `marshallOptions.removeUndefinedValues = true`, Remove undefined values while marshalling.
@@ -44,7 +48,7 @@ const item = await dynamo.find( table, { pk: '123' } );
 |Name|Type|Description|Default|
 |---|---|---|---|
 |_If first argument is object_|
-|nativeArgs|Object|The `lib-dynamodb` SDK [GetCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/GetCommand/)||
+|nativeArgs|Object|The `lib-dynamodb` SDK [GetCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/GetCommand/)||
 |_If first argument is string_|
 |tableName|String|The name of the table||
 |key|Object|An object containing the key (or keys) properties of the record to retrieve||
@@ -143,7 +147,7 @@ await dynamo.put( {
 |Name|Type|Description|Default|
 |---|---|---|---|
 |_If first argument is object_|
-|nativeArgs|Object|The `lib-dynamodb` SDK [PutCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/PutCommand/)||
+|nativeArgs|Object|The `lib-dynamodb` SDK [PutCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/PutCommand/)||
 |_If first argument is string_|
 |tableName|String|The name of the table||
 |record|Object|The record to upsert on the table||
@@ -282,7 +286,7 @@ const { items, count } = await dynamo.scan( {
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|nativeArgs|Object|The `lib-dynamodb` SDK [ScanCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/ScanCommand/)||
+|nativeArgs|Object|The `lib-dynamodb` SDK [ScanCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/ScanCommand/)||
 |options|Object|An object containing extra options||
 |options.recursive|Boolean|If true the operation will retrieve all results, otherwise just the first page|false|
 |options.paginationToken|String|If recursive is false this can provide the token to resume the operation from the previous page. Keep in mind that native arguments `ExplicitStartKey` will be overwritten by this value if provided.||
@@ -474,7 +478,7 @@ This function is an abstraction for DynamoDB's `transactWrite` action, using `Tr
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|items|Object|The `TransactItems` argument of `lib-dynamodb` SDK [TransactWriteCommand](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/TypeAlias/TransactWriteCommandInput/)||
+|items|Object|The `TransactItems` argument of `lib-dynamodb` SDK [TransactWriteCommand](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/TypeAlias/TransactWriteCommandInput/)||
 
 #### Return
 
@@ -506,7 +510,7 @@ await dynamo.update( {
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|nativeArgs|Object|The `lib-dynamodb` SDK [UpdateCommand arguments](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/UpdateCommand/)||
+|nativeArgs|Object|The `lib-dynamodb` SDK [UpdateCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/UpdateCommand/)||
 
 #### Return
 

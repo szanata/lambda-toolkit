@@ -2,7 +2,11 @@
 
 Abstraction over `@aws-sdk/client-lambda`
 
+## Namespace
+`.lambda`
+
 ## Index
+- [client](#client)
 - [`fn` invoke](#fn-invoke)
 
 ## Client
