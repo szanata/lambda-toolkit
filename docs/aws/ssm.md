@@ -5,6 +5,10 @@ Abstraction over `@aws-sdk/client-ssm`
 ## Index
 - [`fn` get](#fn-get)
 
+## Client
+
+The SDK's SSM client is instantiated with not options.
+
 ## Members
 
 ### `fn` publish

@@ -16,7 +16,7 @@ Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`
 
 ## Client
 
-This library uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. The former is instantiated with no options. The second is initialized with the following [configuration](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1):
+This module uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. The former is instantiated with no options. The second is initialized with the following [configuration](#https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1):
 
 - `marshallOptions.convertEmptyValues = true`, which will convert empty strings, blobs and sets to null;
 - `marshallOptions.removeUndefinedValues = true`, Remove undefined values while marshalling.
@@ -25,7 +25,7 @@ This library uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. Th
 
 Keep in mind that `.getClient` method that is exposed here, as well in all other modules, will return a `DynamoDBDocumentClient` instance.
 
-Since all commands are dispatched to `DynamoDBDocumentClient`, all data returned is already parsed to JS native types. See this [table](./parse_table.md) for reference.
+Since all commands are dispatched to `DynamoDBDocumentClient`, all data returned is already parsed to JS native types. See this the table at [this document](./dynamo_types_conversion.md) for reference.
 
 ## Members
 

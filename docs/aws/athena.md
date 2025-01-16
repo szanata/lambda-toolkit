@@ -7,7 +7,7 @@ Abstraction over `@aws-sdk/client-athena`
 
 ## Client
 
-The SDK Athena client is instantiated with not options.
+The SDK's Athena client is instantiated with not options.
 
 ## Members
 

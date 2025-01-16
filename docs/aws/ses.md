@@ -6,6 +6,10 @@ Abstraction over `@aws-sdk/client-sesv2`
 - [`fn` deleteSuppressedDestination](#fn-deletesuppresseddestination)
 - [`fn` sendEmail](#fn-sendemail)
 
+## Client
+
+The SDK's SESv2 client is instantiated with not options.
+
 ## Members
 
 ### `fn` deleteSuppressedDestination

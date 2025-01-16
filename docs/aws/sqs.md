@@ -7,6 +7,10 @@ Abstraction over `@aws-sdk/client-sqs`
 - [`fn` sendMessage](#fn-sendmessage)
 - [`fn` sendMessageBatch](#fn-sendmessagebatch)
 
+## Client
+
+The SDK's SQS client is instantiated with not options.
+
 ## Members
 
 ### `fn` deleteMessage

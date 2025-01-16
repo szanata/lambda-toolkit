@@ -5,6 +5,10 @@ Abstraction over `@aws-sdk/client-sns`
 ## Index
 - [`fn` publish](#fn-publish)
 
+## Client
+
+The SDK's SNS client is instantiated with not options.
+
 ## Members
 
 ### `fn` publish
