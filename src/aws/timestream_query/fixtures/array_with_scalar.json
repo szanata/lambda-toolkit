@@ -1,0 +1,79 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "D2M4XYXLHT6MDTWKIPECWCJDJY",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "ColumnInfo": [
+    {
+      "Name": "myArray",
+      "Type": {
+        "ArrayColumnInfo": {
+          "Type": {
+            "ScalarType": "VARCHAR"
+          }
+        }
+      }
+    }
+  ],
+  "QueryId": "AEDQCANZXGJI5AUHEHMKAJ2Z2U74XIPBUI6WS664GTFKDSVPTPZ25IMMPUJXWVA",
+  "QueryStatus": {
+    "CumulativeBytesMetered": 10000000,
+    "CumulativeBytesScanned": 573126,
+    "ProgressPercentage": 16.666666666666668
+  },
+  "Rows": [
+    {
+      "Data": [
+        {
+          "ArrayValue": [
+            {
+              "ScalarValue": "3180702a"
+            },
+            {
+              "ScalarValue": "b0a70441"
+            },
+            {
+              "ScalarValue": "b4e6a9cb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Data": [
+        {
+          "ArrayValue": [
+            {
+              "ScalarValue": "f5e0461f"
+            },
+            {
+              "ScalarValue": "c0b12268"
+            },
+            {
+              "ScalarValue": "61b3f754"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Data": [
+        {
+          "ArrayValue": [
+            {
+              "ScalarValue": "d8d752b7"
+            },
+            {
+              "ScalarValue": "451e8d9d"
+            },
+            {
+              "ScalarValue": "182e10ed"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

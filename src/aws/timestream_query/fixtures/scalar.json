@@ -1,0 +1,121 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "ZCM73SO6XUVAJOPSLSCWVCUBPQ",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "ColumnInfo": [
+    {
+      "Name": "boolean",
+      "Type": {
+        "ScalarType": "BOOLEAN"
+      }
+    },
+    {
+      "Name": "double",
+      "Type": {
+        "ScalarType": "DOUBLE"
+      }
+    },
+    {
+      "Name": "timestamp",
+      "Type": {
+        "ScalarType": "TIMESTAMP"
+      }
+    },
+    {
+      "Name": "integer",
+      "Type": {
+        "ScalarType": "INTEGER"
+      }
+    },
+    {
+      "Name": "varchar",
+      "Type": {
+        "ScalarType": "VARCHAR"
+      }
+    },
+    {
+      "Name": "bigint",
+      "Type": {
+        "ScalarType": "BIGINT"
+      }
+    },
+    {
+      "Name": "date",
+      "Type": {
+        "ScalarType": "DATE"
+      }
+    },
+    {
+      "Name": "time",
+      "Type": {
+        "ScalarType": "TIME"
+      }
+    },
+    {
+      "Name": "interval_day_to_second",
+      "Type": {
+        "ScalarType": "INTERVAL_DAY_TO_SECOND"
+      }
+    },
+    {
+      "Name": "interval_year_to_month",
+      "Type": {
+        "ScalarType": "INTERVAL_YEAR_TO_MONTH"
+      }
+    },
+    {
+      "Name": "nil",
+      "Type": {
+        "ScalarType": "UNKNOWN"
+      }
+    }
+  ],
+  "QueryId": "AEDQCANZXIPTOWN3ZMNYCWUNE6EOC5LTZ34OUEVZ5AMPOXZACCQZUQY2PWQHO7Y",
+  "QueryStatus": {
+    "CumulativeBytesMetered": 10000000,
+    "CumulativeBytesScanned": 0,
+    "ProgressPercentage": 100
+  },
+  "Rows": [
+    {
+      "Data": [
+        {
+          "ScalarValue": "true"
+        },
+        {
+          "ScalarValue": "23.33333"
+        },
+        {
+          "ScalarValue": "2025-01-01 10:12:30.333000000"
+        },
+        {
+          "ScalarValue": "42"
+        },
+        {
+          "ScalarValue": "foo"
+        },
+        {
+          "ScalarValue": "9223372036854775807"
+        },
+        {
+          "ScalarValue": "2025-01-01"
+        },
+        {
+          "ScalarValue": "10:33:22.000000000"
+        },
+        {
+          "ScalarValue": "0 00:00:23.000000000"
+        },
+        {
+          "ScalarValue": "1-11"
+        },
+        {
+          "NullValue": true
+        }
+      ]
+    }
+  ]
+}

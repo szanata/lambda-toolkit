@@ -1,0 +1,105 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "UJTSDT5YDWFCI3CKTNDFMLGNGI",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "ColumnInfo": [
+    {
+      "Name": "myRow",
+      "Type": {
+        "RowColumnInfo": [
+          {
+            "Name": "field0",
+            "Type": {
+              "ArrayColumnInfo": {
+                "Type": {
+                  "ScalarType": "DOUBLE"
+                }
+              }
+            }
+          },
+          {
+            "Name": "field1",
+            "Type": {
+              "ArrayColumnInfo": {
+                "Type": {
+                  "ScalarType": "VARCHAR"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "QueryId": "AEDQCANZXGITOTETM4TL3YBNP4Z2IAOZIB254YCXQ67YD6H5E2TX7BC2HNKZCHQ",
+  "QueryStatus": {
+    "CumulativeBytesMetered": 10000000,
+    "CumulativeBytesScanned": 2001388,
+    "ProgressPercentage": 16.666666666666668
+  },
+  "Rows": [
+    {
+      "Data": [
+        {
+          "RowValue": {
+            "Data": [
+              {
+                "ArrayValue": [
+                  {
+                    "ScalarValue": "3684.0"
+                  },
+                  {
+                    "ScalarValue": "7368.0"
+                  }
+                ]
+              },
+              {
+                "ArrayValue": [
+                  {
+                    "ScalarValue": "Corolla"
+                  },
+                  {
+                    "ScalarValue": "Camry"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Data": [
+        {
+          "RowValue": {
+            "Data": [
+              {
+                "ArrayValue": [
+                  {
+                    "ScalarValue": "384524.0"
+                  },
+                  {
+                    "ScalarValue": "769048.0"
+                  }
+                ]
+              },
+              {
+                "ArrayValue": [
+                  {
+                    "ScalarValue": "Civic"
+                  },
+                  {
+                    "ScalarValue": "Accord"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

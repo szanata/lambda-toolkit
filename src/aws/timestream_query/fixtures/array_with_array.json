@@ -1,0 +1,57 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "K2OCQVYQVTIATJL3AFE3WVRZXY",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "ColumnInfo": [
+    {
+      "Name": "myArray",
+      "Type": {
+        "ArrayColumnInfo": {
+          "Type": {
+            "ArrayColumnInfo": {
+              "Type": {
+                "ScalarType": "INTEGER"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "QueryId": "AEDQCANZX4OPBS5O7UEK6Y3AMQ5QG46VPY7J2F6CEH5UX6TZJ4EPAHIRKMRK3IQ",
+  "QueryStatus": {
+    "CumulativeBytesMetered": 10000000,
+    "CumulativeBytesScanned": 0,
+    "ProgressPercentage": 100
+  },
+  "Rows": [
+    {
+      "Data": [
+        {
+          "ArrayValue": [
+            {
+              "ArrayValue": [
+                {
+                  "ScalarValue": "1"
+                },
+                {
+                  "ScalarValue": "2"
+                }
+              ]
+            },
+            {
+              "ArrayValue": [
+                {
+                  "ScalarValue": "3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

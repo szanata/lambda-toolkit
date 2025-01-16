@@ -1,0 +1,48 @@
+{
+  "QueryId": "AEDQCAM2RBYL3KRZEWNU4OWO2JVVPOJAYOQU2GHRG4FYKTXYOXDIW3H6WKYWOZA",
+  "Rows": [
+    {
+      "Data": [
+        {
+          "TimeSeriesValue": [
+            {
+              "Time": "2025-01-10 10:00:00.000000000",
+              "Value": {
+                "ScalarValue": "456"
+              }
+            },
+            {
+              "Time": "2025-01-10 11:00:00.000000000",
+              "Value": {
+                "ScalarValue": "231"
+              }
+            },
+            {
+              "Time": "2025-01-10 12:00:00.000000000",
+              "Value": {
+                "ScalarValue": "892"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ColumnInfo": [
+    {
+      "Name": "timeSeries",
+      "Type": {
+        "TimeSeriesMeasureValueColumnInfo": {
+          "Type": {
+            "ScalarType": "INTEGER"
+          }
+        }
+      }
+    }
+  ],
+  "QueryStatus": {
+    "ProgressPercentage": 100,
+    "CumulativeBytesScanned": 532347,
+    "CumulativeBytesMetered": 10000000
+  }
+}
