@@ -1,10 +1,10 @@
-const { LambdaApi } = require( './lib/lambda_api' );
-const array = require( './lib/array' );
-const epoch = require( './lib/epoch' );
-const math = require( './lib/math' );
-const object = require( './lib/object' );
-const string = require( './lib/string' );
-const utils = require( './lib/utils' );
+const { LambdaApi } = require( './lambda_api' );
+const array = require( './array' );
+const epoch = require( './epoch' );
+const math = require( './math' );
+const object = require( './object' );
+const string = require( './string' );
+const utils = require( './utils' );
 
 module.exports = {
   array,
