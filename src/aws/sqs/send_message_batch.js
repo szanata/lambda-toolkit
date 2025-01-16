@@ -10,7 +10,7 @@ module.exports = async ( client, queue, messages ) => {
     Entries: messages.map( ( { body, id = null, ...args }, index ) => ( {
       ...args,
       Id: id ?? `message_${index}`,
-      MessageBody: sanitizeSqs( typeof body === 'string' ? body : JSON.stringify( body ) ),
+      MessageBody: sanitizeSqs( typeof body === 'string' ? body : JSON.stringify( body ) )
     } ) )
   } ) );
 

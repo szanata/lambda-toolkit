@@ -5,7 +5,7 @@ module.exports = async ( client, queue, body, args ) => {
   const response = await client.send( new SendMessageCommand( {
     ...args,
     MessageBody: sanitizeSqs( typeof body === 'string' ? body : JSON.stringify( body ) ),
-    QueueUrl: queue,
+    QueueUrl: queue
   } ) );
   return response.MessageId;
 };

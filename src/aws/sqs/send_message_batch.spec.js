@@ -23,7 +23,7 @@ describe( 'SQS Send Message Batch Spec', () => {
     client.send.mockResolvedValue( { Successful: [], Failed: [] } );
 
     const result = await sendMessageBatch( client, 'sqs://mw.com', [ {
-      MessageBody: { foo: 'bar' },
+      body: { foo: 'bar' },
       DelaySeconds: 30
     } ] );
 
