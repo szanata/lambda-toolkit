@@ -43,7 +43,7 @@ describe( 'Dynamo Get Spec', () => {
       expect( GetCommand ).toHaveBeenCalledWith( {
         TableName: tableName,
         Key: item,
-        ConsistentRead: true 
+        ConsistentRead: true
       } );
     } );
   } );

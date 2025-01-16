@@ -21,6 +21,7 @@ const parseArgs = args => {
  * @returns
  */
 module.exports = async ( client, ...args ) => {
-  const response = await client.send( new PutCommand( parseArgs( args ) ) );
+  const nativeArgs = parseArgs( args );
+  const response = await client.send( new PutCommand( nativeArgs ) );
   return response.Attributes ?? nativeArgs.Item;
 };
