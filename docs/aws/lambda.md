@@ -1,9 +1,8 @@
 # Lambda
 
-Abstraction over `@aws-sdk/client-lambda`
+Abstraction over `@aws-sdk/client-lambda`.
 
-## Namespace
-`.lambda`
+Namespace: `aws.lambda.`
 
 ## Index
 - [client](#client)

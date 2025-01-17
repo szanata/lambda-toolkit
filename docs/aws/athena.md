@@ -1,9 +1,8 @@
 # Athena
 
-Abstraction over `@aws-sdk/client-athena`
+Abstraction over `@aws-sdk/client-athena`.
 
-## Namespace
-`.athena`
+Namespace: `aws.athena.`
 
 ## Index
 - [client](#client)

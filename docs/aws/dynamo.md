@@ -1,9 +1,8 @@
 # Dynamo
 
-Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`
+Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`.
 
-## Namespace
-`.dynamo`
+Namespace: `aws.dynamo.`
 
 ## Index
 - [client](#client)

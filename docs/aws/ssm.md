@@ -1,9 +1,8 @@
 # SSM
 
-Abstraction over `@aws-sdk/client-ssm`
+Abstraction over `@aws-sdk/client-ssm`.
 
-## Namespace
-`.ssm`
+Namespace: `aws.ssm.`
 
 ## Index
 - [client](#client)

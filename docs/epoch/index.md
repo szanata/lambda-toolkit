@@ -1,6 +1,6 @@
 # Epoch
 
-Functions to help working with time
+Functions to help working with time.
 
 Namespace: `epoch.`
 

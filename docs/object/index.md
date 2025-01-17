@@ -1,6 +1,6 @@
 # Object
 
-Functions to work with objects
+Functions to work with objects.
 
 Namespace: `object.`
 

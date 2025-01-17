@@ -1,9 +1,8 @@
 # SNS
 
-Abstraction over `@aws-sdk/client-sns`
+Abstraction over `@aws-sdk/client-sns`.
 
-## Namespace
-`.sns`
+Namespace: `aws.sns.`
 
 ## Index
 - [client](#client)

@@ -1,9 +1,8 @@
 # Timestream Query
 
-Abstraction over `@aws-sdk/client-timestream-query`
+Abstraction over `@aws-sdk/client-timestream-query`.
 
-## Namespace
-`.timestream_query`
+Namespace: `aws.timestream_query.`
 
 ## Index
 - [client](#client)

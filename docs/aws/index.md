@@ -4,6 +4,8 @@ These are functions to make it simpler and convenient to interact with some AWS 
 
 They abstract instantiations  and re-usage of clients, usage and data parsing for some operations. Keep in minds only a handful of operations are covered here.
 
+Namespace: `aws.`
+
 ## Index
 
 - [Basics](#basics)

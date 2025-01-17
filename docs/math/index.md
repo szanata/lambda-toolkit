@@ -1,6 +1,6 @@
 # Math
 
-Mathematical operations implemented in JS
+Mathematical operations implemented in JS.
 
 Namespace: `math.`
 

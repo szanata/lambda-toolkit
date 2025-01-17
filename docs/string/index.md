@@ -1,6 +1,6 @@
 # String
 
-Functions to work with strings
+Functions to work with strings.
 
 Namespace: `string.`
 

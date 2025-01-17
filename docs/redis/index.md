@@ -1,6 +1,6 @@
 # Redis
 
-Functions to work with NodeJS [Redis](https://www.npmjs.com/package/redis) 
+Functions to work with NodeJS [Redis](https://www.npmjs.com/package/redis) .
 
 Namespace: `redis.`
 

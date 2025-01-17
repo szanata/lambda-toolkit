@@ -1,9 +1,8 @@
 # SQS
 
-Abstraction over `@aws-sdk/client-sqs`
+Abstraction over `@aws-sdk/client-sqs`.
 
-## Namespace
-`.sqs`
+Namespace: `aws.sqs.`
 
 ## Index
 - [client](#client)

@@ -1,9 +1,8 @@
 # Timestream Write
 
-Abstraction over `@aws-sdk/client-timestream-write`
+Abstraction over `@aws-sdk/client-timestream-write`.
 
-## Namespace
-`.timestream_write`
+Namespace: `aws.timestream_write.`
 
 ## Index
 - [client](#client)

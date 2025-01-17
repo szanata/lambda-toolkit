@@ -1,6 +1,6 @@
 # Array
 
-Functions to work with array
+Functions to work with arrays.
 
 Namespace: `array.`
 
@@ -13,15 +13,15 @@ Namespace: `array.`
 
 ### `fn` joinUniqueCustom
 
-Joins n arrays using a custom function to generate a key for each item.
+Joins n arrays using a custom function that generates a deduplication key for each item.
 
 #### Arguments
 
 |Name|Type|Description|Default|
 |---|---|---|---|
 |-|Object|Named parameter root object||
-|key|Function|A function that will receive each item from each array and has to return the deduplicate key||
-|items|Array|Array containing each array to join||
+|items|Array<Array>|Array containing each array to join together||
+|key|Function|A function that will receive each item from each array and has to return the deduplication key||
 
 #### Return
 
@@ -30,26 +30,26 @@ A single array containing each unique item from each array determined by the `ke
 #### Example
 
 ```js
-const result = joinUniqueCustom( { key: v => v % 2 === 0, items: [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ] } );
+const result = joinUniqueCustom( { items: [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], key: v => v % 2 === 0 } );
 assert.deepEqual( result, [ 1, 2 ] );
 // or
-const result = joinUniqueCustom( { key: v => v.id, items: [ [ { id: 1 } ], [ { id: 2 } ], [ { id: 3 } ], [ { id: 4 } ] ] } );
+const result = joinUniqueCustom( { items: [ [ { id: 1 } ], [ { id: 2 } ], [ { id: 3 } ], [ { id: 4 } ] ], key: v => v.id, } );
 assert.deepEqual( result, [ 1, 2, 3, 4 ] );
 ```
 
 ### `fn` joinUnique
 
-Joins n arrays deduplicating the items
+Joins n arrays deduplicating the items by its primitive value.
 
 #### Arguments
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|...arrays|Array|Arrays to deduplicate, each as one parameter||
+|...arrays (Rest)|Array|Array containing each array to join together||
 
 #### Return
 
-A single array containing each unique item from each array
+A single array containing each unique value of all arrays joined together.
 
 #### Example
 
@@ -60,7 +60,7 @@ assert.deepEqual( result, [ 1, 2, 3 ] );
 
 ### `fn` splitBatches
 
-Breaks an array into many arrays of x size
+Breaks an array into many arrays of the same size.
 
 #### Arguments
 
@@ -71,7 +71,7 @@ Breaks an array into many arrays of x size
 
 #### Return
 
-An array with _n_ arrays inside, each having _x_ size except the last, which is _[1,x]_
+An array with _n_ arrays inside, each having _x_ size except the last, which's size will be in the range of _[1,x]_.
 
 #### Example
 

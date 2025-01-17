@@ -1,9 +1,8 @@
 # SES
 
-Abstraction over `@aws-sdk/client-sesv2`
+Abstraction over `@aws-sdk/client-sesv2`.
 
-## Namespace
-`.ses`
+Namespace: `aws.ses.`
 
 ## Index
 - [client](#client)

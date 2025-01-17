@@ -1,6 +1,6 @@
 # Utils
 
-Uncategorized functions
+Uncategorized functions.
 
 Namespace: `utils.`
 
@@ -14,7 +14,7 @@ Namespace: `utils.`
 
 ### `fn` retryOnError
 
-Execute given function and if it throws error retry it _n_ times with optional back-offs and hooks
+Execute given function and if it throws an error retry it _n_ times with optional back-offs and hooks.
 
 #### Arguments
 
