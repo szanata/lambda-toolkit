@@ -13,9 +13,6 @@ module.exports = [
   js.configs.recommended,
   importPlugin.flatConfigs.recommended,
   {
-    // plugins: {
-    //   import: importPlugin
-    // },
     languageOptions: {
       parserOptions: {
         ecmaVersion: 2022,
@@ -65,7 +62,6 @@ module.exports = [
         'Eval',
         'ForInStatement',
         'LabeledStatement',
-        'SwitchStatement',
         'WithStatement'
       ],
       'no-return-await': [ 'error' ],
