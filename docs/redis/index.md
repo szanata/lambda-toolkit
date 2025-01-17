@@ -1,6 +1,6 @@
 # Redis
 
-Functions to work with NodeJS [Redis](https://www.npmjs.com/package/redis) .
+Functions to work with NodeJS [Redis](https://www.npmjs.com/package/redis).
 
 Namespace: `redis.`
 
@@ -11,7 +11,7 @@ Namespace: `redis.`
 
 ### `fn` createClient
 
-Receives the NodeJS Redis library and a target address as an argument and return a connected redis client.
+Receives the NodeJS Redis library and the redis database address as arguments and return a connected redis client.
 
 Why does this receives the Redis library instead of having it as dependency?
 
@@ -19,7 +19,7 @@ In one short answer: To not have dependencies on this project and to allow users
 
 #### Cache
 
-when a client is created is also saved to a cache object. Every time a client is requests with the same address the cached client is re-used if it is still connected (ping works).
+When a client is created it is also saved to a cache object. Every time a client is requests with the same address the cached client is re-used if it is still connected (ping works).
 
 #### Arguments
 

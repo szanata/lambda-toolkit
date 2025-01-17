@@ -6,6 +6,6 @@
 - [Lambda API](./lambda_api/index.md)
 - [Math](./math/index.md)
 - [Object](./object/index.md)
-- [Redis](./string/redis.md)
+- [Redis](./redis/index.md)
 - [String](./string/index.md)
 - [Utils](./utils/index.md)
