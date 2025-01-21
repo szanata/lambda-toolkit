@@ -28,6 +28,8 @@ Transform each key in a object to "camelCase". It will convert nested keys, even
 
 A new object cloned from the input.
 
+For more information, check [these examples](../string/index.md#transformation-chart).
+
 #### Example
 
 ```js
@@ -97,6 +99,8 @@ Transform each key in a object to "snake_case". It will convert nested keys, eve
 #### Return
 
 A new object cloned from the input.
+
+For more information, check [these examples](../string/index.md#transformation-chart-1).
 
 #### Example
 

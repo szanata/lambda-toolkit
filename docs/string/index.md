@@ -20,6 +20,8 @@ Transform a string to "camelCase". It will convert each sequence bound by spaces
 |Name|Type|Description|Default|
 |---|---|---|---|
 |text|String|The string to convert||
+|options|Object|An option object with options|{}|
+|options.keepAllCaps|Boolean|The flag to keep or convert all caps|false|
 
 #### Return
 
