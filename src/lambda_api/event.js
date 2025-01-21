@@ -15,14 +15,14 @@ const parseJson = content => {
 
 module.exports = class Event {
   #transformFn;
-  #authorizer;
-  #body;
-  #headers;
-  #method;
-  #params;
-  #path;
-  #queryString;
-  #route;
+  authorizer;
+  body;
+  headers;
+  method;
+  params;
+  path;
+  queryString;
+  route;
 
   context = {};
 
@@ -31,7 +31,7 @@ module.exports = class Event {
   }
 
   parseFromAwsEvent( awsEvent ) {
-    this[`parseFromAwsEventV${awsEvent.version === '2.0' ? 2 : 1}`]( awsEvent );
+    this[`parseFromAwsEventV${awsEvent.version !== '1.0' ? 2 : 1}`]( awsEvent );
   }
 
   parseFromAwsEventV1( awsEvent ) {
@@ -50,22 +50,22 @@ module.exports = class Event {
 
     const unifiedHeaders = {
       headers,
-      ...Object.fromEntries( Object.entries( multiValueHeaders ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
+      ...Object.fromEntries( Object.entries( multiValueHeaders ?? {} ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
     };
 
     const unifiedQueryString = {
       queryStringParameters,
-      ...Object.fromEntries( Object.entries( multiValueQueryStringParameters ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
+      ...Object.fromEntries( Object.entries( multiValueQueryStringParameters ?? {} ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
     };
 
-    this.#authorizer = requestContext.authorizer;
-    this.#body = body ? this.#transformFn( parseJson( body ) ) : null;
-    this.#headers = unifiedHeaders;
-    this.#method = httpMethod;
-    this.#params = this.#transformFn( pathParameters );
-    this.#path = path;
-    this.#queryString = this.#transformFn( unifiedQueryString );
-    this.#route = resource;
+    this.authorizer = requestContext?.authorizer;
+    this.body = body ? this.#transformFn( parseJson( body ) ) : null;
+    this.headers = unifiedHeaders ?? {};
+    this.method = httpMethod;
+    this.params = this.#transformFn( pathParameters ) ?? {};
+    this.path = path;
+    this.queryString = this.#transformFn( unifiedQueryString ) ?? {};
+    this.route = resource;
   }
 
   parseFromAwsEventV2( awsEvent ) {
@@ -80,23 +80,13 @@ module.exports = class Event {
 
     const { http: { method, path } } = requestContext;
 
-    this.#authorizer = requestContext.authorizer;
-    this.#body = body ? this.#transformFn( parseJson( body ) ) : null;
-    this.#headers = headers;
-    this.#method = method;
-    this.#params = this.#transformFn( pathParameters );
-    this.#path = path;
-    this.#queryString = this.#transformFn( queryStringParameters );
-    this.#route = routeKey?.split( ' ' )[1];
+    this.authorizer = requestContext?.authorizer;
+    this.body = body ? this.#transformFn( parseJson( body ) ) : null;
+    this.headers = headers ?? {};
+    this.method = method;
+    this.params = this.#transformFn( pathParameters ) ?? {};
+    this.path = path;
+    this.queryString = this.#transformFn( queryStringParameters ) ?? {};
+    this.route = routeKey?.split( ' ' )[1].replace( /\/$/,'' );
   }
-
-  // These are read only
-  get authorizer() { return this.#authorizer; }
-  get body() { return this.#body; }
-  get headers() { return this.#headers; }
-  get method() { return this.#method; }
-  get params() { return this.#params; }
-  get path() { return this.#path; }
-  get queryString() { return this.#queryString; }
-  get route() { return this.#route; }
 };

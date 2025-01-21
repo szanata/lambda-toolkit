@@ -1,7 +1,7 @@
 module.exports = {
   ERROR_500: 'Internal Server Error',
   ERROR_405: 'Method Not Allowed',
-  INVALID_ERROR_TYPE: 'Argument "errorType" must be an Object with a constructor',
+  INVALID_ERROR_TYPE: 'Argument "errorType" must be a constructor Function',
   INVALID_FN: 'Argument "fn" must be of type function',
   INVALID_METHOD: 'Argument "method" must be one of the default HTTP methods',
   INVALID_STATUS_CODE: 'Argument "statusCode" must be valid HTTP Status Code',
@@ -15,5 +15,5 @@ module.exports = {
   INVALID_MATCHER_PATH_INCLUDES: 'Argument "pathIncludes" must be either undefined or an string with length greater than 0',
   INVALID_MATCHER_PATH_NOT_INCLUDES: 'Argument "pathNotIncludes" must be either undefined or an string with length greater than 0',
   INVALID_MATCHER_PATH_MATCH: 'Argument "pathMatch" must be either undefined or type RegExp',
-  INVALID_USER_RESPONSE: 'Function return must be a number, a string, am array (where p=0 is a number) or an object (where .statusCode is a number)'
+  INVALID_USER_RESPONSE: 'Function return must be a number, a string, an array (where p=0 is a number) or an object (where .statusCode is a number)'
 };

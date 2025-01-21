@@ -169,6 +169,29 @@ module.exports.index = async awsEvent => api.process( awsEvent );
 
 In that scenario, every time any handler throws `NotFoundError`, a response with status code 404 and body `'Sorry, record not found'` will be returned.
 
+#### Matching
+
+To define which handler is used, the declared handlers are compared using the `instanceof` operator. This will entice that an handler for `Error` would match any other error that extends `Error`, like `TypeError`:
+
+```js
+class NotFoundError extends Error {};
+
+api.addErrorHandler( { errorType: Error, code: 404, message: 'Sorry, record not found' } );
+```
+
+In the scenario above, if `NotFoundError` was thrown, the error handler would catch it, because its `class` inherits from Error.
+
+#### Order
+
+As with other handlers, the error handler only process the first error handler it matches.
+
+```js
+api.addErrorHandler( { errorType: NotFoundError, code: 404, message: 'Sorry, record not found' } );
+api.addErrorHandler( { errorType: Error, code: 500, message: 'Ops' } );
+```
+
+So in the example above, if `NotFoundError` was thrown, the first handler would catch it and return 404. The second handler would be ignored.
+
 #### Arguments
 |Name|Type|Description|Required|
 |-|-|-|-|

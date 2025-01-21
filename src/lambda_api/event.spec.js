@@ -3,60 +3,100 @@ const awsEventV1 = require( './fixtures/request_payload_v1.json' );
 const awsEventV2 = require( './fixtures/request_payload_v2.json' );
 
 describe( 'Event Spec', () => {
-  it( 'Should parse the AWS event v1', () => {
-    const event = new Event();
-    event.parseFromAwsEvent( awsEventV1 );
+  describe( 'AWS Event Payload v1', () => {
+    it( 'Should parse the event', () => {
+      const event = new Event();
+      event.parseFromAwsEvent( awsEventV1 );
 
-    expect( event ).toMatchObject( {
-      authorizer: { claims: null, scopes: null },
-      headers: {
-        header1: 'value1',
-        header2: 'value1,value2'
-      },
-      method: 'GET',
-      path: '/my/path/foo',
-      route: '/my/path/{var}',
-      params: { var: 'foo' },
-      queryString: {
-        parameter1: 'value1,value2',
-        parameter2: 'value'
-      },
-      body: 'Hello from Lambda!',
-      context: {}
+      expect( event ).toMatchObject( {
+        authorizer: { claims: null, scopes: null },
+        headers: {
+          header1: 'value1',
+          header2: 'value1,value2'
+        },
+        method: 'GET',
+        path: '/my/path/foo',
+        route: '/my/path/{var}',
+        params: { var: 'foo' },
+        queryString: {
+          parameter1: 'value1,value2',
+          parameter2: 'value'
+        },
+        body: 'Hello from Lambda!',
+        context: {}
+      } );
+    } );
+
+    it( 'Should initialize params, qs and headers as empty objectives if absent', () => {
+      const event = new Event();
+      event.parseFromAwsEvent( { version: '1.0' } );
+
+      expect( event ).toMatchObject( {
+        authorizer: undefined,
+        headers: {
+        },
+        method: undefined,
+        path: undefined,
+        route: undefined,
+        params: {},
+        queryString: {},
+        body: null,
+        context: {}
+      } );
     } );
   } );
 
-  it( 'Should parse the AWS event v2', () => {
-    const event = new Event();
-    event.parseFromAwsEvent( awsEventV2 );
+  describe( 'AWS Event Payload v2', () => {
+    it( 'Should parse the event', () => {
+      const event = new Event();
+      event.parseFromAwsEvent( awsEventV2 );
 
-    expect( event ).toMatchObject( {
-      authorizer: {
-        jwt: {
-          claims: {
-            claim1: 'value1',
-            claim2: 'value2'
-          },
-          scopes: [
-            'scope1',
-            'scope2'
-          ]
-        }
-      },
-      headers: {
-        header1: 'value1',
-        header2: 'value1,value2'
-      },
-      method: 'POST',
-      path: '/my/path/foo',
-      route: '/my/path/{var}',
-      params: { var: 'foo' },
-      queryString: {
-        parameter1: 'value1,value2',
-        parameter2: 'value'
-      },
-      body: 'Hello from Lambda',
-      context: {}
+      expect( event ).toMatchObject( {
+        authorizer: {
+          jwt: {
+            claims: {
+              claim1: 'value1',
+              claim2: 'value2'
+            },
+            scopes: [
+              'scope1',
+              'scope2'
+            ]
+          }
+        },
+        headers: {
+          header1: 'value1',
+          header2: 'value1,value2'
+        },
+        method: 'POST',
+        path: '/my/path/foo',
+        route: '/my/path/{var}',
+        params: { var: 'foo' },
+        queryString: {
+          parameter1: 'value1,value2',
+          parameter2: 'value'
+        },
+        body: 'Hello from Lambda',
+        context: {}
+      } );
+    } );
+
+    it( 'Should initialize params, qs and headers as empty objectives if absent', () => {
+      const event = new Event();
+      event.parseFromAwsEvent( { requestContext: { http: {} } } );
+
+      expect( event ).toMatchObject( {
+        authorizer: undefined,
+        headers: {
+        },
+        method: undefined,
+        path: undefined,
+        route: undefined,
+        params: {},
+        queryString: {},
+        body: null,
+        context: {}
+      } );
     } );
   } );
 
