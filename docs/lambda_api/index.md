@@ -13,6 +13,8 @@ LambdaApi handles AWS ApiGateway event payloads the same way a framework like Ex
 LambdaApi is a JS `class` (prototype) and has to be instantiated before use, then its handlers can be added. Finally, at the Lambda Function handler the event payload has to be processed using `.process()` method and its result must be used as the return of the whole function, since it contains the expected HTTP response. A simplistic use case would be this:
 
 ```js
+const { LambdaApi } = require( '<this-library>' )
+
 const api = new LambdaApi();
 
 api.addHandler( { method: 'GET', route: '/list', fn: () => 200 } );
@@ -93,14 +95,14 @@ If many handlers match the same request only the first, in order of definition, 
 |path|string|Only matches this exactly path. If present ignores all other conditions||
 |⬇️*Combinative conditions, can be used together*⬇️|
 |routeIncludes|string|The route has to include this string||
-|routeNotIncludes|string|The route must not includes this string||
+|routeNotIncludes|string|The route must not include this string||
 |routeMatches|RegExp|The route has to match this RegExp||
 |pathIncludes|string|The path has to include this string||
-|pathNotIncludes|string|The path must not includes this string||
+|pathNotIncludes|string|The path must not include this string||
 |pathMatches|RegExp|The path has to match this RegExp||
 
 **Notes**
-The difference between `route` and `path`. Route is the raw API route where parameters where not yet placed onto their placeholders, path is the actual HTTP request route.
+The difference between `route` and `path`. Route is the raw API route where parameters were not yet placed onto their placeholders, path is the actual HTTP request route.
 - An example of route: `/list/<id>`;
 - An example of path: `/list/123`;
 
@@ -124,7 +126,7 @@ If the function returns an array it has to contain up to three values in this sc
 |1|any|-|body|The response body|
 |2|object|-|headers|Any additional headers to append to the response|
 
-If the body is present is handle as such:
+If the body is present it is handled as such:
 |Condition|Mime Type|Value|
 |-|-|-|
 |empty string, `null`, `undefined`|_\<none>_|_\<empty>_|
@@ -177,12 +179,12 @@ In that scenario, every time any handler throws `NotFoundError`, a response with
 
 ## addBeforeHook
 
-This method allow the addition of an hook, which is callback function that will be run before the actual handler. __It only runs if the a handler is matched__.
+This method allow the addition of a hook, which is callback function that will be run before the actual handler. __It only runs if the a handler is matched__.
 Many "before" hooks can be added, and they will be invoked in order.
 
 Hooks are useful to append data to the event's context or execute code that is common across all handler.
 
-Hooks can pass data to the handler by assigning it to the `event.context` property of the event. Any value or type con be assigned.
+Hooks can pass data to the handler by assigning it to the `event.context` property of the event. Any value or type can be assigned.
 
 They don't need to return anything and if they do, it is ignored.
 
