@@ -6,7 +6,6 @@ Namespace: `object.`
 
 ## Index
 - [`fn` camelize](#fn-camelize)
-- [`fn` clone](#fn-clone)
 - [`fn` filterProps](#fn-filterProps)
 - [`fn` snakelize](#fn-snakelize)
 
@@ -33,30 +32,6 @@ A new object cloned from the input.
 ```js
 const result = camelize( { inputColor: 'red' } );
 assert.deepEqual( result, { input_color: 'red'} );
-```
-
-### `fn` clone
-
-Clone a given object. It uses the JSON serialization as the cloning tool, so it is deep but require each
-value to be either a primitive, an Array or another Plain Object.
-
-#### Arguments
-
-|Name|Type|Description|Default|
-|---|---|---|---|
-|obj|Object|The object to clone||
-
-#### Return
-
-A new object cloned from the input. It will convert nested keys, even inside arrays.
-
-#### Example
-
-```js
-const input = { foo: 'bar' };
-const result = clone( input );
-input.foo = null;
-assert.notDeepEqual( result, input);
 ```
 
 ### `fn` filterProps
