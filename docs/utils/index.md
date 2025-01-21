@@ -83,7 +83,7 @@ assert.ok( end - start >= 100 );
 
 ### `class` Timer
 
-See [./timer.md](docs).
+See [docs](./timer.md).
 
 ### `fn` untarGz
 
