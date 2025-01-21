@@ -9,7 +9,7 @@ const Text = require( './text_enum' );
 module.exports = class LambdaApi {
   #apiResponse = null;
   #handlers = [];
-  #errorResponses = {};
+  #errorResponses = [];
   #beforeHooks = [];
   #afterHooks = [];
   #transformRequest = [];
@@ -72,13 +72,13 @@ module.exports = class LambdaApi {
    * @param {Object} args
    * @param {string} args.code The HTTP status code to return
    * @param {class} args.errorType The error class
-   * @param {class} [args.message=null] Optional message to return for the status code, if not present will default to Error.message
+   * @param {string} [args.message=null] Optional message to return for the status code, if not present will default to Error.message
    * @param {message} [args.errorType] And optional message to display
    */
   addErrorHandler( { errorType, code, message = null } = {} ) {
     validators.statusCode( code );
     validators.errorType( errorType );
-    this.#errorResponses[errorType] = { code, message };
+    this.#errorResponses.push( { errorType, code, message } );
   }
 
   /**
@@ -118,7 +118,8 @@ module.exports = class LambdaApi {
 
     } catch ( error ) {
       console.error( 'Lambda API Error', { error, event } );
-      const response = this.#errorResponses[error.constructor];
+
+      const response = this.#errorResponses.find( e => error instanceof e.errorType );
       if ( response ) {
         return this.#apiResponse.setContent( response.code, response.message ?? error.message ).toJSON();
       }
