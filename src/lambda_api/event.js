@@ -45,7 +45,7 @@ module.exports = class Event {
       headers,
       multiValueHeaders,
       queryStringParameters,
-      multiValueQueryStringParameters
+      multiValueQueryStringParameters: multiValueQueryString
     } = awsEvent;
 
     const unifiedHeaders = {
@@ -55,7 +55,7 @@ module.exports = class Event {
 
     const unifiedQueryString = {
       queryStringParameters,
-      ...Object.fromEntries( Object.entries( multiValueQueryStringParameters ?? {} ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
+      ...Object.fromEntries( Object.entries( multiValueQueryString ?? {} ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
     };
 
     this.authorizer = requestContext?.authorizer;
@@ -87,6 +87,6 @@ module.exports = class Event {
     this.params = this.#transformFn( pathParameters ) ?? {};
     this.path = path;
     this.queryString = this.#transformFn( queryStringParameters ) ?? {};
-    this.route = routeKey?.split( ' ' )[1].replace( /\/$/,'' );
+    this.route = routeKey?.split( ' ' )[1].replace( /\/$/, '' );
   }
 };

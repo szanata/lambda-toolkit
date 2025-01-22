@@ -1,6 +1,6 @@
 {
   "name": "lambda-toolkit",
-  "version": "0.0.1-beta",
+  "version": "0.0.2-beta",
   "description": "A set of tools to help and simplify Node Js code development for AWS Lambdas",
   "files": [
     "./license",
@@ -12,7 +12,7 @@
   },
   "author": "Stéfano Zanata",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --stats errors-only",
     "test": "jest --env=node",
     "lint:fix": "eslint --fix",
     "lint": "eslint"
@@ -43,6 +43,6 @@
     "eslint-plugin-import": "2.31.0",
     "jest": "29.7.0",
     "webpack": "5.97.1",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "6.0.1"
   }
 }

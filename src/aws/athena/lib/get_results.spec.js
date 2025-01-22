@@ -6,7 +6,7 @@ jest.mock( '@aws-sdk/client-athena', () => ( {
   GetQueryExecutionCommand: jest.fn(),
   GetQueryResultsCommand: jest.fn()
 } ) );
-
+jest.mock( './polling_delay', () => 10 );
 jest.mock( './parse_results', () => jest.fn() );
 
 const client = {

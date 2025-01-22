@@ -156,7 +156,6 @@ describe( 'Api Spec', () => {
       expect( result ).toMatchObject( { statusCode: 413, body: 'This is a feature not a bug' } );
     } );
 
-    
     it( 'Should respect the order of the error handlers when many match the error thrown', async () => {
       const api = new LambdaApi();
       api.addErrorHandler( { errorType: Error, code: 411 } );
@@ -171,7 +170,6 @@ describe( 'Api Spec', () => {
       const result = await api.process( awsEvent );
       expect( result ).toMatchObject( { statusCode: 411, body: 'This is a feature not a bug' } );
     } );
-
 
     it( 'Should return registered HTTP code + message when handler throws expected error', async () => {
       const api = new LambdaApi();

@@ -1,8 +1,8 @@
 const { GetQueryExecutionCommand, GetQueryResultsCommand } = require( '@aws-sdk/client-athena' );
 const parseResults = require( './parse_results' );
+const pollingDelay = require( './polling_delay' );
 
 const sleep = t => new Promise( r => setTimeout( () => r(), t ) );
-const queryPollingDelay = 500;
 
 const getQueryResults = async ( { client, queryExecutionId, maxResults, token } ) => {
   const { NextToken: nextToken, ResultSet } = await client.send( new GetQueryResultsCommand( {
@@ -39,7 +39,7 @@ const getResults = async ( { client, recursive, queryExecutionId, token, maxResu
   }
 
   // sleep an try again
-  await sleep( queryPollingDelay );
+  await sleep( pollingDelay );
   return getResults( { client, recursive, queryExecutionId, token, maxResults } );
 };
 
