@@ -6,9 +6,7 @@ const commonConfig = {
   context: __dirname,
   mode: 'production',
   optimization: { minimize: false },
-  entry: {
-    'index.js': './src/index.js'
-  },
+  entry: './src/index.js',
   target: 'node',
   externals: [
     /@aws-sdk\/*/
@@ -19,7 +17,7 @@ module.exports = [
   Object.assign( {}, commonConfig, {
     output: {
       path: distFolder,
-      filename: '[name]/index.mjs',
+      filename: 'index.mjs',
       library: {
         type: 'module'
       },
@@ -33,7 +31,7 @@ module.exports = [
   Object.assign( {}, commonConfig, {
     output: {
       path: distFolder,
-      filename: '[name]/index.cjs',
+      filename: 'index.cjs',
       libraryTarget: 'commonjs2',
       clean: true
     }
