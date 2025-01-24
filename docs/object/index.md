@@ -2,7 +2,7 @@
 
 Functions to work with objects.
 
-Namespace: `object.`
+Namespace: `object`.
 
 ## Index
 - [`fn` camelize](#fn-camelize)

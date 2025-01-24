@@ -2,7 +2,7 @@
 
 Uncategorized functions.
 
-Namespace: `utils.`
+Namespace: `utils`.
 
 ## Index
 - [`fn` retryOnError](#fn-retryonerror)

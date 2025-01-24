@@ -2,7 +2,7 @@
 
 Functions to work with strings.
 
-Namespace: `string.`
+Namespace: `string`.
 
 ## Index
 - [`fn` camelize](#fn-camelize)
