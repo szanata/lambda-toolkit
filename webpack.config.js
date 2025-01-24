@@ -1,6 +1,9 @@
 const { resolve } = require( 'path' );
+const { execSync } = require('node:child_process');
 
 const distFolder = resolve( __dirname, 'dist' );
+
+execSync( `rm -rf ${distFolder}` );
 
 const commonConfig = {
   context: __dirname,
@@ -20,8 +23,7 @@ module.exports = [
       filename: 'index.mjs',
       library: {
         type: 'module'
-      },
-      clean: true
+      }
     },
     experiments: {
       outputModule: true
@@ -32,8 +34,9 @@ module.exports = [
     output: {
       path: distFolder,
       filename: 'index.cjs',
-      libraryTarget: 'commonjs2',
-      clean: true
+      library: {
+        type: 'commonjs2'
+      }
     }
   } )
 ];
