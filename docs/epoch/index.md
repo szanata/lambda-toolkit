@@ -2,7 +2,7 @@
 
 Functions to help working with time.
 
-Namespace: `epoch.`
+Namespace: `epoch`.
 
 ## Index
 - [`fn` days](#fn-days)
