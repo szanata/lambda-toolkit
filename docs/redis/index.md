@@ -2,7 +2,7 @@
 
 Functions to work with NodeJS [Redis](https://www.npmjs.com/package/redis).
 
-Namespace: `redis.`
+Namespace: `redis`.
 
 ## Index
 - [`fn` createClient](#fn-createclient)

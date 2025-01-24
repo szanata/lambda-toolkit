@@ -2,7 +2,7 @@
 
 Mathematical operations implemented in JS.
 
-Namespace: `math.`
+Namespace: `math`.
 
 ## Index
 - [`fn` calcMean](#fn-calcmean)

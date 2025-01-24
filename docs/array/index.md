@@ -2,7 +2,7 @@
 
 Functions to work with arrays.
 
-Namespace: `array.`
+Namespace: `array`.
 
 ## Index
 - [`fn` joinUniqueCustom](#fn-joinuniquecustom)

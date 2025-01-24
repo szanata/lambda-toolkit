@@ -4,7 +4,7 @@ These are functions to make it simpler and convenient to interact with some AWS 
 
 They abstract instantiations  and re-usage of clients, usage and data parsing for some operations. Keep in minds only a handful of operations are covered here.
 
-Namespace: `aws.`
+Namespace: `aws`.
 
 ## Index
 
@@ -41,7 +41,7 @@ console.log( response.Item ); // is the actual row
 Now, the same operation using this library:
 
 ```js
-const { aws { dynamo } } = require( '<this-library>' );
+const { aws: { dynamo } } = require( '<this-library>' );
 
 const item = await dynamo.find( 'example-table' , { id: '123' } );
 
