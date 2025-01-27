@@ -39,7 +39,7 @@ This function is an abstraction for DynamoDB's `getItem` action, using `GetComma
 ```js
 const { aws: { dynamo } } = require( '<this-library>' );
 
-const item = await dynamo.find( table, { pk: '123' } );
+const item = await dynamo.get( table, { pk: '123' } );
 ```
 
 #### Arguments
