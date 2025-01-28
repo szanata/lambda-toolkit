@@ -37,9 +37,30 @@ const { items } = await timestreamQuery.query( 'SELECT* FROM "table"', { paginat
 |---|---|---|---|
 |queryString|String|The name of the SSM Parameter to retrieve the value||
 |options|Object|Additional options for the query. See below||
+|options.recursive|Boolean|When the query needs pagination, if this option is `true` the function will paginate itself until the last page and return all results, otherwise it will return the first page only  and the pagination token|false|
 |options.paginationToken|String|The value of the token to resume a previous query. Uses the `NextToken` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandInput/)|null|
 |options.maxRows|Number|The maximum number of rows to return. Uses the `MaxRows` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandInput/)|null|
-|options.rawResponse|Boolean|If `true`, returns the raw response [object](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandOutput/)|false|
+|options.rawResponse|Boolean|If `true`, returns the raw response [object](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandOutput/). Only work when `recursive` is `false`. Useful for debug purposes|false|
+
+#### Paginate
+If the query needs pagination a token is returned with the response and it can be used to resume the operation, retrieving the next page:
+
+```js
+const { items: pageOneItems, nextToken: nextToken1 } = await timestreamQuery.query( 'SELECT* FROM "table"' );
+const { items: pageTwoItems, nextToken: nextToken2 } = await timestreamQuery.query( 'SELECT* FROM "table"', { paginationToken: nextToken1 } );
+const { items: pageThreeItems } = await timestreamQuery.query( 'SELECT* FROM "table"', { paginationToken: nextToken2 } );
+// etc
+```
+
+Keep in mind the exact same query has to be provided as argument, otherwise it is a new operation and the token is ignored.
+
+#### Recursion
+If pagination is necessary but you want the function to recursively handle it, use the option `recursive` to do so:
+```js
+const { items } = await timestreamQuery.query( 'SELECT* FROM "table"', { recursive: true } );
+```
+
+The function will internally repeat the operation as many times as necessary until there is no more result pages to retrieve. It will then combine all results into a single array of items and return it. __Note that this can potentially lead to a timeout error if the recursion takes too long or to an "out of memory" error if there are simple too many records.__
 
 #### Return
 
