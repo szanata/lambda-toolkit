@@ -84,17 +84,20 @@ About the rows parsing, this is how the raw data is converted:
 |INTEGER|Number|`"10"`|`10`|
 |UNKNOWN|null|`<anything>`|`null`|
 |VARCHAR|String|`"string"`|`"string"`|
-|BIGINT|String|`"9223372036854775807"`|`"9223372036854775807"`|
+|BIGINT*|Number: when value is __between__ `MIN_SAFE_INTEGER` and `MAX_SAFE_INTEGER`|`"10"`|`10`|
+||String: when value is __beyond__ `MIN_SAFE_INTEGER` and `MAX_SAFE_INTEGER`|`"9007199254740992"`|`"9007199254740992"`|
 |DATE|String|`"2025-01-01"`|`"2025-01-01"`|
 |TIME|String|`"10:33:22.000000000"`|`"10:33:22.000000000"`|
-|INTERVAL_DAY_TO_SECOND|`"0 00:00:23.000000000"`|`"0 00:00:23.000000000"`|
-|INTERVAL_YEAR_TO_MONTH|`"1-11"`|`"1-11"`|
+|INTERVAL_DAY_TO_SECOND|String|`"0 00:00:23.000000000"`|`"0 00:00:23.000000000"`|
+|INTERVAL_YEAR_TO_MONTH|String|`"1-11"`|`"1-11"`|
 |_*Null Value*_|
 |* w/ `NullValue = true`|null|`undefined`|`null`|
-|_*Other Types*_|
+|_*Complex Types*_|
 |ARRAY|Array|`ARRAY[10,10]`|`[ 10, 10 ]`|
 |ROW|Object|`ROW(10,'bar')`|`{ field0: 10, field1: 'bar' }`|
 |TIME_SERIES|Array<Object>|`TIMESERIES(ARRAY[ROW(2025-01-01 10:00:00.000000000,10),ROW(2025-01-01 11:00:00.000000000),12]`|`[ { time: new Date( '2025-01-01T10:00' ), value: 10 }, { time: new Date( '2025-01-01T11:00', value: 12 } ]`|
+
+*: `BIGINT` will be returned as JS Number if its value lies between `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER` [`-9007199254740991`, `9007199254740991`], otherwise a String representation of the number will be returned.
 
 #### Permissions needed
 

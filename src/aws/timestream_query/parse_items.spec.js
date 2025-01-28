@@ -29,6 +29,48 @@ describe( 'Parse Items Spec', () => {
     ] );
   } );
 
+  describe( 'BigInt', () => {
+    it( 'Should convert big int to JS Number if it lies between MIN and MAX SAFE INTEGER', () => {
+      const result = parseItems( {
+        ColumnInfo: [ { Name: 'bigInt', Type: { ScalarType: 'BIGINT' } } ],
+        Rows: [ { Data: [ { ScalarValue: '10' } ] } ]
+      } );
+      expect( result ).toEqual( [ { bigInt: 10 } ] );
+    } );
+
+    it( 'Should convert big int to JS Number if it is exactly the MIN SAFE INTEGER', () => {
+      const result = parseItems( {
+        ColumnInfo: [ { Name: 'bigInt', Type: { ScalarType: 'BIGINT' } } ],
+        Rows: [ { Data: [ { ScalarValue: '-9007199254740991' } ] } ]
+      } );
+      expect( result ).toEqual( [ { bigInt: -9007199254740991 } ] );
+    } );
+
+    it( 'Should convert big int to JS Number if it is exactly the MAX SAFE INTEGER', () => {
+      const result = parseItems( {
+        ColumnInfo: [ { Name: 'bigInt', Type: { ScalarType: 'BIGINT' } } ],
+        Rows: [ { Data: [ { ScalarValue: '9007199254740991' } ] } ]
+      } );
+      expect( result ).toEqual( [ { bigInt: 9007199254740991 } ] );
+    } );
+
+    it( 'Should keep big int as String if it is below MIN SAFE INTEGER', () => {
+      const result = parseItems( {
+        ColumnInfo: [ { Name: 'bigInt', Type: { ScalarType: 'BIGINT' } } ],
+        Rows: [ { Data: [ { ScalarValue: '-9007199254740992' } ] } ]
+      } );
+      expect( result ).toEqual( [ { bigInt: '-9007199254740992' } ] );
+    } );
+
+    it( 'Should keep big int as String if it is above MAX SAFE INTEGER', () => {
+      const result = parseItems( {
+        ColumnInfo: [ { Name: 'bigInt', Type: { ScalarType: 'BIGINT' } } ],
+        Rows: [ { Data: [ { ScalarValue: '9007199254740992' } ] } ]
+      } );
+      expect( result ).toEqual( [ { bigInt: '9007199254740992' } ] );
+    } );
+  } );
+
   describe( 'Array', () => {
     it( 'Should parse array with scalar values', () => {
       const result = parseItems( responseArrayWithScalar );
