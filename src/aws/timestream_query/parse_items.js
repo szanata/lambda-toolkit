@@ -3,6 +3,11 @@
 
 const { ScalarType } = require( '@aws-sdk/client-timestream-query' );
 
+const parseBigInt = value => {
+  const asInt = parseInt( value, 10 );
+  return asInt <= Number.MAX_SAFE_INTEGER && asInt >= Number.MIN_SAFE_INTEGER ? asInt : value;
+};
+
 const parseScalarValue = ( type, value ) => {
   switch ( type ) {
   case ScalarType.BOOLEAN:
@@ -15,8 +20,9 @@ const parseScalarValue = ( type, value ) => {
     return parseInt( value, 10 );
   case ScalarType.UNKNOWN: // is NULL
     return null;
-  case ScalarType.VARCHAR:
   case ScalarType.BIGINT:
+    return parseBigInt( value );
+  case ScalarType.VARCHAR:
   case ScalarType.DATE:
   case ScalarType.TIME:
   case ScalarType.INTERVAL_DAY_TO_SECOND:

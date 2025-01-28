@@ -34,7 +34,7 @@ const queryString = 'SELECT * FROM "cars"';
 
 describe( 'TimestreamQuery Query Spec', () => {
   beforeEach( () => {
-    parseItems.mockReturnValue( 'parsed-items' );
+    parseItems.mockReturnValue( [ 1, 2, 3 ] );
   } );
 
   afterEach( () => {
@@ -50,15 +50,16 @@ describe( 'TimestreamQuery Query Spec', () => {
     const result = await query( client, queryString );
 
     expect( result ).toEqual( {
-      count: 5,
+      count: 3,
       nextToken: 'next-pagination-token',
-      items: 'parsed-items',
+      items: [ 1, 2, 3 ],
       queryStatus: {
         cumulativeBytesMetered: 10000000,
         cumulativeBytesScanned: 2001388,
         progressPercentage: 16.666666666666668
       }
     } );
+    expect( parseItems ).toHaveBeenCalledWith( queryResponse );
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
     expect( QueryCommand ).toHaveBeenCalledWith( { QueryString: queryString } );
   } );
@@ -71,16 +72,58 @@ describe( 'TimestreamQuery Query Spec', () => {
     const result = await query( client, queryString, { paginationToken } );
 
     expect( result ).toEqual( {
-      count: 5,
+      count: 3,
       nextToken: 'next-pagination-token',
-      items: 'parsed-items',
+      items: [ 1, 2, 3 ],
       queryStatus: {
         cumulativeBytesMetered: 10000000,
         cumulativeBytesScanned: 2001388,
         progressPercentage: 16.666666666666668
       }
     } );
+    expect( parseItems ).toHaveBeenCalledWith( queryResponse );
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
     expect( QueryCommand ).toHaveBeenCalledWith( { QueryString: queryString, NextToken: paginationToken } );
+  } );
+
+  it( 'Should recursive paginate the response and return all results', async () => {
+    QueryCommand.mockReturnValue( commandInstance );
+    client.send.mockResolvedValueOnce( {
+      ColumnInfo: [ {} ],
+      NextToken: 'next-pagination-token',
+      Rows: Array( 3 ).fill( {} ),
+      QueryStatus: {
+        CumulativeBytesMetered: 10000000,
+        CumulativeBytesScanned: 2000000,
+        ProgressPercentage: 50
+      }
+    } );
+    client.send.mockResolvedValueOnce( {
+      ColumnInfo: [ {} ],
+      Rows: Array( 3 ).fill( {} ),
+      QueryStatus: {
+        CumulativeBytesMetered: 20000000,
+        CumulativeBytesScanned: 4000000,
+        ProgressPercentage: 100
+      }
+    } );
+
+    parseItems.mockReturnValueOnce( [ 1, 2, 3 ] );
+    parseItems.mockReturnValueOnce( [ 4, 5, 6 ] );
+
+    const result = await query( client, queryString, { recursive: true } );
+
+    expect( result ).toEqual( {
+      count: 6,
+      items: [ 1, 2, 3, 4, 5, 6 ],
+      queryStatus: {
+        cumulativeBytesMetered: 20000000,
+        cumulativeBytesScanned: 4000000,
+        progressPercentage: 100
+      }
+    } );
+    expect( client.send ).toHaveBeenCalledWith( commandInstance );
+    expect( QueryCommand ).toHaveBeenNthCalledWith( 1, { QueryString: queryString } );
+    expect( QueryCommand ).toHaveBeenNthCalledWith( 2, { QueryString: queryString, NextToken: 'next-pagination-token' } );
   } );
 } );
