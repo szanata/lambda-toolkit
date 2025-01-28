@@ -18,9 +18,6 @@ module.exports = {
       type: 'commonjs2'
     }
   },
-  experiments: {
-    outputModule: true
-  },
   externals: [
     /@aws-sdk\/*/
   ]
