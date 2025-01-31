@@ -7,6 +7,7 @@ Namespace: `object`.
 ## Index
 - [`fn` camelize](#fn-camelize)
 - [`fn` filterProps](#fn-filterProps)
+- [`fn` removeEmptyArrays](#fn-removeEmptyArrays)
 - [`fn` snakelize](#fn-snakelize)
 
 ## Members
@@ -59,7 +60,29 @@ const result = filterProps( input, ['color', 'shape' ] );
 assert.deepEqual( result, { id: 1 } );
 ```
 
-### `fn` snakeLize
+### `fn` removeEmptyArrays
+
+Remove empty array fields from an object.
+
+#### Arguments
+
+|Name|Type|Description|Default|
+|---|---|---|---|
+|obj|Object|The object to remove empty arrays||
+
+#### Return
+
+A new object cloned from the input.
+
+#### Example
+
+```js
+const input = { id: 1, values: [ '1' ], options: [], config: { items: [] } };
+const result = removeEmptyArrays( input );
+assert.deepEqual( result, { id: 1, values: [ '1' ], config: { items: [] } } );
+```
+
+### `fn` snakelize
 
 Transform each key in a object to "snake_case". It will convert nested keys, even inside arrays.
 
