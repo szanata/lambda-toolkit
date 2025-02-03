@@ -8,7 +8,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV1 );
 
-      expect( event ).toMatchObject( {
+      expect( event ).toEqual( {
         authorizer: { claims: null, scopes: null },
         headers: {
           header1: 'value1',
@@ -31,7 +31,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { version: '1.0' } );
 
-      expect( event ).toMatchObject( {
+      expect( event ).toEqual( {
         authorizer: undefined,
         headers: {
         },
@@ -51,7 +51,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV2 );
 
-      expect( event ).toMatchObject( {
+      expect( event ).toEqual( {
         authorizer: {
           jwt: {
             claims: {
@@ -85,7 +85,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { requestContext: { http: {} } } );
 
-      expect( event ).toMatchObject( {
+      expect( event ).toEqual( {
         authorizer: undefined,
         headers: {
         },

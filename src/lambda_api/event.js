@@ -31,7 +31,7 @@ module.exports = class Event {
   }
 
   parseFromAwsEvent( awsEvent ) {
-    this[`parseFromAwsEventV${awsEvent.version !== '1.0' ? 2 : 1}`]( awsEvent );
+    this[`parseFromAwsEventV${awsEvent.version === '2.0' ? 2 : 1}`]( awsEvent );
   }
 
   parseFromAwsEventV1( awsEvent ) {
@@ -49,12 +49,12 @@ module.exports = class Event {
     } = awsEvent;
 
     const unifiedHeaders = {
-      headers,
+      ...headers,
       ...Object.fromEntries( Object.entries( multiValueHeaders ?? {} ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
     };
 
     const unifiedQueryString = {
-      queryStringParameters,
+      ...queryStringParameters,
       ...Object.fromEntries( Object.entries( multiValueQueryString ?? {} ).map( ( [ k, v ] ) => [ k, Array.isArray( v ) ? v.join( ',' ) : k ] ) )
     };
 
