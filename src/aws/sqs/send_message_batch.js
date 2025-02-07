@@ -7,10 +7,10 @@ module.exports = async ( client, queue, messages ) => {
   }
   const response = await client.send( new SendMessageBatchCommand( {
     QueueUrl: queue,
-    Entries: messages.map( ( { body, id = null, ...args }, index ) => ( {
-      ...args,
+    Entries: messages.map( ( { body, id = null, nativeArgs }, index ) => ( {
       Id: id ?? `message_${index}`,
-      MessageBody: sanitizeSqs( typeof body === 'string' ? body : JSON.stringify( body ) )
+      MessageBody: sanitizeSqs( typeof body === 'string' ? body : JSON.stringify( body ) ),
+      ...nativeArgs
     } ) )
   } ) );
 
