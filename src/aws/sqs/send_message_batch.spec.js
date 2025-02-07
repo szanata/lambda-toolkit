@@ -23,8 +23,13 @@ describe( 'SQS Send Message Batch Spec', () => {
     client.send.mockResolvedValue( { Successful: [], Failed: [] } );
 
     const result = await sendMessageBatch( client, 'sqs://mw.com', [ {
-      body: { foo: 'bar' },
-      DelaySeconds: 30
+      body: {
+        foo: 'bar'
+      },
+      nativeArgs: {
+        DelaySeconds: 30,
+        MessageDeduplicationId: '123'
+      }
     } ] );
 
     expect( result ).toEqual( { Successful: [], Failed: [] } );
@@ -33,6 +38,7 @@ describe( 'SQS Send Message Batch Spec', () => {
       Entries: [ {
         Id: 'message_0',
         MessageBody: '{"foo":"bar"}',
+        MessageDeduplicationId: '123',
         DelaySeconds: 30
       } ]
     } );

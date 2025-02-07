@@ -121,10 +121,16 @@ await sqs.sendMessageBatch( 'my-queue', [
   {
     body: {
       title: 'The Land That time Forgot'
+    },
+    nativeArgs: {
+      MessageGroupId: '123'
     }
   }, {
     body: {
       title: 'At The Earth\'s Core'
+    },
+    nativeArgs: {
+      MessageGroupId: '123'
     }
   }
 ] );
@@ -138,7 +144,7 @@ await sqs.sendMessageBatch( 'my-queue', [
 |messages|Array<Object>|Array of messages to send, see each property below. The maximum allowed length is 10.||
 |messages.*.body|The content of the message, if it is not an String, it will be cast using `JSON.stringify`||
 |messages.*.id|The id of the message in the batch, if not present it will be created|`message_` + index of the message|
-|messages.*..._rest_|Object|Native properties that each `SendMessageBatchRequestEntry` in the `client-sqs` SDK [SendMessageBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Class/SendMessageBatchCommand/) accepts, except `Id` and `MessageBody`, which are defined by the previous arguments||
+|messages.*.nativeArgs|Object|Native properties that each `SendMessageBatchRequestEntry` in the `client-sqs` SDK [SendMessageBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Class/SendMessageBatchCommand/) accepts, except `Id` and `MessageBody`, which are defined by the previous arguments||
 
 #### Error Handling
 
