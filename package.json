@@ -1,6 +1,6 @@
 {
   "name": "lambda-toolkit",
-  "version": "0.0.10-beta",
+  "version": "0.0.11-beta",
   "description": "A set of tools to help and simplify Node Js code development for AWS Lambdas",
   "files": [
     "./license",
