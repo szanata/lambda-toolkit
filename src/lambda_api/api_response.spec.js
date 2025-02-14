@@ -5,6 +5,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse();
     response.setContent( 200 );
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: '',
       headers: {
@@ -19,6 +20,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse();
     response.setContent( 200, 'Foo' );
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: 'Foo',
       headers: {
@@ -35,6 +37,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     response.setContent( 200, { color: 'red' } );
 
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: '{"color":"red"}',
       headers: {
@@ -51,6 +54,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     response.setContent( 200, { colorFamily: 'red' } );
 
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: '{"color_family":"red"}',
       headers: {
@@ -67,6 +71,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     response.setContent( 200, { color_family: 'red' } );
 
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: '{"colorFamily":"red"}',
       headers: {
@@ -83,6 +88,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     response.setContent( 200, { colorFamily: 'red' } );
 
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: '{"colorFamily":"red"}',
       headers: {
@@ -100,6 +106,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     response.setContent( 200, { colorFamily: 'red' }, { 'X-Foo': 'bar' } );
 
     expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: false,
       statusCode: 200,
       body: '{"colorFamily":"red"}',
       headers: {
@@ -108,6 +115,23 @@ describe( 'Lambda API: Api Response Spec', () => {
         'Content-Type': 'application/json; charset=utf-8',
         'Content-Length': 21,
         'X-Foo': 'bar'
+      }
+    } );
+  } );
+
+  it( 'Should set the encoding flag according to the content', () => {
+    const response = new ApiResponse();
+    response.setContent( 200, 'eyJjb2xvckZhbWlseSI6InJlZCJ9', undefined, true );
+
+    expect( response.toJSON() ).toEqual( {
+      isBase64Encoded: true,
+      statusCode: 200,
+      body: 'eyJjb2xvckZhbWlseSI6InJlZCJ9',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-store',
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Content-Length': 28
       }
     } );
   } );
