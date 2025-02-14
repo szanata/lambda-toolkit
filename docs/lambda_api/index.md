@@ -119,12 +119,13 @@ The return of handler's "fn" function. This will be used to compose the HTTP res
 |number|valid status code|value|_\<empty>_|_\<none>_|If the function's returns a number and it is a valid status code, the API will return it as the status code without a body|
 
 ##### Arrays
-If the function returns an array it has to contain up to three values in this schema: `[ statusCode, body*, headers* ]`:
+If the function returns an array it has to contain up to three values in this schema: `[ statusCode, body*, headers*, isBase64Encoded* ]`:
 |Position|Type|Required|Used As|Description|
 |-|-|-|-|-|
 |0|number|Yes|status code|The response HTTP status code|
 |1|any|-|body|The response body|
 |2|object|-|headers|Any additional headers to append to the response|
+|3|boolean|-|isBase64Encoded flag|Whether the `body` is encoded as a `base64` string or not|
 
 If the body is present it is handled as such:
 |Condition|Mime Type|Value|
@@ -136,12 +137,13 @@ If the body is present it is handled as such:
 For the headers, they are appended to the other headers. As this has the most precedence, they will overwrite any other header with the same name.
 
 ##### Objects
-If the function returns an object it has to contain up to three properties in this schema: `{ statusCode, body*, headers* }`:
+If the function returns an object it has to contain up to three properties in this schema: `{ statusCode, body*, headers*, isBase64Encoded* }`:
 |Property|Type|Required|Description|
 |-|-|-|-|
 |statusCode|number|Yes|The response HTTP status code|
 |body|any|-|The response body|
 |headers|object|-|Any additional headers to append to the response|
+|isBase64Encoded|boolean|-|Whether the `body` is encoded as a `base64` string or not|
 
 If the body is present it is handled the same way as it is for [Arrays](#arrays) responses, same for headers.
 
@@ -279,6 +281,7 @@ All properties in the object are __read-only__ excepts `context`. The `context` 
 |path|The HTTP request path|`path`|`requestContext.http.path`|String|
 |queryString|The HTTP URL query string|`queryStringParameters` + `multiValueQueryStringParameters`(3)|`queryStringParameters`|Object|
 |route|The route from its spec that the API Gateway matched this request|`resource`|`routeKey`(4)|String|
+|isBase64Encoded|Whether the `body` is encoded as a `base64` string or not|`isBase64Encoded`|`isBase64Encoded`|Boolean|
 
 1. the authorized content is not parsed so it will differs between API Gateway Payload v1 and v2.
 2. The `body` is automatically parsed to Object if it is a valid JSON.

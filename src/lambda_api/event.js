@@ -45,7 +45,8 @@ module.exports = class Event {
       headers,
       multiValueHeaders,
       queryStringParameters,
-      multiValueQueryStringParameters: multiValueQueryString
+      multiValueQueryStringParameters: multiValueQueryString,
+      isBase64Encoded
     } = awsEvent;
 
     const unifiedHeaders = {
@@ -66,6 +67,7 @@ module.exports = class Event {
     this.path = path;
     this.queryString = this.#transformFn( unifiedQueryString ) ?? {};
     this.route = resource;
+    this.isBase64Encoded = isBase64Encoded ?? false;
   }
 
   parseFromAwsEventV2( awsEvent ) {
@@ -75,7 +77,8 @@ module.exports = class Event {
       requestContext,
       pathParameters,
       headers,
-      queryStringParameters
+      queryStringParameters,
+      isBase64Encoded
     } = awsEvent;
 
     const { http: { method, path } } = requestContext;
@@ -88,5 +91,6 @@ module.exports = class Event {
     this.path = path;
     this.queryString = this.#transformFn( queryStringParameters ) ?? {};
     this.route = routeKey?.split( ' ' )[1].replace( /\/$/, '' );
+    this.isBase64Encoded = isBase64Encoded ?? false;
   }
 };

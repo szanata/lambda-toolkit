@@ -10,6 +10,7 @@ module.exports = class ApiResponse {
   #headers = null;
   #statusCode = null;
   #transformFn = false;
+  #isBase64Encoded = false;
   #body = '';
 
   constructor( { headers = {}, transform } = {} ) {
@@ -20,8 +21,9 @@ module.exports = class ApiResponse {
     }, headers );
   }
 
-  setContent( statusCode, body, headers = {} ) {
+  setContent( statusCode, body, headers = {}, isBase64Encoded = false ) {
     this.#statusCode = statusCode;
+    this.#isBase64Encoded = isBase64Encoded;
     if ( body?.length === 0 || [ null, undefined ].includes( body ) ) {
       this.#body = '';
     } else if ( typeof body === 'object' ) {
@@ -38,6 +40,7 @@ module.exports = class ApiResponse {
 
   toJSON() {
     return {
+      isBase64Encoded: this.#isBase64Encoded,
       statusCode: this.#statusCode,
       body: this.#body,
       headers: this.#headers
