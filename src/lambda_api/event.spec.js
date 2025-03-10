@@ -23,11 +23,12 @@ describe( 'Event Spec', () => {
           parameter2: 'value'
         },
         body: 'Hello from Lambda!',
-        context: {}
+        context: {},
+        isBase64Encoded: false
       } );
     } );
 
-    it( 'Should initialize params, qs and headers as empty objectives if absent', () => {
+    it( 'Should initialize params, qs and headers as empty objects and encoding as false if absent', () => {
       const event = new Event();
       event.parseFromAwsEvent( { version: '1.0' } );
 
@@ -41,7 +42,8 @@ describe( 'Event Spec', () => {
         params: {},
         queryString: {},
         body: null,
-        context: {}
+        context: {},
+        isBase64Encoded: false
       } );
     } );
   } );
@@ -77,11 +79,12 @@ describe( 'Event Spec', () => {
           parameter2: 'value'
         },
         body: 'Hello from Lambda',
-        context: {}
+        context: {},
+        isBase64Encoded: false
       } );
     } );
 
-    it( 'Should initialize params, qs and headers as empty objectives if absent', () => {
+    it( 'Should initialize params, qs and headers as empty objects and encoding as false if absent', () => {
       const event = new Event();
       event.parseFromAwsEvent( { requestContext: { http: {} } } );
 
@@ -95,7 +98,8 @@ describe( 'Event Spec', () => {
         params: {},
         queryString: {},
         body: null,
-        context: {}
+        context: {},
+        isBase64Encoded: false
       } );
     } );
   } );
