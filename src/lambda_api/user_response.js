@@ -22,7 +22,7 @@ module.exports = class UserResponse {
 
     } else if ( args.statusCode ) {
       validators.statusCode( args.statusCode );
-      this.values = [ args.statusCode, args.body, args.headers ];
+      this.values = [ args.statusCode, args.body, args.headers, args.isBase64Encoded ];
 
     } else if ( [ undefined, null ].includes( args ) ) {
       this.values = [ 200 ];

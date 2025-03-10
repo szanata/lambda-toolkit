@@ -21,9 +21,9 @@ describe( 'User Response Spec', () => {
     expect( response.values ).toEqual( [ 204 ] );
   } );
 
-  it( 'Should accept an array, where positions are status code, body, headers, respectively', () => {
-    const response = new UserResponse( [ 304, 'foo', { 'X-header': 'Bar' } ] );
-    expect( response.values ).toEqual( [ 304, 'foo', { 'X-header': 'Bar' } ] );
+  it( 'Should accept an array, where positions are status code, body, headers, isBase64Encoded respectively', () => {
+    const response = new UserResponse( [ 304, 'foo', { 'X-header': 'Bar' }, false ] );
+    expect( response.values ).toEqual( [ 304, 'foo', { 'X-header': 'Bar' }, false ] );
   } );
 
   it( 'Should accept an array with just one position, status code', () => {
@@ -31,9 +31,9 @@ describe( 'User Response Spec', () => {
     expect( response.values ).toEqual( [ 304 ] );
   } );
 
-  it( 'Should accept an object, with the following properties: statusCode, body, headers', () => {
-    const response = new UserResponse( { statusCode: 304, body: 'foo', headers: { 'X-header': 'Bar' } } );
-    expect( response.values ).toEqual( [ 304, 'foo', { 'X-header': 'Bar' } ] );
+  it( 'Should accept an object, with the following properties: statusCode, body, headers and isBase64Encoded', () => {
+    const response = new UserResponse( { statusCode: 304, body: 'foo', headers: { 'X-header': 'Bar' }, isBase64Encoded: true } );
+    expect( response.values ).toEqual( [ 304, 'foo', { 'X-header': 'Bar' }, true ] );
   } );
 
   it( 'Should accept an object, with just statusCode', () => {
