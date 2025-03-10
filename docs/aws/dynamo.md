@@ -14,7 +14,7 @@ Namespace: `aws.dynamo.`
 - [`fn` remove](#fn-remove)
 - [`fn` scan](#fn-scan)
 - [`fn` smartUpdate](#fn-smartupdate)
-- [`fn` transact-write](#fn-transactwrite)
+- [`fn` transactWrite](#fn-transactwrite)
 - [`fn` update](#fn-update)
 
 ## Client
@@ -469,7 +469,7 @@ The AWS policy statement to use this function is:
 }
 ```
 
-### `fn` transact-write
+### `fn` transactWrite
 
 This function is an abstraction for DynamoDB's `transactWrite` action, using `TransactWriteCommand`. It will send write commands within a transaction.
 

@@ -22,7 +22,7 @@ Example:
 ```js
 const { aws: { lambda } } = require( '<this-library>' );
 
-const responsePayload = await athena.invoke( functionName, payload, 'RequestResponse' );
+const responsePayload = await lambda.invoke( functionName, payload, 'RequestResponse' );
 ```
 
 #### Arguments
