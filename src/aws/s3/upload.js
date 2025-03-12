@@ -5,5 +5,5 @@ module.exports = ( client, bucket, key, body, nativeArgs ) =>
     ...nativeArgs,
     Bucket: bucket,
     Key: key,
-    Body: typeof body === 'string' ? body : JSON.stringify( body )
+    Body: typeof body === 'string' || Buffer.isBuffer( body ) ? body : JSON.stringify( body )
   } ) );
