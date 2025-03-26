@@ -10,7 +10,7 @@ Namespace: `aws.cw_logs.`
 
 ## Client
 
-The SDK's CloudWatchLogs client is instantiated with not options.
+The SDK's CloudWatchLogs client is instantiated with no options.
 
 ## Members
 

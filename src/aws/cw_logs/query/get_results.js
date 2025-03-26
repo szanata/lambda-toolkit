@@ -5,7 +5,6 @@ const sleep = t => new Promise( r => setTimeout( () => r(), t ) );
 const getResults = async ( { client, command } ) => {
   const { results, status } = await client.send( command );
 
-  console.log( JSON.stringify( results, undefined, 2 ) );
   if ( [ 'Cancelled', 'Failed', 'Timeout', 'Unknown' ].includes( status ) ) {
     throw new Error( `Query status is "${status}"` );
   }

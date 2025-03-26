@@ -10,7 +10,7 @@ Namespace: `aws.sns.`
 
 ## Client
 
-The SDK's SNS client is instantiated with not options.
+The SDK's SNS client is instantiated with no options.
 
 ## Members
 

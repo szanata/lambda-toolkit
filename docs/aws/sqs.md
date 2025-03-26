@@ -12,7 +12,7 @@ Namespace: `aws.sqs.`
 
 ## Client
 
-The SDK's SQS client is instantiated with not options.
+The SDK's SQS client is instantiated with no options.
 
 ## Members
 

@@ -10,7 +10,7 @@ Namespace: `aws.athena.`
 
 ## Client
 
-The SDK's Athena client is instantiated with not options.
+The SDK's Athena client is instantiated with no options.
 
 ## Members
 
