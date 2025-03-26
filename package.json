@@ -1,6 +1,6 @@
 {
   "name": "lambda-toolkit",
-  "version": "0.0.13-beta",
+  "version": "0.0.14-beta",
   "description": "A set of tools to help and simplify Node Js code development for AWS Lambdas",
   "files": [
     "./license",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/szanata/lambda-toolkit",
   "dependencies": {
     "@aws-sdk/client-athena": "^3.758.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.774.0",
     "@aws-sdk/client-dynamodb": "^3.758.0",
     "@aws-sdk/client-lambda": "^3.758.0",
     "@aws-sdk/client-s3": "^3.758.0",

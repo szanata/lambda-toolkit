@@ -45,7 +45,7 @@ module.exports = [
       indent: [ 'error', 2 ],
       'key-spacing': [ 'error', { afterColon: true } ],
       'keyword-spacing': [ 'error' ],
-      'max-len': [ 'error', 150 ],
+      'max-len': [ 'error', { code: 150, tabWidth: 2, comments: Infinity } ],
       'no-bitwise': [ 'error', { int32Hint: true } ],
       'no-buffer-constructor': [ 'error' ],
       'no-console': 0,

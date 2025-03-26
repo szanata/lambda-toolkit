@@ -214,6 +214,7 @@ This because the `DynamoDBDocumentClient` makes much more convenient to work wit
 ## Modules List
 
 - [Athena (athena.*)](./athena.md)
+- [CloudWatchLogs (cw_logs.*)](./cw_logs.md)
 - [Dynamo (dynamo.*)](./dynamo.md)
 - [Lambda (lambda.*)](./lambda.md)
 - [S3 (s3.*)](./s3.md)
