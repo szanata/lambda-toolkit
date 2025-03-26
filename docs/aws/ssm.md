@@ -10,7 +10,7 @@ Namespace: `aws.ssm.`
 
 ## Client
 
-The SDK's SSM client is instantiated with not options.
+The SDK's SSM client is instantiated with no options.
 
 ## Members
 

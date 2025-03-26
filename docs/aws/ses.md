@@ -11,7 +11,7 @@ Namespace: `aws.ses.`
 
 ## Client
 
-The SDK's SESv2 client is instantiated with not options.
+The SDK's SESv2 client is instantiated with no options.
 
 ## Members
 

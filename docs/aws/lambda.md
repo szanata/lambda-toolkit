@@ -10,7 +10,7 @@ Namespace: `aws.lambda.`
 
 ## Client
 
-The SDK Lambda client is instantiated with not options.
+The SDK Lambda client is instantiated with no options.
 
 ## Members
 

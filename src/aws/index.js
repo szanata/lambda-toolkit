@@ -1,4 +1,5 @@
 const athena = require( './athena' );
+const cwLogs = require( './cw_logs' );
 const dynamo = require( './dynamo' );
 const lambda = require( './lambda' );
 const s3 = require( './s3' );
@@ -11,6 +12,7 @@ const timestreamWrite = require( './timestream_write' );
 
 module.exports = {
   athena,
+  cwLogs,
   dynamo,
   lambda,
   s3,
