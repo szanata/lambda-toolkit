@@ -204,10 +204,10 @@ const command = new GetCommand( {
   }
 } );
 
-const response = await dynamo.getClient.send( command );
+const response = await dynamo.getClient().send( command );
 ```
 
-In this example `getClient` returns a `DynamoDBDocumentClient` instance, but it also instantiated the underlying `DynamoDBClient`.
+In this example `getClient()` returns a `DynamoDBDocumentClient` instance, but it also instantiated the underlying `DynamoDBClient`.
 
 This because the `DynamoDBDocumentClient` makes much more convenient to work with data operations and this abstraction was conceived for just that. So the `.getClient` will always return it. However as it seem you send any command from `@aws-sdk/client-dynamodb` to it, not only those from `@aws-sdk/lib-dynamodb`, as both extends the default [AWS client with the same configs](https://github.com/aws/aws-sdk-js-v3/blob/cdd7ff75f23aad2225de7f423aa9238bf0e0fa3c/lib/lib-dynamodb/src/DynamoDBDocumentClient.ts#L82).
 
