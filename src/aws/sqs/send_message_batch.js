@@ -3,7 +3,7 @@ const sanitizeSqs = require( './sanitize_sqs' );
 
 module.exports = async ( client, queue, messages ) => {
   if ( messages.length > 10 ) {
-    throw new Error( 'SQS.sendMessageBatch only accepts up to then messages.' );
+    throw new Error( 'SQS.sendMessageBatch only accepts up to 10 messages.' );
   }
   const response = await client.send( new SendMessageBatchCommand( {
     QueueUrl: queue,
