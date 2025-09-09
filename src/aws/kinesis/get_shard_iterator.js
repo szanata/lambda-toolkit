@@ -1,9 +1,15 @@
 const { GetShardIteratorCommand } = require( '@aws-sdk/client-kinesis' );
 
-module.exports = ( client, streamName, shardId, shardIteratorType, nativeArgs = {} ) =>
+module.exports = ( client, streamName, shardId, shardIteratorType, options = {
+  startingSequenceNumber: null,
+  timestamp: null,
+  streamArn: null
+} ) =>
   client.send( new GetShardIteratorCommand( {
-    ...nativeArgs,
     StreamName: streamName,
     ShardId: shardId,
-    ShardIteratorType: shardIteratorType
+    ShardIteratorType: shardIteratorType,
+    StartingSequenceNumber: options.startingSequenceNumber,
+    Timestamp: options.timestamp,
+    StreamARN: options.streamArn
   } ) );

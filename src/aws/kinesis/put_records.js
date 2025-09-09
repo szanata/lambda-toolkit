@@ -1,8 +1,8 @@
 const { PutRecordsCommand } = require( '@aws-sdk/client-kinesis' );
 
-module.exports = ( client, streamName, records, nativeArgs = {} ) =>
+module.exports = ( client, streamName, records, options = { streamArn: null } ) =>
   client.send( new PutRecordsCommand( {
-    ...nativeArgs,
+    StreamARN: options.streamArn,
     StreamName: streamName,
     Records: records.map( record => ( {
       ...record,

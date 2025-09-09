@@ -40,13 +40,16 @@ describe( 'Kinesis DescribeStream Spec', () => {
 
     expect( result ).toBe( mockResponse );
     expect( DescribeStreamCommand ).toHaveBeenCalledWith( {
-      StreamName: streamName
+      StreamName: streamName,
+      Limit: null,
+      StreamARN: null,
+      ExclusiveStartShardId: null
     } );
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
   } );
 
-  it( 'Should describe a stream with additional native args', async () => {
-    const nativeArgs = { Limit: 10 };
+  it( 'Should describe a stream with additional options', async () => {
+    const options = { limit: 10 };
     const mockResponse = {
       StreamDescription: {
         StreamName: streamName,
@@ -57,32 +60,63 @@ describe( 'Kinesis DescribeStream Spec', () => {
     DescribeStreamCommand.mockReturnValue( commandInstance );
     client.send.mockResolvedValue( mockResponse );
 
-    const result = await describeStream( client, streamName, nativeArgs );
+    const result = await describeStream( client, streamName, options );
 
     expect( result ).toBe( mockResponse );
     expect( DescribeStreamCommand ).toHaveBeenCalledWith( {
       StreamName: streamName,
-      Limit: 10
+      Limit: 10,
+      StreamARN: undefined,
+      ExclusiveStartShardId: undefined
     } );
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
   } );
 
-  it( 'Should handle stream not found', async () => {
+  it( 'Should describe a stream with stream ARN', async () => {
+    const streamArn = 'arn:aws:kinesis:us-east-1:123456789012:stream/test-stream';
+    const options = { streamArn };
     const mockResponse = {
       StreamDescription: {
         StreamName: streamName,
-        StreamStatus: 'DELETING',
+        StreamStatus: 'ACTIVE',
         Shards: []
       }
     };
     DescribeStreamCommand.mockReturnValue( commandInstance );
     client.send.mockResolvedValue( mockResponse );
 
-    const result = await describeStream( client, streamName );
+    const result = await describeStream( client, streamName, options );
 
     expect( result ).toBe( mockResponse );
     expect( DescribeStreamCommand ).toHaveBeenCalledWith( {
-      StreamName: streamName
+      StreamName: streamName,
+      Limit: undefined,
+      StreamARN: streamArn,
+      ExclusiveStartShardId: undefined
+    } );
+    expect( client.send ).toHaveBeenCalledWith( commandInstance );
+  } );
+
+  it( 'Should describe a stream with exclusive start shard ID', async () => {
+    const options = { exclusiveStartShardId: 'shard-000000000001' };
+    const mockResponse = {
+      StreamDescription: {
+        StreamName: streamName,
+        StreamStatus: 'ACTIVE',
+        Shards: []
+      }
+    };
+    DescribeStreamCommand.mockReturnValue( commandInstance );
+    client.send.mockResolvedValue( mockResponse );
+
+    const result = await describeStream( client, streamName, options );
+
+    expect( result ).toBe( mockResponse );
+    expect( DescribeStreamCommand ).toHaveBeenCalledWith( {
+      StreamName: streamName,
+      Limit: undefined,
+      StreamARN: undefined,
+      ExclusiveStartShardId: 'shard-000000000001'
     } );
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
   } );

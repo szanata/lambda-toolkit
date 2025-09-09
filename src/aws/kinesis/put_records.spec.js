@@ -28,6 +28,7 @@ describe( 'Kinesis PutRecords Spec', () => {
     await putRecords( client, streamName, records );
 
     expect( PutRecordsCommand ).toHaveBeenCalledWith( {
+      StreamARN: null,
       StreamName: streamName,
       Records: records
     } );
@@ -45,6 +46,7 @@ describe( 'Kinesis PutRecords Spec', () => {
     await putRecords( client, streamName, recordsWithObjects );
 
     expect( PutRecordsCommand ).toHaveBeenCalledWith( {
+      StreamARN: null,
       StreamName: streamName,
       Records: [
         { Data: 'Record 1', PartitionKey: 'partition-1' },
@@ -55,16 +57,16 @@ describe( 'Kinesis PutRecords Spec', () => {
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
   } );
 
-  it( 'Should put records with additional native args', async () => {
-    const nativeArgs = { StreamARN: 'test-arn' };
+  it( 'Should put records with additional options', async () => {
+    const options = { streamArn: 'test-arn' };
     PutRecordsCommand.mockReturnValue( commandInstance );
 
-    await putRecords( client, streamName, records, nativeArgs );
+    await putRecords( client, streamName, records, options );
 
     expect( PutRecordsCommand ).toHaveBeenCalledWith( {
+      StreamARN: 'test-arn',
       StreamName: streamName,
-      Records: records,
-      StreamARN: 'test-arn'
+      Records: records
     } );
     expect( client.send ).toHaveBeenCalledWith( commandInstance );
   } );
