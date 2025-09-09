@@ -216,6 +216,7 @@ This because the `DynamoDBDocumentClient` makes much more convenient to work wit
 - [Athena (athena.*)](./athena.md)
 - [CloudWatchLogs (cw_logs.*)](./cw_logs.md)
 - [Dynamo (dynamo.*)](./dynamo.md)
+- [Kinesis (kinesis.*)](./kinesis.md)
 - [Lambda (lambda.*)](./lambda.md)
 - [S3 (s3.*)](./s3.md)
 - [SES (ses.*)](./ses.md)

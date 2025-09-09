@@ -1,6 +1,7 @@
 const athena = require( './athena' );
 const cwLogs = require( './cw_logs' );
 const dynamo = require( './dynamo' );
+const kinesis = require( './kinesis' );
 const lambda = require( './lambda' );
 const s3 = require( './s3' );
 const ses = require( './ses' );
@@ -14,6 +15,7 @@ module.exports = {
   athena,
   cwLogs,
   dynamo,
+  kinesis,
   lambda,
   s3,
   ses,
