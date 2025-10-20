@@ -14,7 +14,7 @@ The SDK's SSM client is instantiated with no options.
 
 ## Members
 
-### `fn` publish
+### `fn` get
 
 Get the value of an SSM Parameter. Abstracts the `GetParameterCommand`. It will return the value decrypted.
 
