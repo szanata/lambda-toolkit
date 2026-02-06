@@ -36,11 +36,12 @@ const execWithRetry = async ( closure, { limit, delay, retryHook, execCount = 0 
  *
  * @param {Function} closure A self contained function that will be invoked
  * @param {Object} config
- * @param {Number} limit The max number of retries
- * @param {Number} delay The delay between each retry (it will be multiplied by the number of retries, so, it is linear back-off)
- * @param {Function} retryHook A function to be called every-time a retry is needed.
- *                             If this functions returns false, the retry error is raised
- *                             If this functions throws error, the thrown error is raised
+ * @param {Number} config.limit The max number of retries
+ * @param {Number} config.delay The delay between each retry (it will be raised to the power of the number of retries, so it is exponential back-off)
+ * @param {Function} config.retryHook A function to be called every time a retry is needed.
+ *                             If this functions returns true, the retry flow continues until limit
+ *                             If this functions returns false, the retry flow is aborted, returning false
+ *                             If this functions throws an error, the retry flow is aborted with that error
  * @returns {Any} The closure result
  */
 module.exports = async ( closure, { limit = 0, delay = 0, retryHook = null } = {} ) =>
