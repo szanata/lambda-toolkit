@@ -1,48 +1,29 @@
-#!/bin/bash
+#!/bin/sh
 
-set -e
-
-dry_run=$1
+set -eu
 
 cd "${0%/*}/.."
 
-echo -en "\e[0;35m"
-echo -e "╭─────────────────╮"
-echo -en "│ \e[0;33m"
-echo -en "Publish package"
-echo -e "\e[0;34m │"
-echo -e "╰─────────────────╯\e[0m"
+printf "\e[0;35m"
+printf "╭─────────╮\n"
+printf "│ \e[0;35mPublish\e[0;35m │\n"
+printf "╰─────────╯\e[0m\n"
 
-
-echo -e "\e[0;33m(Installing)\e[0m"
-npm i --silent --prefix
-
-echo -e "\e[0;33m(Linting)\e[0m"
-npm run lint --silent --prefix 
-
-echo -e "\e[0;33m(Testing)\e[0m"
-npm run test --silent --prefix -- --silent
-
-echo -e "\e[0;33m(Bundling)\e[0m"
-npm run build --silent --prefix
-
-if [[ $dry_run == 1 ]]; then
-  exit 0;
-fi
-
-echo -e "\e[0;33m(Publishing)\e[0m"
+printf "\e[0;35m(Resolving Versions)\e[0m\n"
 
 pkg_name=$(node -p "require('./package.json').name")
 local_version=$(node -p "require('./package.json').version")
-remote_version=$(npm view $pkg_name version)
+remote_version=$(npm view "$pkg_name@$local_version" version 2>/dev/null || echo "unpublished")
 package="$pkg_name@$local_version"
 
-if [[ $local_version == $remote_version ]]; then
-  echo -e "\e[2;37m$package is up to date, skipping\e[0m"
+printf "Local Version is $local_version\n"
+
+if [ "$local_version" = "$remote_version" ]; then
+  printf "Version $local_version is already published, no actions necessary\n"
 else
-  echo -e "\e[2;37mLocal version $local_version differs from remote $remote_version, will publish\e[0m"
+  printf "\e[0;35m(Publishing...)\e[0m\n"
   npm publish
-  echo -e "$package published"
+  printf "$package published"
 fi
 
-echo -e "\e[0;33m(Done)\e[0m\n"
+printf "\e[0;35m(Done)\e[0m\n"

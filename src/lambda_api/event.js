@@ -17,6 +17,7 @@ module.exports = class Event {
   #transformFn;
   authorizer;
   body;
+  rawBody;
   headers;
   method;
   params;
@@ -60,6 +61,7 @@ module.exports = class Event {
     };
 
     this.authorizer = requestContext?.authorizer;
+    this.rawBody = body ?? null;
     this.body = body ? this.#transformFn( parseJson( body ) ) : null;
     this.headers = unifiedHeaders ?? {};
     this.method = httpMethod;
@@ -84,6 +86,7 @@ module.exports = class Event {
     const { http: { method, path } } = requestContext;
 
     this.authorizer = requestContext?.authorizer;
+    this.rawBody = body ?? null;
     this.body = body ? this.#transformFn( parseJson( body ) ) : null;
     this.headers = headers ?? {};
     this.method = method;

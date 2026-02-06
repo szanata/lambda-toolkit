@@ -1,0 +1,21 @@
+name: Dependabot Build
+
+on:
+  pull_request_target:
+    branches: [master]
+
+jobs:
+  main:
+    name: Build
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    container:
+      image: node:24.13
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: ./ops/build.sh
