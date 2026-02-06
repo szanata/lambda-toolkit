@@ -23,6 +23,7 @@ describe( 'Event Spec', () => {
           parameter2: 'value'
         },
         body: 'Hello from Lambda!',
+        rawBody: 'Hello from Lambda!',
         context: {},
         isBase64Encoded: false
       } );
@@ -42,6 +43,7 @@ describe( 'Event Spec', () => {
         params: {},
         queryString: {},
         body: null,
+        rawBody: null,
         context: {},
         isBase64Encoded: false
       } );
@@ -79,6 +81,7 @@ describe( 'Event Spec', () => {
           parameter2: 'value'
         },
         body: 'Hello from Lambda',
+        rawBody: 'Hello from Lambda',
         context: {},
         isBase64Encoded: false
       } );
@@ -98,6 +101,7 @@ describe( 'Event Spec', () => {
         params: {},
         queryString: {},
         body: null,
+        rawBody: null,
         context: {},
         isBase64Encoded: false
       } );
