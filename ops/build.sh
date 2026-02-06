@@ -4,23 +4,21 @@ set -eu
 
 cd "${0%/*}/.."
 
-echo -en "\e[0;36m"
-echo -e "╭───────╮"
-echo -en "│ \e[0;36m"
-echo -en "Build"
-echo -e "\e[0;36m │"
-echo -e "╰───────╯\e[0m"
+printf "\e[0;36m"
+printf "╭───────╮\n"
+printf "│ \e[0;36mBuild\e[0;36m │\n"
+printf "╰───────╯\e[0m\n"
 
-echo -e "\e[0;36m(Installing)\e[0m"
+printf "\e[0;36m(Installing)\e[0m\n"
 npm i
 
-echo -e "\e[0;36m(Linting)\e[0m"
+printf "\e[0;36m(Linting)\e[0m\n"
 npm run lint
 
-echo -e "\e[0;36m(Testing)\e[0m"
+printf "\e[0;36m(Testing)\e[0m\n"
 npm run test
 
-echo -e "\e[0;36m(Bundling)\e[0m"
+printf "\e[0;36m(Bundling)\e[0m\n"
 npm run build
 
-echo -e "\e[0;36m(Done)\e[0m\n"
+printf "\e[0;36m(Done)\e[0m\n"

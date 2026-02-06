@@ -13,8 +13,6 @@ jobs:
     if: ${{ github.actor == 'dependabot[bot]' }}
     container:
       image: node:24.13
-    permissions:
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
