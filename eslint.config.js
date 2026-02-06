@@ -89,11 +89,9 @@ module.exports = [
   js.configs.recommended,
   importPlugin.flatConfigs.recommended,
   {
+    files: [ '**/*.{js,cjs,mjs}' ],
     languageOptions: {
-      parserOptions: {
-        ecmaVersion: 2024,
-        sourceType: 'commonjs'
-      },
+      ecmaVersion: 2025,
       globals: {
         ...globals.node,
         ...globals.jest
