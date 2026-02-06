@@ -3,8 +3,8 @@ set -e
 
 cmd=$1
 
-infra_image=meltwater/node-terraform-aws:titanium-2024-12-07
-node_image=node:22.17.0-alpine3.21
+infra_image=meltwater/node-terraform-aws:latest
+node_image=node:24.13.0-alpine3.22
 
 print_title() {
   printf "\n\e[1;34m$1\n"

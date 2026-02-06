@@ -10,25 +10,25 @@ const parseBigInt = value => {
 
 const parseScalarValue = ( type, value ) => {
   switch ( type ) {
-  case ScalarType.BOOLEAN:
-    return value === 'true';
-  case ScalarType.DOUBLE:
-    return parseFloat( value );
-  case ScalarType.TIMESTAMP:
-    return new Date( `${value.replace( ' ', 'T' )}Z` );
-  case ScalarType.INTEGER:
-    return parseInt( value, 10 );
-  case ScalarType.UNKNOWN: // is NULL
-    return null;
-  case ScalarType.BIGINT:
-    return parseBigInt( value );
-  case ScalarType.VARCHAR:
-  case ScalarType.DATE:
-  case ScalarType.TIME:
-  case ScalarType.INTERVAL_DAY_TO_SECOND:
-  case ScalarType.INTERVAL_YEAR_TO_MONTH:
-  default:
-    return value;
+    case ScalarType.BOOLEAN:
+      return value === 'true';
+    case ScalarType.DOUBLE:
+      return parseFloat( value );
+    case ScalarType.TIMESTAMP:
+      return new Date( `${value.replace( ' ', 'T' )}Z` );
+    case ScalarType.INTEGER:
+      return parseInt( value, 10 );
+    case ScalarType.UNKNOWN: // is NULL
+      return null;
+    case ScalarType.BIGINT:
+      return parseBigInt( value );
+    case ScalarType.VARCHAR:
+    case ScalarType.DATE:
+    case ScalarType.TIME:
+    case ScalarType.INTERVAL_DAY_TO_SECOND:
+    case ScalarType.INTERVAL_YEAR_TO_MONTH:
+    default:
+      return value;
   }
 };
 

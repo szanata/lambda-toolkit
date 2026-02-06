@@ -10,7 +10,7 @@ This project was created based on my personal experience after I have been worki
 
 This project has no dependency other than the AWS SDKs. My goal is to always have the minimal number of dependencies, so commons functions in this code base, like `camelize`, `mean` or `splitBatches` were implemented instead of relying on external providers. 
 
-As for the AWS SDK dependencies, this code is intended to run on AWS Lambda environments and __I strong suggest__ that you don't include these packages when bundling your code for deploy, as they are all available at the AWS runtime. For example, at your `webpack.config.js`, include:
+As for the AWS SDK dependencies, this code is intended to run on AWS Lambda environments and __I strongly suggest__ that you don't include these packages when bundling your code for deploy, as they are all available at the AWS runtime. For example, at your `webpack.config.js`, include:
 ```js
 {
   ...,

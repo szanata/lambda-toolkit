@@ -34,7 +34,7 @@ echo -e "\e[0;33m(Publishing)\e[0m"
 
 pkg_name=$(node -p "require('./package.json').name")
 local_version=$(node -p "require('./package.json').version")
-remote_version=$(npm view $pkg_name version)
+remote_version=$(npm view $pkg_name@$local_version version)
 package="$pkg_name@$local_version"
 
 if [[ $local_version == $remote_version ]]; then

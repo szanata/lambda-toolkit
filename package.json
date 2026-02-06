@@ -1,6 +1,6 @@
 {
   "name": "lambda-toolkit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A set of tools to help and simplify Node Js code development for AWS Lambdas",
   "files": [
     "./license",
@@ -24,25 +24,26 @@
   },
   "homepage": "https://github.com/szanata/lambda-toolkit",
   "dependencies": {
-    "@aws-sdk/client-athena": "^3.840.0",
-    "@aws-sdk/client-cloudwatch-logs": "^3.840.0",
-    "@aws-sdk/client-dynamodb": "^3.840.0",
-    "@aws-sdk/client-lambda": "^3.840.0",
-    "@aws-sdk/client-s3": "^3.840.0",
-    "@aws-sdk/client-sesv2": "^3.840.0",
-    "@aws-sdk/client-sns": "^3.840.0",
-    "@aws-sdk/client-sqs": "^3.840.0",
-    "@aws-sdk/client-ssm": "^3.840.0",
-    "@aws-sdk/client-timestream-query": "^3.840.0",
-    "@aws-sdk/client-timestream-write": "^3.840.0",
-    "@aws-sdk/lib-dynamodb": "^3.840.0",
-    "@aws-sdk/s3-request-presigner": "^3.840.0"
+    "@aws-sdk/client-athena": "3.984.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.984.0",
+    "@aws-sdk/client-dynamodb": "3.984.0",
+    "@aws-sdk/client-lambda": "3.984.0",
+    "@aws-sdk/client-s3": "3.984.0",
+    "@aws-sdk/client-sesv2": "3.984.0",
+    "@aws-sdk/client-sns": "3.984.0",
+    "@aws-sdk/client-sqs": "3.984.0",
+    "@aws-sdk/client-ssm": "3.984.0",
+    "@aws-sdk/client-timestream-query": "3.984.0",
+    "@aws-sdk/client-timestream-write": "3.984.0",
+    "@aws-sdk/lib-dynamodb": "3.984.0",
+    "@aws-sdk/s3-request-presigner": "3.984.0"
   },
   "devDependencies": {
-    "eslint": "9.30.1",
+    "@stylistic/eslint-plugin": "5.7.1",
+    "eslint": "9.39.2",
     "eslint-plugin-import": "2.32.0",
-    "jest": "30.0.3",
-    "webpack": "5.99.9",
+    "jest": "30.2.0",
+    "webpack": "5.105.0",
     "webpack-cli": "6.0.1"
   }
 }
