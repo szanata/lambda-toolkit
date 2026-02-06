@@ -17,7 +17,7 @@ if [[ $cmd == "node" ]]; then
 
 elif [[ $cmd == "publish" ]]; then
   print_title "Publishing"
-  docker run --rm -it --env-file="./.env" -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh -c "./ops/publish.sh"
+  docker run --rm -it --env-file="./.env" -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh -c "./ops/build.sh && ./ops/publish.sh"
 
 elif [[ $cmd = "aws" ]]; then
   print_title "AWS dev"
