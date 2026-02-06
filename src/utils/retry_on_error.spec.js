@@ -70,9 +70,10 @@ describe( 'Retry On Error Spec', () => {
       const state = { calls: 0 };
       const fn = () => { state.calls++; throw new RootError(); };
 
-      await retry( fn, { limit: 5, retryHook: _ => false } );
+      const result = await retry( fn, { limit: 5, retryHook: _ => false } );
 
       expect( state.calls ).toBe( 1 );
+      expect( result ).toBe( false );
     } );
 
     it( 'Should throw error if the retry hook throws error', async () => {

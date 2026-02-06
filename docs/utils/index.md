@@ -26,6 +26,14 @@ Execute given function and if it throws an error retry it _n_ times with optiona
 |options.delay|Number|Amount of milliseconds to wait between retries, it will grow exponentially|0|
 |options.retryHook|Function|A function to call before each retry||
 
+#### `retryHook` arguments
+
+|Name|Type|Description|Default|
+|---|---|---|---|
+|error|Object|The error object||
+|execCount|Number|The number of the current retry||
+
+
 #### Return
 
 A Promise which resolves when the function executed successfully or rejects when all retries are done.
