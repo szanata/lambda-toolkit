@@ -13,16 +13,11 @@ print_title() {
 
 if [[ $cmd == "node" ]]; then
   print_title "Node dev"
-  docker run --rm -it -e NODE_ENV=development -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh
+  docker run --rm -it --env-file="./.env" -e NODE_ENV=development -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh
 
-# elif [[ $cmd == "pack" ]]; then
-#   type=$2
-#   print_title "Packing new $type version"
-#   docker run --rm -it -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh -c "npm version $type"
-
-# elif [[ $cmd == "publish" ]]; then
-#   print_title "Publishing"
-#   docker run --rm -it -e NPM_TOKEN=$LAMBDA_TOOLKIT_NPM_TOKEN -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh -c "./ops/publish.sh"
+elif [[ $cmd == "publish" ]]; then
+  print_title "Publishing"
+  docker run --rm -it --env-file="./.env" -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh -c "./ops/publish.sh"
 
 elif [[ $cmd = "aws" ]]; then
   print_title "AWS dev"
