@@ -176,7 +176,7 @@ The AWS policy statement to use this function is:
 
 ### `fn` query
 
-Query is identical to scan, the only difference is that it uses `QueryCommand`. See documentation (below)[#Scan].
+Query is identical to scan, the only difference is that it uses `QueryCommand`. See documentation [below](#fn-scan).
 
 ### `fn` removeBatch
 
