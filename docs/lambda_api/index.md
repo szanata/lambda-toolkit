@@ -274,6 +274,7 @@ All properties in the object are __read-only__ excepts `context`. The `context` 
 |-|-|-|-|-|
 |authorizer|The Gateway authorizer context|`requestContext.authorizer`(1)|`requestContext.authorizer`(1)|Object|
 |body|The HTTP request body|`body`(2)|`body`(2)|Object or String|
+|rawBody|The raw HTTP request body string|`body`(2)|`body`(2)|String or Null|
 |context|The special writable property to share data between hooks and handler|-|-|Object|
 |headers|The HTTP request headers|`headers` + `multiValueHeaders`(3)|`headers`|Object|
 |method|The HTTP request verb|`httpMethod`|`requestContext.http.method`|String|
@@ -284,7 +285,7 @@ All properties in the object are __read-only__ excepts `context`. The `context` 
 |isBase64Encoded|Whether the `body` is encoded as a `base64` string or not|`isBase64Encoded`|`isBase64Encoded`|Boolean|
 
 1. the authorized content is not parsed so it will differs between API Gateway Payload v1 and v2.
-2. The `body` is automatically parsed to Object if it is a valid JSON.
+2. The `body` is automatically parsed to Object if it is a valid JSON. Use `rawBody` to access the original string before parsing.
 3. The `headers` are a combination between `headers` and `multiValueHeaders`. When there are `multiValueHeaders`, their value will be stringified with `,` as separator. The same is true for `queryString`, which combines `queryStringParameters` and `multiValueQueryStringParameters`.
 4. The `routeKey` actual value is `<VERB> <route>`, the final value is just the `route` part. The `<VERB> ` prefix is replaced.
 
@@ -308,6 +309,7 @@ All properties in the object are __read-only__ excepts `context`. The `context` 
     singleValue: 'car'
     multiValue: 'car,bicycle,motorcycle'
   },
+  rawBody: '{"name":"Johnny X"}',
   body: {
     name: 'Johnny X'
   },
