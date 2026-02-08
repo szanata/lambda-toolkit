@@ -1,0 +1,73 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "DF5ZMPTKVJMRBBPMB565VMMFRU",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "ColumnInfo": [
+    {
+      "Name": "myArray",
+      "Type": {
+        "ArrayColumnInfo": {
+          "Type": {
+            "RowColumnInfo": [
+              {
+                "Name": "field0",
+                "Type": {
+                  "ScalarType": "VARCHAR"
+                }
+              },
+              {
+                "Name": "field1",
+                "Type": {
+                  "ScalarType": "INTEGER"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "QueryId": "AEDQCANZX6MDAZHMQFA4R3AJNIU6IN72NPINKS35TU3TZW5FQNI3LTBTRXZW2MI",
+  "QueryStatus": {
+    "CumulativeBytesMetered": 10000000,
+    "CumulativeBytesScanned": 0,
+    "ProgressPercentage": 100
+  },
+  "Rows": [
+    {
+      "Data": [
+        {
+          "ArrayValue": [
+            {
+              "RowValue": {
+                "Data": [
+                  {
+                    "ScalarValue": "Corolla"
+                  },
+                  {
+                    "ScalarValue": "300"
+                  }
+                ]
+              }
+            },
+            {
+              "RowValue": {
+                "Data": [
+                  {
+                    "ScalarValue": "Civic"
+                  },
+                  {
+                    "ScalarValue": "314"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
