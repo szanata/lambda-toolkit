@@ -25,8 +25,8 @@ const queue = 'sqs://mw.com';
 describe( 'SQS Send Message Batch Spec', () => {
   afterEach( () => {
     mock.restoreAll();
-    client.send.mock.what();
-    constructorMock.mock.mockReset();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should send an batch of messages to SQS', async () => {
