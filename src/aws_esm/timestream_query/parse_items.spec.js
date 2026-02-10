@@ -1,13 +1,13 @@
 import { parseItems } from './parse_items.js';
 import responseScalar from './fixtures/scalar.json' with { type: 'json' };
-import responseArrayWithScalar from './fixtures/array_with_scalar.json' with { type: 'json' }
-import responseArrayWithArray from './fixtures/array_with_array.json' with { type: 'json' }
-import responseArrayWithRow from './fixtures/array_with_row.json' with { type: 'json' }
-import responseRowWithScalar from './fixtures/row_with_scalar.json' with { type: 'json' }
-import responseRowWithRow from './fixtures/row_with_row.json' with { type: 'json' }
-import responseRowWithArray from './fixtures/row_with_array.json' with { type: 'json' }
-import responseTimeSeriesWithScalar from './fixtures/timeseries_with_scalar.json' with { type: 'json' }
-import responseTimeSeriesWithArray from './fixtures/timeseries_with_array.json' with { type: 'json' }
+import responseArrayWithScalar from './fixtures/array_with_scalar.json' with { type: 'json' };
+import responseArrayWithArray from './fixtures/array_with_array.json' with { type: 'json' };
+import responseArrayWithRow from './fixtures/array_with_row.json' with { type: 'json' };
+import responseRowWithScalar from './fixtures/row_with_scalar.json' with { type: 'json' };
+import responseRowWithRow from './fixtures/row_with_row.json' with { type: 'json' };
+import responseRowWithArray from './fixtures/row_with_array.json' with { type: 'json' };
+import responseTimeSeriesWithScalar from './fixtures/timeseries_with_scalar.json' with { type: 'json' };
+import responseTimeSeriesWithArray from './fixtures/timeseries_with_array.json' with { type: 'json' };
 import { describe, it } from 'node:test';
 import { deepStrictEqual } from 'node:assert';
 

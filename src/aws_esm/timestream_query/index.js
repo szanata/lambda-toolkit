@@ -10,4 +10,5 @@ const defaultArgs = {
   httpOptions: { timeout: 60000, agent: new Agent( { maxSockets: 5000 } ) }
 };
 
-export const timestreamQuery = createInstance( args => clientProvider( TimestreamQueryClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );
+export const timestreamQuery =
+  createInstance( args => genericClientProvider( TimestreamQueryClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );

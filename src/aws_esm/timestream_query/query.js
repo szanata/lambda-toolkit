@@ -17,5 +17,6 @@ const sendQuery = async ( client, queryString, { prevItems = [], recursive, pagi
   return { nextToken, count: items.length, items, queryStatus: camelize( response.QueryStatus ) };
 };
 
-export const query = async ( client, queryString, { recursive = false, paginationToken = undefined, maxRows = undefined, rawResponse = false } = {} ) =>
-  sendQuery( client, queryString, { recursive, paginationToken, maxRows, rawResponse } );
+export const query =
+  async ( client, queryString, { recursive = false, paginationToken = undefined, maxRows = undefined, rawResponse = false } = {} ) =>
+    sendQuery( client, queryString, { recursive, paginationToken, maxRows, rawResponse } );

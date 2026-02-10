@@ -7,8 +7,8 @@ const constructorMock = mock.fn( () => commandInstance );
 
 mock.module( '@aws-sdk/client-timestream-write', {
   namedExports: {
-    WriteRecordsCommand: new Proxy(class WriteRecordsCommand {}, {
-      construct( _, args) {
+    WriteRecordsCommand: new Proxy( class WriteRecordsCommand {}, {
+      construct( _, args ) {
         return constructorMock( ...args );
       }
     } )
@@ -75,14 +75,14 @@ describe( 'TimestreamWrite Write Records Spec', () => {
 
   it( 'Should throw record reject records error', async () => {
     const error = new RejectedRecordsException();
-    client.send.mock.mockImplementation( () => { throw error } );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
     rejects( async () => writeRecords( client, { database, table, records } ), error );
   } );
 
   it( 'Should handle record reject records error if ignoreRejections options is used', async () => {
     const error = new RejectedRecordsException();
-    client.send.mock.mockImplementation( () => { throw error } );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
     const result = await writeRecords( client, { database, table, records, ignoreRejections: true } );
     deepStrictEqual( result, { rejectedRecords: error.RejectedRecords } );
@@ -90,7 +90,7 @@ describe( 'TimestreamWrite Write Records Spec', () => {
 
   it( 'Should throw other errors', async () => {
     const error = new ValidationException();
-    client.send.mock.mockImplementation( () => { throw error } );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
     rejects( async () => writeRecords( client, { database, table, records } ), error );
   } );

@@ -1,4 +1,4 @@
-import { writeRecords } from './write_recordsls';
+import { writeRecords } from './write_records.js';
 import { TimestreamWriteClient } from '@aws-sdk/client-timestream-write';
 import { Agent } from 'https';
 import { genericClientProvider } from '../core/generic_client_provider.js';
@@ -10,4 +10,5 @@ const defaultArgs = {
   httpOptions: { timeout: 60000, agent: new Agent( { maxSockets: 5000 } ) }
 };
 
-export const timestreamWrite = createInstance( args => genericClientProvider( TimestreamWriteClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );
+export const timestreamWrite =
+  createInstance( args => genericClientProvider( TimestreamWriteClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );

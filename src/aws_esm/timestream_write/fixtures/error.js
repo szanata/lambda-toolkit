@@ -1,5 +1,4 @@
 
-
 // Error classes replicate real errors from TimeStream
 export class RejectedRecordsException extends Error {
   constructor() {

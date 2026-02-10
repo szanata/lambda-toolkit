@@ -14,8 +14,8 @@ const constructorMock = mock.fn( () => commandInstance );
 
 mock.module( '@aws-sdk/client-timestream-query', {
   namedExports: {
-    QueryCommand: new Proxy(class QueryCommand {}, {
-      construct( _, args) {
+    QueryCommand: new Proxy( class QueryCommand {}, {
+      construct( _, args ) {
         return constructorMock( ...args );
       }
     } )
@@ -120,7 +120,7 @@ describe( 'TimestreamQuery Query Spec', () => {
     ];
     client.send.mock.mockImplementation( () => pages.shift() );
 
-    const parsedResults = [ [ 1, 2, 3 ], [ 4, 5, 6 ] ]
+    const parsedResults = [ [ 1, 2, 3 ], [ 4, 5, 6 ] ];
     parseItemsMock.mock.mockImplementation( () => parsedResults.shift() );
 
     const result = await query( client, queryString, { recursive: true } );
