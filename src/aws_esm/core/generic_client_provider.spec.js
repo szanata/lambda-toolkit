@@ -1,4 +1,4 @@
-import { describe, it, mock, before, afterEach } from 'node:test';
+import { describe, it, mock, afterEach } from 'node:test';
 import { strictEqual, deepStrictEqual } from 'node:assert';
 
 const cacheStorageMock = {
