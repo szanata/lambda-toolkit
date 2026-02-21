@@ -62,7 +62,12 @@ describe( 'S3 Upload Spec', () => {
     await upload( client, bucket, key, objectContent, { ContentType: contentType } );
 
     strictEqual( constructorMock.mock.calls.length, 1 );
-    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { ContentType: contentType, Key: key, Bucket: bucket, Body: JSON.stringify( objectContent ) } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      ContentType: contentType,
+      Key: key,
+      Bucket: bucket,
+      Body: JSON.stringify( objectContent )
+    } );
     strictEqual( client.send.mock.calls.length, 1 );
     deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
   } );
