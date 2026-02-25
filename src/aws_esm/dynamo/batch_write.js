@@ -10,8 +10,6 @@ const process = async ( { client, method, table, batches } ) => {
 
   const response = await client.send( new BatchWriteCommand( { RequestItems: { [table]: batches[0] } } ) );
 
-  console.log( 'DEBUG__', JSON.stringify( response, null, 2 ) );
-
   const unprocessed = response.UnprocessedItems?.[table];
   return process( {
     client, method, table,
