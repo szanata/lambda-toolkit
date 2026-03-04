@@ -46,6 +46,6 @@ import { redis } from 'redis';
 import { redis as redisToolkit } from 'lambda-toolkit';
 const { createClient } = redisToolkit;
 
-const client = redis.createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
+const client = createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
 assert.equal( typeof client.send, 'function' );
 ```
