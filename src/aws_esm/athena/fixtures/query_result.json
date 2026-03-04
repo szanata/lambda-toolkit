@@ -1,0 +1,165 @@
+{
+  "UpdateCount": 0,
+  "ResultSet": {
+    "ColumnInfos": [],
+    "ResultRows": [],
+    "ResultSetMetadata": {
+      "ColumnInfo": [
+        {
+          "CaseSensitive": false,
+          "CatalogName": "hive",
+          "Label": "date",
+          "Name": "date",
+          "Nullable": "UNKNOWN",
+          "Precision": 3,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "timestamp"
+        },
+        {
+          "CaseSensitive": true,
+          "CatalogName": "hive",
+          "Label": "maker",
+          "Name": "maker",
+          "Nullable": "UNKNOWN",
+          "Precision": 2147483647,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "varchar"
+        },
+        {
+          "CaseSensitive": false,
+          "CatalogName": "hive",
+          "Label": "colors",
+          "Name": "colors",
+          "Nullable": "UNKNOWN",
+          "Precision": 0,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "array"
+        },
+        {
+          "CaseSensitive": false,
+          "CatalogName": "hive",
+          "Label": "technical_info",
+          "Name": "technical_info",
+          "Nullable": "UNKNOWN",
+          "Precision": 0,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "row"
+        },
+        {
+          "CaseSensitive": true,
+          "CatalogName": "hive",
+          "Label": "model",
+          "Name": "model",
+          "Nullable": "UNKNOWN",
+          "Precision": 2147483647,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "varchar"
+        },
+        {
+          "CaseSensitive": false,
+          "CatalogName": "hive",
+          "Label": "year",
+          "Name": "year",
+          "Nullable": "UNKNOWN",
+          "Precision": 19,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "bigint"
+        },
+        {
+          "CaseSensitive": false,
+          "CatalogName": "hive",
+          "Label": "available",
+          "Name": "available",
+          "Nullable": "UNKNOWN",
+          "Precision": 0,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "boolean"
+        },
+        {
+          "CaseSensitive": false,
+          "CatalogName": "hive",
+          "Label": "extras",
+          "Name": "extras",
+          "Nullable": "UNKNOWN",
+          "Precision": 0,
+          "Scale": 0,
+          "SchemaName": "",
+          "TableName": "",
+          "Type": "json"
+        }
+      ]
+    },
+    "Rows": [
+      {
+        "Data": [
+          {
+            "VarCharValue": "date"
+          },
+          {
+            "VarCharValue": "maker"
+          },
+          {
+            "VarCharValue": "colors"
+          },
+          {
+            "VarCharValue": "technical_info"
+          },
+          {
+            "VarCharValue": "model"
+          },
+          {
+            "VarCharValue": "year"
+          },
+          {
+            "VarCharValue": "available"
+          },
+          {
+            "VarCharValue": "extras"
+          }
+        ]
+      },
+      {
+        "Data": [
+          {
+            "VarCharValue": "2022-10-18 21:31:38.800"
+          },
+          {
+            "VarCharValue": "Toyota"
+          },
+          {
+            "VarCharValue": "[red, blue]"
+          },
+          {
+            "VarCharValue": "{engines=[M20A-FKS 3, 2ZR-FXE 5], extras=null}"
+          },
+          {
+            "VarCharValue": "Corolla"
+          },
+          {
+            "VarCharValue": "2024"
+          },
+          {
+            "VarCharValue": "true"
+          },
+          {
+            "VarCharValue": "{\"optionals\":[\"moonroof\",\"leather seats\"],\"wheels\":[18,19,20]}"
+          }
+        ]
+      }
+    ]
+  }
+}
