@@ -11,7 +11,7 @@
   "scripts": {
     "build": "webpack --stats errors-only",
     "test": "jest --env=node --testPathIgnorePatterns=\"/[^/]+_esm/\"",
-    "test:esm": "node --test **/*_esm/*.spec.js",
+    "test:esm": "node --experimental-test-module-mocks --test **/*_esm/*.spec.js",
     "lint:fix": "eslint --fix",
     "lint": "eslint"
   },
