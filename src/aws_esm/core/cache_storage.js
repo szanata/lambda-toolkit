@@ -1,0 +1,26 @@
+import { createHash } from 'node:crypto';
+
+const cacheSym = Symbol.for( 'cache' );
+
+const hash = text => createHash( 'md5' ).update( text ).digest( 'hex' );
+
+const propOpts = {
+  enumerable: false,
+  configurable: false,
+  writable: false
+};
+
+export const CacheStorage = {
+  set: ( key, value ) => {
+    const keySym = Symbol.for( hash( key ) );
+
+    if ( !global[cacheSym] ) {
+      Object.defineProperty( global, cacheSym, { ...propOpts, value: {} } );
+    }
+
+    Object.defineProperty( global[cacheSym], keySym, { ...propOpts, value } );
+  },
+  get: key => {
+    return global[cacheSym]?.[Symbol.for( hash( key ) )];
+  }
+};
