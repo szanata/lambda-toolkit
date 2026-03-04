@@ -39,49 +39,13 @@ A connect Redis client, the client is the one implement by [Redis](https://www.n
 ```js
 // CJS
 const redis = require( 'redis' );
-const { redis: { createClient } } = require( '<this lib>' );
+const { redis: { createClient } } = require( 'lambda-toolkit' );
 
-const client = createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
-assert.equal( typeof client.send, 'function' );
-```
-
-```js
 // ESM
 import { redis } from 'redis';
-import { redis as lambdaToolkitRedis } from '<this lib>';
-import { redis as redisToolkit } from '<this lib>';
-const { createClient } = lambdaToolkitRedis;
+import { redis as redisToolkit } from 'lambda-toolkit';
+const { createClient } = redisToolkit;
 
 const client = redis.createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
-assert.equal( typeof client.send, 'function' );
-```
-
-<details open>
-
-<summary>CJS</summary>
-
-```js
-const redis = require( 'redis' );
-const { redis: { createClient } } = require( '<this lib>' );
-```
-
-</details>
-
-<details open>
-
-<summary>ESM</summary>
-
-```js
-import { redis } from 'redis';
-import { redis as lambdaToolkitRedis } from '<this lib>';
-import { redis as redisToolkit } from '<this lib>';
-const { createClient } = lambdaToolkitRedis;
-```
-
-</details>
-
-
-```js
-const client = createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
 assert.equal( typeof client.send, 'function' );
 ```
