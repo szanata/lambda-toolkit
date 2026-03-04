@@ -7,7 +7,7 @@ const config = {
   context: __dirname,
   mode: 'production',
   optimization: { minimize: false },
-  entry: './src/index.js',
+  entry: './src/index.mjs',
   target: 'node',
   externals: [
     /@aws-sdk\/*/
