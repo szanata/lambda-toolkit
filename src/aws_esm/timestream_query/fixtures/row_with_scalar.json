@@ -1,0 +1,85 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "UKNJU6B3QGGN6XPDJQ6Z5TLDG4",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "ColumnInfo": [
+    {
+      "Name": "myRow",
+      "Type": {
+        "RowColumnInfo": [
+          {
+            "Name": "field0",
+            "Type": {
+              "ScalarType": "TIMESTAMP"
+            }
+          },
+          {
+            "Name": "field1",
+            "Type": {
+              "ScalarType": "DOUBLE"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "QueryId": "AEDQCANZXGHX3KEZFLWUYAD4RHCGXIVBCAYWDNHQ4L477WH3FRDM2CEXP57YXQA",
+  "QueryStatus": {
+    "CumulativeBytesMetered": 10000000,
+    "CumulativeBytesScanned": 2012993,
+    "ProgressPercentage": 51.01010101010101
+  },
+  "Rows": [
+    {
+      "Data": [
+        {
+          "RowValue": {
+            "Data": [
+              {
+                "ScalarValue": "2025-01-13 14:07:38.644000000"
+              },
+              {
+                "ScalarValue": "12.0"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Data": [
+        {
+          "RowValue": {
+            "Data": [
+              {
+                "ScalarValue": "2025-01-13 14:07:55.690000000"
+              },
+              {
+                "ScalarValue": "23.0"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Data": [
+        {
+          "RowValue": {
+            "Data": [
+              {
+                "ScalarValue": "2025-01-13 14:07:54.452000000"
+              },
+              {
+                "ScalarValue": "42.0"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
