@@ -1,5 +1,5 @@
 import { QueryCommand } from '@aws-sdk/client-timestream-query';
-import { camelize } from '../../object/index.js';
+import { camelize } from '../../object_esm/index.js';
 import { parseItems } from './parse_items.js';
 
 const sendQuery = async ( client, queryString, { prevItems = [], recursive, paginationToken, maxRows, rawResponse } ) => {

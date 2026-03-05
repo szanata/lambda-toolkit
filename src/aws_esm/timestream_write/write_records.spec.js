@@ -77,7 +77,7 @@ describe( 'TimestreamWrite Write Records Spec', () => {
     const error = new RejectedRecordsException();
     client.send.mock.mockImplementation( () => { throw error; } );
 
-    rejects( async () => writeRecords( client, { database, table, records } ), error );
+    await rejects( async () => writeRecords( client, { database, table, records } ), error );
   } );
 
   it( 'Should handle record reject records error if ignoreRejections options is used', async () => {
@@ -92,6 +92,6 @@ describe( 'TimestreamWrite Write Records Spec', () => {
     const error = new ValidationException();
     client.send.mock.mockImplementation( () => { throw error; } );
 
-    rejects( async () => writeRecords( client, { database, table, records } ), error );
+    await rejects( async () => writeRecords( client, { database, table, records } ), error );
   } );
 } );
