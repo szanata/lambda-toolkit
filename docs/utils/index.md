@@ -42,6 +42,13 @@ A Promise which resolves when the function executed successfully or rejects when
 
 Given this snippet:
 ```js
+// CJS
+const { utils: { retryOnError } } = require( 'lambda-toolkit' );
+
+// ESM
+import { utils } from 'lambda-toolkit';
+const { retryOnError } = utils;
+
 const fn = () => {
   console.log( 'I\'ll throw' );
   throw new Error( 'Ops' );
@@ -83,6 +90,13 @@ A Promise which resolves when the given time has passed.
 #### Example
 
 ```js
+// CJS
+const { utils: { sleep } } = require( 'lambda-toolkit' );
+
+// ESM
+import { utils } from 'lambda-toolkit';
+const { sleep } = utils;
+
 const start = Date.now();
 await sleep( 100 );
 const end = Date.now();
@@ -111,6 +125,13 @@ An array were each position is the content of each file parsed.
 
 Given this snippet:
 ```js
+// CJS
+const { utils: { untarGz } } = require( 'lambda-toolkit' );
+
+// ESM
+import { utils } from 'lambda-toolkit';
+const { untarGz } = utils;
+
 const compressed = readFileSync( './files.tar.gz' );
 const result = untarJsonGz( compressed );
 assert.ok( Array.isArray( result ) );

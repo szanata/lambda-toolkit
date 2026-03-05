@@ -70,7 +70,12 @@ Sends a message to an queue. Abstracts the `SendMessageCommand`.
 
 Example:
 ```js
+// CJS
 const { aws: { sqs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sqs } = aws;
 
 await sqs.sendMessage( 'my-queue', {
   title: 'Warlords of Atlantis'
@@ -120,7 +125,12 @@ Sends a batch of messages to an queue. Abstracts the `SendMessageBatchCommand`.
 
 Example:
 ```js
+// CJS
 const { aws: { sqs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sqs } = aws;
 
 await sqs.sendMessageBatch( 'my-queue', [
   {

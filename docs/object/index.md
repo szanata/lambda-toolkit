@@ -33,6 +33,13 @@ For more information, check [these examples](../string/index.md#transformation-c
 #### Example
 
 ```js
+// CJS
+const { object: { camelize } } = require( 'lambda-toolkit' );
+
+// ESM
+import { object } from 'lambda-toolkit';
+const { camelize } = object;
+
 const result = camelize( { inputColor: 'red' } );
 assert.deepEqual( result, { input_color: 'red'} );
 ```
@@ -55,6 +62,13 @@ A new object cloned from the input.
 #### Example
 
 ```js
+// CJS
+const { object: { filterProps } } = require( 'lambda-toolkit' );
+
+// ESM
+import { object } from 'lambda-toolkit';
+const { filterProps } = object;
+
 const input = { id: 1, color: 'red', shape: 'square' };
 const result = filterProps( input, ['color', 'shape' ] );
 assert.deepEqual( result, { id: 1 } );
@@ -77,6 +91,13 @@ A new object cloned from the input.
 #### Example
 
 ```js
+// CJS
+const { object: { removeEmptyArrays } } = require( 'lambda-toolkit' );
+
+// ESM
+import { object } from 'lambda-toolkit';
+const { removeEmptyArrays } = object;
+
 const input = { id: 1, values: [ '1' ], options: [], config: { items: [] } };
 const result = removeEmptyArrays( input );
 assert.deepEqual( result, { id: 1, values: [ '1' ], config: { items: [] } } );
@@ -103,6 +124,13 @@ For more information, check [these examples](../string/index.md#transformation-c
 #### Example
 
 ```js
+// CJS
+const { object: { snakelize } } = require( 'lambda-toolkit' );
+
+// ESM
+import { object } from 'lambda-toolkit';
+const { snakelize } = object;
+
 const result = snakelize( { input_color: 'red' } );
 assert.deepEqual( result, { inputColor: 'red'} );
 ```

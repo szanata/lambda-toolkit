@@ -72,7 +72,12 @@ Publishes a batch of messages to a topic. Abstracts the `PublishBatchCommand`.
 
 Example:
 ```js
+// CJS
 const { aws: { sns } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sns } = aws;
 
 await sns.publishBatch( 'my-topic', [
   {

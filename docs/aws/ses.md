@@ -67,9 +67,14 @@ The AWS policy statement to use this function is:
 Send an email using `SendEmailCommand`.
 
 ```js
+// CJS
 const { aws: { ses } } = require( 'lambda-toolkit' );
 
-await s3.sendEmail( {
+// ESM
+import { aws } from 'lambda-toolkit';
+const { ses } = aws;
+
+await ses.sendEmail( {
   to: [
     'email1@not-a-domain',
     'email2@not-a-domain'

@@ -34,7 +34,12 @@ console.log( value );
 This functions caches the value, so if the same parameter is retrieved twice, or it is retrieved in a re used environment (warm start), the value will come from cache.
 
 ```js
+// CJS
 const { aws: { ssm } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { ssm } = aws;
 
 await ssm.get( 'my-param' ); // set to cache
 
