@@ -21,7 +21,12 @@ Removes and address from the account suppression list. Abstracts the `DeleteSupp
 
 Example:
 ```js
-const { aws: { ses } } = require( '<this-library>' );
+// CJS
+const { aws: { ses } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { ses } = aws;
 
 await ses.deleteSuppressedDestination( 'user@not-a-domain' );
 ```
@@ -62,7 +67,7 @@ The AWS policy statement to use this function is:
 Send an email using `SendEmailCommand`.
 
 ```js
-const { aws: { ses } } = require( '<this-library>' );
+const { aws: { ses } } = require( 'lambda-toolkit' );
 
 await s3.sendEmail( {
   to: [

@@ -13,7 +13,11 @@ LambdaApi handles AWS ApiGateway event payloads the same way a framework like Ex
 LambdaApi is a JS `class` (prototype) and has to be instantiated before use, then its handlers can be added. Finally, at the Lambda Function handler the event payload has to be processed using `.process()` method and its result must be used as the return of the whole function, since it contains the expected HTTP response. A simplistic use case would be this:
 
 ```js
-const { LambdaApi } = require( '<this-library>' )
+// CJS
+const { LambdaApi } = require( 'lambda-toolkit' );
+
+// ESM
+import { LambdaApi } from 'lambda-toolkit';
 
 const api = new LambdaApi();
 

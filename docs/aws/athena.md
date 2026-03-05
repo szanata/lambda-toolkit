@@ -22,7 +22,12 @@ This commands starts the Athena query, waits it to complete and return the resul
 
 Example:
 ```js
-const { aws: { athena } } = require( '<this-library>' );
+// CJS
+const { aws: { athena } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { athena } = aws;
 
 const { items } = await athena.query( {
   QueryString: `

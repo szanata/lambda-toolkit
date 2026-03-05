@@ -41,7 +41,12 @@ console.log( response.Item ); // is the actual row
 Now, the same operation using this library:
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 const item = await dynamo.find( 'example-table' , { id: '123' } );
 
@@ -61,7 +66,7 @@ The `aws` module exports different objects each representing one distinct AWS se
 Given:
 
 ```js
-const { aws: { s3 } } = require( '<this-library>' );
+const { aws: { s3 } } = require( 'lambda-toolkit' );
 
 const response = await s3.download( 'example-bucket', 'foo/bar.json' );
 ```
@@ -73,7 +78,7 @@ You notice that there is no explicit `new` operator involved, but it indeed used
 Since there is no explicit instantiation, what parameters are used to create each client? It varies per module, but mostly they use the default parameters, and the credentials from the env variables (as they would in the AWS Lambda), but sometimes there will be cases where custom configurations are necessary. There is a feature for that: each module object is also a _factory_ function, which takes the native arguments used to initialize the SDK clients:
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client = sqs( { endpoint: 'custom-endpoint' } );
 
@@ -85,7 +90,7 @@ In the example above the call to `sqs()` as a function returned a client, this c
 These custom clients are not the same as the default object. They are a new instance, explicit created, so:
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } );
 
@@ -95,7 +100,7 @@ assert.notDeepEqual( sqs, client );
 ```js
 And many can be created as well:
 
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } );
 const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } );
@@ -107,7 +112,7 @@ assert.notDeepEqual( client1, client2 );
 But, just calling the _factory_ function does not guarantee a new instance, if the arguments used are the exact same as the default client uses (which in most cases are none), the same client is returned (see [caching](#caching)):
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client = sqs();
 
@@ -119,7 +124,7 @@ assert.deepEqual( sqs, client );
 After calling one method of the object, causing the client it initialization, further calls will re-use the same client, so to not initialize the client again:
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 await sqs.sendMessage( queueName, message ); // causes the underlying initialization
 await sqs.sendMessage( queueName, message ); // uses from cache
@@ -129,7 +134,7 @@ But how about lambdas warm starts? In summary during a warm start the lambda re-
 
 Example on a lambda __COLD__ start
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 await sqs.sendMessage( queueName, message ); // causes initialization
 await sqs.sendMessage( queueName, message ); // from cache
@@ -137,7 +142,7 @@ await sqs.sendMessage( queueName, message ); // from cache
 
 Example on a lambda __HOT__ start
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 await sqs.sendMessage( queueName, message ); // from cache
 await sqs.sendMessage( queueName, message ); // from cache
@@ -146,7 +151,7 @@ await sqs.sendMessage( queueName, message ); // from cache
 And how about custom [configurations](#configuration), how them affect cache? The cache key of the client is not only the client name, but also the configs used to create it, so if a client is initialized using the _factory_ feature with different arguments it will occupy a different cache position then the other client:
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client = sqs( { endpoint: 'my-custom-endpoint' } ); // saves sqs({endpoint:'my-custom-endpoint'}) to the cache
 await sqs.sendMessage( queueName, message ); // sqs sqs(default) to the cache
@@ -158,7 +163,7 @@ await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
 And the same goes for __WARM__ starts:
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client = sqs( { endpoint: 'my-custom-endpoint' } ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
 await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
@@ -167,7 +172,7 @@ await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
 The entire used configuration is part of the key, so different configs result in different cache positions:
 
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+const { aws: { sqs } } = require( 'lambda-toolkit' );
 
 const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } ); // saves sqs({endpoint:'my-custom-endpoint-1'}) to the cache
 const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } ); // saves sqs({endpoint:'my-custom-endpoint-1'}) to the cache
@@ -177,7 +182,7 @@ const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } ); // saves sqs({endpo
 Of course this library is not a one size fits all, and some times you need to use the native SDK. This library has a convenient way to expose you the native AWS client without you actually needing to instantiate it and also benefiting from the [cache](#caching):
 
 ```js
-const { s3 } = require( '<this-library>' );
+const { s3 } = require( 'lambda-toolkit' );
 const { GetObjectCommand } = require( '@aws-sdk/client-s3' );
 
 const command = new GetObjectCommand( {
@@ -193,7 +198,7 @@ In this example `getClient` returns a native `S3Client` instance.
 This is true for all modules, except `dynamo`, which has an special behavior:
 
 ```js
-const { dynamo } = require( '<this-library>' );
+const { dynamo } = require( 'lambda-toolkit' );
 const { GetCommand } = require( '@aws-sdk/lib-dynamodb' );
 
 // now the native bits work

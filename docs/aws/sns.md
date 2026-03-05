@@ -21,7 +21,12 @@ Publishes a message to a topic. Abstracts the `PublishCommand`.
 
 Example:
 ```js
-const { aws: { sns } } = require( '<this-library>' );
+// CJS
+const { aws: { sns } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sns } = aws;
 
 await sns.publish( 'my-topic', {
   title: 'The 7th Voyage of Sinbad'
@@ -67,7 +72,7 @@ Publishes a batch of messages to a topic. Abstracts the `PublishBatchCommand`.
 
 Example:
 ```js
-const { aws: { sns } } = require( '<this-library>' );
+const { aws: { sns } } = require( 'lambda-toolkit' );
 
 await sns.publishBatch( 'my-topic', [
   {

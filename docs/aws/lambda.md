@@ -20,7 +20,12 @@ Invokes an AWS Lambda function. This abstracts the `InvokeCommand`.
 
 Example:
 ```js
-const { aws: { lambda } } = require( '<this-library>' );
+// CJS
+const { aws: { lambda } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { lambda } = aws;
 
 const responsePayload = await lambda.invoke( functionName, payload, 'RequestResponse' );
 ```
