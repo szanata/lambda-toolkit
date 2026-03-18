@@ -1,6 +1,6 @@
 import { UserResponse } from './user_response.js';
 import { describe, it } from 'node:test';
-import { deepStrictEqual, partialDeepStrictEqual } from 'node:assert';
+import { deepStrictEqual } from 'node:assert';
 
 describe( 'User Response Spec', () => {
   it( 'Should accept a string and use it as the body of the response inferring 200', () => {
@@ -40,6 +40,6 @@ describe( 'User Response Spec', () => {
 
   it( 'Should accept an object, with just statusCode', () => {
     const response = new UserResponse( { statusCode: 304 } );
-    partialDeepStrictEqual( response.values, [ 304 ] );
+    deepStrictEqual( response.values, [ 304, undefined, undefined, undefined ] );
   } );
 } );

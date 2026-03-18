@@ -1,5 +1,5 @@
 import { describe, it, afterEach, mock } from 'node:test';
-import { deepStrictEqual, partialDeepStrictEqual } from 'node:assert';
+import { deepStrictEqual } from 'node:assert';
 
 const parseItemsMock = mock.fn();
 
@@ -72,7 +72,7 @@ describe( 'TimestreamQuery Query Spec', () => {
       }
     } );
     deepStrictEqual( parseItemsMock.mock.calls[0].arguments[0], queryResponse );
-    partialDeepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString } );
   } );
 
   it( 'Should allow the use of pagination token', async () => {
@@ -93,7 +93,7 @@ describe( 'TimestreamQuery Query Spec', () => {
       }
     } );
     deepStrictEqual( parseItemsMock.mock.calls[0].arguments[0], queryResponse );
-    partialDeepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString, NextToken: paginationToken } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString, NextToken: paginationToken } );
   } );
 
   it( 'Should recursive paginate the response and return all results', async () => {
@@ -125,7 +125,7 @@ describe( 'TimestreamQuery Query Spec', () => {
 
     const result = await query( client, queryString, { recursive: true } );
 
-    partialDeepStrictEqual( result, {
+    deepStrictEqual( result, {
       count: 6,
       items: [ 1, 2, 3, 4, 5, 6 ],
       queryStatus: {
@@ -134,7 +134,7 @@ describe( 'TimestreamQuery Query Spec', () => {
         progressPercentage: 100
       }
     } );
-    partialDeepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString } );
-    partialDeepStrictEqual( constructorMock.mock.calls[1].arguments[0], { QueryString: queryString, NextToken: 'next-pagination-token' } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString } );
+    deepStrictEqual( constructorMock.mock.calls[1].arguments[0], { QueryString: queryString, NextToken: 'next-pagination-token' } );
   } );
 } );

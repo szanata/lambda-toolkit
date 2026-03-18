@@ -86,7 +86,7 @@ describe( 'SSM Get Spec', () => {
     const error = new Error();
     client.send.mock.mockImplementation( () => { throw error; } );
 
-    rejects( async () => get( client, name ), error );
+    await rejects( async () => get( client, name ), error );
 
     deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Name: name, WithDecryption: true } );
     deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
