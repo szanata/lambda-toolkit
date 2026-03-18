@@ -6,11 +6,24 @@
     "./license",
     "./dist"
   ],
+  "type": "module",
   "main": "./dist/index.js",
-  "author": "Stéfano Zanata",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.mjs"
+  },
+  "author": {
+    "name": "Stéfano Zanata",
+    "url": "https://szanata.com"
+  },
+  "contributors": [
+    {
+      "name": "Lorenzo Zanatta"
+    }
+  ],
   "scripts": {
     "build": "webpack --stats errors-only",
-    "test": "node --experimental-test-module-mocks --test **/*.spec.js",
+    "test": "node --experimental-test-module-mocks --test",
     "lint:fix": "eslint --fix",
     "lint": "eslint"
   },
