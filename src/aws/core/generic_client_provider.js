@@ -1,10 +1,10 @@
-const cache = require( '../core/cache_storage' );
+import { CacheStorage } from './cache_storage.js';
 
-module.exports = ( constructor, args = [] ) => {
+export const genericClientProvider = ( constructor, args = [] ) => {
   const cacheKey = `${constructor.name}(${args.map( arg => JSON.stringify( arg ) ).join( ',' )})`;
-  return cache.get( cacheKey ) ?? ( () => {
+  return CacheStorage.get( cacheKey ) ?? ( () => {
     const client = Reflect.construct( constructor, args );
-    cache.set( cacheKey, client );
+    CacheStorage.set( cacheKey, client );
     return client;
   } )();
 };

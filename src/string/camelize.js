@@ -1,5 +1,5 @@
 // Convert a string to camelCase
-module.exports = ( input, { keepAllCaps = false } = {} ) =>
+export const camelize = ( input, { keepAllCaps = false } = {} ) =>
   // Break the string into sequences to rebuild later
   !input ? input : input.split( /\s/ )
     // ALL_CAPS terms are ignored

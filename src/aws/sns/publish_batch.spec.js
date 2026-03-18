@@ -1,26 +1,37 @@
-const publishBatch = require( './publish_batch' );
-const { PublishBatchCommand } = require( '@aws-sdk/client-sns' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-sns', () => ( {
-  PublishBatchCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-sns', {
+  namedExports: {
+    PublishBatchCommand: new Proxy( class PublishBatchCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { publishBatch } = await import( './publish_batch.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const topic = 'sns://mw.com';
-const commandInstance = jest.fn();
 
 describe( 'SNS Publish Batch Spec', () => {
   afterEach( () => {
-    client.send.mockReset();
-    PublishBatchCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should publish a batch of messages to SNS', async () => {
-    PublishBatchCommand.mockReturnValue( commandInstance );
-    client.send.mockResolvedValue( { Successful: [], Failed: [] } );
+    constructorMock.mock.mockImplementation( () => commandInstance );
+    client.send.mock.mockImplementation( () => ( { Successful: [], Failed: [] } ) );
 
     const result = await publishBatch( client, topic, [
       {
@@ -38,8 +49,8 @@ describe( 'SNS Publish Batch Spec', () => {
       }
     ] );
 
-    expect( result ).toEqual( { Successful: [], Failed: [] } );
-    expect( PublishBatchCommand ).toHaveBeenCalledWith( {
+    deepStrictEqual( result, { Successful: [], Failed: [] } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       TopicArn: topic,
       PublishBatchRequestEntries: [
         {

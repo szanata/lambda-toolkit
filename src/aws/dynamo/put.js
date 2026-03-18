@@ -1,4 +1,4 @@
-const { PutCommand } = require( '@aws-sdk/lib-dynamodb' );
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
 
 const parseArgs = args => {
   // native args mode
@@ -20,7 +20,7 @@ const parseArgs = args => {
  * @param  {...any} args The args. either one object with the native args or two string args, tableName and item.
  * @returns
  */
-module.exports = async ( client, ...args ) => {
+export const put = async ( client, ...args ) => {
   const nativeArgs = parseArgs( args );
   const response = await client.send( new PutCommand( nativeArgs ) );
   return response.Attributes ?? nativeArgs.Item;

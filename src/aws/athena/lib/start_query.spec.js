@@ -1,26 +1,35 @@
-const { StartQueryExecutionCommand } = require( '@aws-sdk/client-athena' );
-const startQuery = require( './start_query' );
+import { describe, it, afterEach, mock } from 'node:test';
+import { partialDeepStrictEqual, strictEqual, ok } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-athena', () => ( {
-  StartQueryExecutionCommand: jest.fn()
-} ) );
+const instance = {};
+const startQueryExecutionCommand = mock.fn( () => instance );
 
-const client = {
-  send: jest.fn()
-};
+mock.module( '@aws-sdk/client-athena', {
+  namedExports: {
+    StartQueryExecutionCommand: new Proxy( class StartQueryExecutionCommand {}, {
+      construct( _, args ) {
+        return startQueryExecutionCommand( ...args );
+      }
+    } )
+  }
+} );
 
+const { startQuery } = await import( './start_query.js' );
+
+const client = { send: mock.fn() };
 const queryId = 'foo-bar';
 
 describe( 'Start Query Spec', () => {
   afterEach( () => {
-    client.send.mockReset();
-    StartQueryExecutionCommand.mockReset();
+    mock.reset();
+    startQueryExecutionCommand.mock.resetCalls();
+    client.send.mock.resetCalls();
   } );
 
   it( 'Should start a new athena query', async () => {
-    client.send.mockResolvedValue( { QueryExecutionId: queryId } );
+    client.send.mock.mockImplementation( () => ( { QueryExecutionId: queryId } ) );
 
-    const parameters = {
+    const args = {
       QueryString: 'SELECT STUFF FROM SOMEWHERE',
       QueryExecutionContext: {
         Catalog: 'AwsDataCatalog',
@@ -28,12 +37,11 @@ describe( 'Start Query Spec', () => {
       },
       WorkGroup: 'Olimpo'
     };
-    const result = await startQuery( { client, ...parameters } );
+    const result = await startQuery( { client, ...args } );
 
-    expect( result ).toEqual( queryId );
-    expect( StartQueryExecutionCommand ).toHaveBeenCalledWith( {
-      ClientRequestToken: expect.any( String ),
-      ...parameters
-    } );
+    strictEqual( result, queryId );
+    partialDeepStrictEqual( startQueryExecutionCommand.mock.calls[0].arguments[0], args );
+    ok( typeof startQueryExecutionCommand.mock.calls[0].arguments[0].ClientRequestToken === 'string' );
+    ok( startQueryExecutionCommand.mock.calls[0].arguments[0].ClientRequestToken.length === 32 );
   } );
 } );

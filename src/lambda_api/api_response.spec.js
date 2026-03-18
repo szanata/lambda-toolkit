@@ -1,10 +1,12 @@
-const ApiResponse = require( './api_response' );
+import { ApiResponse } from './api_response.js';
+import { describe, it } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
 describe( 'Lambda API: Api Response Spec', () => {
   it( 'Should set the response code and return it serialized', () => {
     const response = new ApiResponse();
     response.setContent( 200 );
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: '',
@@ -19,7 +21,7 @@ describe( 'Lambda API: Api Response Spec', () => {
   it( 'Should set the response and return it serialized when the payload is a text', () => {
     const response = new ApiResponse();
     response.setContent( 200, 'Foo' );
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: 'Foo',
@@ -36,7 +38,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse();
     response.setContent( 200, { color: 'red' } );
 
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: '{"color":"red"}',
@@ -53,7 +55,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse( { transform: 'snakecase' } );
     response.setContent( 200, { colorFamily: 'red' } );
 
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: '{"color_family":"red"}',
@@ -70,7 +72,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse( { transform: 'camelcase' } );
     response.setContent( 200, { color_family: 'red' } );
 
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: '{"colorFamily":"red"}',
@@ -87,7 +89,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse( { headers: { 'X-Foo': 'bar' } } );
     response.setContent( 200, { colorFamily: 'red' } );
 
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: '{"colorFamily":"red"}',
@@ -105,7 +107,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse();
     response.setContent( 200, { colorFamily: 'red' }, { 'X-Foo': 'bar' } );
 
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: false,
       statusCode: 200,
       body: '{"colorFamily":"red"}',
@@ -123,7 +125,7 @@ describe( 'Lambda API: Api Response Spec', () => {
     const response = new ApiResponse();
     response.setContent( 200, 'eyJjb2xvckZhbWlseSI6InJlZCJ9', undefined, true );
 
-    expect( response.toJSON() ).toEqual( {
+    deepStrictEqual( response.toJSON(), {
       isBase64Encoded: true,
       statusCode: 200,
       body: 'eyJjb2xvckZhbWlseSI6InJlZCJ9',

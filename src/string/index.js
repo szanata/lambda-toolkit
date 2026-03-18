@@ -1,8 +1,8 @@
-const camelize = require( './camelize' );
-const capitalizeWords = require( './capitalize_words' );
-const snakelize = require( './snakelize' );
+import { camelize } from './camelize.js';
+import { capitalizeWords } from './capitalize_words.js';
+import { snakelize } from './snakelize.js';
 
-module.exports = {
+export {
   camelize,
   capitalizeWords,
   snakelize

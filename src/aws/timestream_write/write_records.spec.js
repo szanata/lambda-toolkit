@@ -1,58 +1,23 @@
-const writeRecords = require( './write_records' );
-const { WriteRecordsCommand } = require( '@aws-sdk/client-timestream-write' );
+import { ValidationException, RejectedRecordsException } from './fixtures/error.js';
+import { describe, it, afterEach, mock } from 'node:test';
+import { deepStrictEqual, rejects } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-timestream-write', () => ( {
-  WriteRecordsCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
 
-const client = {
-  send: jest.fn()
-};
-
-// Error classes replicate real errors from TimeStream
-class RejectedRecordsException extends Error {
-  constructor() {
-    super( 'One or more records have been rejected. See RejectedRecords for details.' );
-    this.name = 'RejectedRecordsException';
-    this.$fault = 'client';
-    this.$metadata = {
-      httpStatusCode: 419,
-      requestId: 'O4YUOZLCSHNYVGX7UUNZFUE4YA',
-      extendedRequestId: undefined,
-      cfId: undefined,
-      attempts: 1,
-      totalRetryDelay: 0
-    };
-    this.RejectedRecords = [
-      {
-        ExistingVersion: undefined,
-        Reason: 'The record timestamp is outside the time range [2023-02-13T19:22:45.051Z, 2023-02-20T20:02:45.051Z) of the memory store.',
-        RecordIndex: 1
+mock.module( '@aws-sdk/client-timestream-write', {
+  namedExports: {
+    WriteRecordsCommand: new Proxy( class WriteRecordsCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
       }
-    ];
-    this.__type = 'com.amazonaws.timestream.v20181101#RejectedRecordsException';
+    } )
   }
-}
+} );
 
-class ValidationException extends Error {
-  constructor() {
-    super( '1 validation error detected: Value \'X\' at \'records.1.member.dimensions\
-.1.member.dimensionValueType\' failed to satisfy constraint: Member must satisfy enum value set: [VARCHAR]' );
-    this.name = 'ValidationException';
-    this.$fault = 'client';
-    this.$metadata = {
-      httpStatusCode: 400,
-      requestId: 'IZGZ3TF5R2H6776MZ3DO3MO7TQ',
-      extendedRequestId: undefined,
-      cfId: undefined,
-      attempts: 1,
-      totalRetryDelay: 0
-    };
-    this.__type = 'com.amazon.coral.validate#ValidationException';
-  }
-}
+const { writeRecords } = await import( './write_records.js' );
 
-const commandInstance = { Records: [] };
+const client = { send: mock.fn() };
 const database = 'main';
 const table = 'cars';
 const records = [
@@ -81,15 +46,13 @@ const records = [
 ];
 
 describe( 'TimestreamWrite Write Records Spec', () => {
-  beforeEach( () => {
-    WriteRecordsCommand.mockReturnValue( commandInstance );
-  } );
-
   afterEach( () => {
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( WriteRecordsCommand ).toHaveBeenCalledWith( { DatabaseName: database, TableName: table, Records: records } );
-    client.send.mockReset();
-    WriteRecordsCommand.mockReset();
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { DatabaseName: database, TableName: table, Records: records } );
+
+    mock.reset();
+    constructorMock.mock.resetCalls();
+    client.send.mock.resetCalls();
   } );
 
   it( 'Should write records to a timestream table', async () => {
@@ -104,31 +67,31 @@ describe( 'TimestreamWrite Write Records Spec', () => {
       },
       RecordsIngested: { MagneticStore: 0, MemoryStore: 2, Total: 2 }
     };
-    client.send.mockResolvedValue( response );
+    client.send.mock.mockImplementation( () => response );
 
     const result = await writeRecords( client, { database, table, records } );
-    expect( result ).toEqual( { recordsIngested: response.RecordsIngested } );
+    deepStrictEqual( result, { recordsIngested: response.RecordsIngested } );
   } );
 
   it( 'Should throw record reject records error', async () => {
     const error = new RejectedRecordsException();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
-    await expect( writeRecords( client, { database, table, records } ) ).rejects.toThrow( error );
+    await rejects( async () => writeRecords( client, { database, table, records } ), error );
   } );
 
   it( 'Should handle record reject records error if ignoreRejections options is used', async () => {
     const error = new RejectedRecordsException();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
     const result = await writeRecords( client, { database, table, records, ignoreRejections: true } );
-    expect( result ).toEqual( { rejectedRecords: error.RejectedRecords } );
+    deepStrictEqual( result, { rejectedRecords: error.RejectedRecords } );
   } );
 
   it( 'Should throw other errors', async () => {
     const error = new ValidationException();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
-    await expect( writeRecords( client, { database, table, records } ) ).rejects.toThrow( error );
+    await rejects( async () => writeRecords( client, { database, table, records } ), error );
   } );
 } );

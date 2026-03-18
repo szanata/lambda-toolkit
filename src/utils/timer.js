@@ -1,4 +1,4 @@
-module.exports = class Timer {
+export class Timer {
   #startedAt;
   #stoppedAt = null;
   #running = false;

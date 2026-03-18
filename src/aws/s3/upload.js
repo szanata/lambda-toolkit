@@ -1,6 +1,6 @@
-const { PutObjectCommand } = require( '@aws-sdk/client-s3' );
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 
-module.exports = ( client, bucket, key, body, nativeArgs ) =>
+export const upload = ( client, bucket, key, body, nativeArgs ) =>
   client.send( new PutObjectCommand( {
     ...nativeArgs,
     Bucket: bucket,

@@ -1,8 +1,8 @@
-const { GetQueryResultsCommand } = require( '@aws-sdk/client-cloudwatch-logs' );
-const pollingDelay = require( './polling_delay' );
-const sleep = t => new Promise( r => setTimeout( () => r(), t ) );
+import { GetQueryResultsCommand } from '@aws-sdk/client-cloudwatch-logs';
+import { pollingDelay } from './polling_delay.js';
+import { sleep } from '../../../utils/sleep.js';
 
-const getResults = async ( { client, command } ) => {
+const getResultsRecursive = async ( { client, command } ) => {
   const { results, status } = await client.send( command );
 
   if ( [ 'Cancelled', 'Failed', 'Timeout', 'Unknown' ].includes( status ) ) {
@@ -15,10 +15,10 @@ const getResults = async ( { client, command } ) => {
 
   // Running, Scheduled
   await sleep( pollingDelay );
-  return getResults( { client, command } );
+  return getResultsRecursive( { client, command } );
 };
 
-module.exports = async ( { client, queryId } ) => {
+export const getResults = async ( { client, queryId } ) => {
   const command = new GetQueryResultsCommand( { queryId } );
-  return getResults( { client, command } );
+  return getResultsRecursive( { client, command } );
 };

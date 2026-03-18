@@ -1,12 +1,23 @@
-const { PutCommand } = require( '@aws-sdk/lib-dynamodb' );
-const put = require( './put' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/lib-dynamodb', () => ( {
-  PutCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/lib-dynamodb', {
+  namedExports: {
+    PutCommand: new Proxy( class PutCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { put } = await import( './put.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const tableName = 'table';
@@ -14,13 +25,14 @@ const item = { id: '123', value: 'foo' };
 
 describe( 'Dynamo Put Spec', () => {
   afterEach( () => {
-    client.send.mockReset();
-    PutCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   describe( 'Sugar mode', () => {
     it( 'Should put an item', async () => {
-      client.send.mockResolvedValue( {
+      client.send.mock.mockImplementation( () => ( {
         $metadata: {
           httpStatusCode: 200,
           requestId: 'xxx',
@@ -32,12 +44,15 @@ describe( 'Dynamo Put Spec', () => {
         Attributes: undefined,
         ConsumedCapacity: undefined,
         ItemCollectionMetrics: undefined
-      } );
+      } ) );
 
       const result = await put( client, tableName, item );
 
-      expect( result ).toEqual( item );
-      expect( PutCommand ).toHaveBeenCalledWith( {
+      deepStrictEqual( result, item );
+      strictEqual( client.send.mock.calls.length, 1 );
+      deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+      strictEqual( constructorMock.mock.calls.length, 1 );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
         TableName: tableName,
         Item: item,
         ReturnValues: 'NONE',
@@ -50,7 +65,7 @@ describe( 'Dynamo Put Spec', () => {
     it( 'Should put an item', async () => {
       const oldDbItem = { id: '123', value: 'old' };
 
-      client.send.mockResolvedValue( {
+      client.send.mock.mockImplementation( () => ( {
         $metadata: {
           httpStatusCode: 200,
           requestId: 'xxx',
@@ -62,11 +77,19 @@ describe( 'Dynamo Put Spec', () => {
         Attributes: oldDbItem,
         ConsumedCapacity: undefined,
         ItemCollectionMetrics: undefined
-      } );
+      } ) );
+
       const result = await put( client, { TableName: tableName, Item: item, ReturnValues: 'ALL_OLD' } );
 
-      expect( result ).toEqual( oldDbItem );
-      expect( PutCommand ).toHaveBeenCalledWith( { TableName: tableName, Item: item, ReturnValues: 'ALL_OLD' } );
+      deepStrictEqual( result, oldDbItem );
+      strictEqual( client.send.mock.calls.length, 1 );
+      deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+      strictEqual( constructorMock.mock.calls.length, 1 );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+        TableName: tableName,
+        Item: item,
+        ReturnValues: 'ALL_OLD'
+      } );
     } );
   } );
 } );

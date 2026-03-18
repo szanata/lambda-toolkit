@@ -1,37 +1,49 @@
-const batchWrite = require( './batch_write' );
-const { BatchWriteCommand } = require( '@aws-sdk/lib-dynamodb' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/lib-dynamodb', () => ( {
-  BatchWriteCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/lib-dynamodb', {
+  namedExports: {
+    BatchWriteCommand: new Proxy( class BatchWriteCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { batchWrite } = await import( './batch_write.js' );
 
 const tableName = 'cars';
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 describe( 'Dynamo "batch write" (put/remove) Spec', () => {
   afterEach( () => {
-    BatchWriteCommand.mockReset();
-    client.send.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   describe( 'Delete', () => {
     it( 'Should break into batches and send the delete commands', async () => {
       const items = Array( 30 ).fill().map( ( _, id ) => ( { id } ) );
-      client.send.mockResolvedValue( { } );
+      client.send.mock.mockImplementation( () => ( {} ) );
 
       const result = await batchWrite( client, 'remove', tableName, items );
 
-      expect( result ).toEqual( true );
-      expect( client.send ).toHaveBeenCalledTimes( 2 );
-      expect( BatchWriteCommand ).toHaveBeenCalledTimes( 2 );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 1, {
+      strictEqual( result, true );
+      strictEqual( client.send.mock.calls.length, 2 );
+      strictEqual( constructorMock.mock.calls.length, 2 );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
         RequestItems: {
           [tableName]: items.slice( 0, 25 ).map( key => ( { DeleteRequest: { Key: key } } ) )
         }
       } );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 2, {
+      deepStrictEqual( constructorMock.mock.calls[1].arguments[0], {
         RequestItems: {
           [tableName]: items.slice( 25 ).map( key => ( { DeleteRequest: { Key: key } } ) )
         }
@@ -43,42 +55,42 @@ describe( 'Dynamo "batch write" (put/remove) Spec', () => {
       const rejections = [ items[0], items[1], items[24], items[25] ];
 
       // call 1
-      client.send.mockImplementationOnce( async _ => ( {
+      client.send.mock.mockImplementationOnce( async _ => ( {
         UnprocessedItems: {
           [tableName]: [
             { DeleteRequest: { Key: rejections[0] } },
             { DeleteRequest: { Key: rejections[1] } }
           ]
         }
-      } ) );
+      } ), 0 );
       // call 2
-      client.send.mockImplementationOnce( async _ => ( {
+      client.send.mock.mockImplementationOnce( async _ => ( {
         UnprocessedItems: {
           [tableName]: [
             { DeleteRequest: { Key: rejections[2] } },
             { DeleteRequest: { Key: rejections[3] } }
           ]
         }
-      } ) );
+      } ), 1 );
       // call 3
-      client.send.mockImplementationOnce( async _ => ( {} ) );
+      client.send.mock.mockImplementationOnce( async _ => ( {} ), 2 );
 
       const result = await batchWrite( client, 'remove', tableName, items );
 
-      expect( result ).toEqual( true );
-      expect( client.send ).toHaveBeenCalledTimes( 3 );
-      expect( BatchWriteCommand ).toHaveBeenCalledTimes( 3 );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 1, {
+      strictEqual( result, true );
+      strictEqual( client.send.mock.calls.length, 3 );
+      strictEqual( constructorMock.mock.calls.length, 3 );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
         RequestItems: {
           [tableName]: items.slice( 0, 25 ).map( key => ( { DeleteRequest: { Key: key } } ) )
         }
       } );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 2, {
+      deepStrictEqual( constructorMock.mock.calls[1].arguments[0], {
         RequestItems: {
           [tableName]: items.slice( 25 ).concat( rejections[0], rejections[1] ).map( key => ( { DeleteRequest: { Key: key } } ) )
         }
       } );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 3, {
+      deepStrictEqual( constructorMock.mock.calls[2].arguments[0], {
         RequestItems: {
           [tableName]: [ rejections[2], rejections[3] ].map( key => ( { DeleteRequest: { Key: key } } ) )
         }
@@ -89,19 +101,19 @@ describe( 'Dynamo "batch write" (put/remove) Spec', () => {
   describe( 'Put', () => {
     it( 'Should break into batches and send the put commands', async () => {
       const items = Array( 30 ).fill().map( ( _, id ) => ( { id } ) );
-      client.send.mockResolvedValue( { } );
+      client.send.mock.mockImplementation( () => ( {} ) );
 
       const result = await batchWrite( client, 'put', tableName, items );
 
-      expect( result ).toEqual( true );
-      expect( client.send ).toHaveBeenCalledTimes( 2 );
-      expect( BatchWriteCommand ).toHaveBeenCalledTimes( 2 );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 1, {
+      strictEqual( result, true );
+      strictEqual( client.send.mock.calls.length, 2 );
+      strictEqual( constructorMock.mock.calls.length, 2 );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
         RequestItems: {
           [tableName]: items.slice( 0, 25 ).map( item => ( { PutRequest: { Item: item } } ) )
         }
       } );
-      expect( BatchWriteCommand ).toHaveBeenNthCalledWith( 2, {
+      deepStrictEqual( constructorMock.mock.calls[1].arguments[0], {
         RequestItems: {
           [tableName]: items.slice( 25 ).map( item => ( { PutRequest: { Item: item } } ) )
         }

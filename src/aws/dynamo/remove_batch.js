@@ -1,3 +1,3 @@
-const batchWrite = require( './batch_write' );
+import { batchWrite } from './batch_write.js';
 
-module.exports = async ( client, ...args ) => batchWrite( client, 'remove', ...args );
+export const removeBatch = async ( client, ...args ) => batchWrite( client, 'remove', ...args );

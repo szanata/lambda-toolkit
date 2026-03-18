@@ -1,4 +1,4 @@
-module.exports = {
+export const error = {
   $metadata: {
     httpStatusCode: 200,
     requestId: '0000bbbb-0000-aaaa-0000-aaaabbbb0000',

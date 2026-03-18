@@ -1,7 +1,7 @@
-const { SendMessageBatchCommand } = require( '@aws-sdk/client-sqs' );
-const sanitizeSqs = require( './sanitize_sqs' );
+import { SendMessageBatchCommand } from '@aws-sdk/client-sqs';
+import { sanitizeSqs } from './sanitize_sqs.js';
 
-module.exports = async ( client, queue, messages ) => {
+export const sendMessageBatch = async ( client, queue, messages ) => {
   if ( messages.length > 10 ) {
     throw new Error( 'SQS.sendMessageBatch only accepts up to 10 messages.' );
   }

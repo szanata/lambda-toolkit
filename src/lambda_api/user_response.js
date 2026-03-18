@@ -1,8 +1,8 @@
-const validators = require( './validators' );
-const LambdaApiValidationError = require( './lambda_api_validation_error' );
-const Text = require( './text_enum' );
+import { Validator } from './validator.js';
+import { LambdaApiValidationError } from './lambda_api_validation_error.js';
+import { Text } from './text_enum.js';
 
-module.exports = class UserResponse {
+export class UserResponse {
   constructor( args ) {
     if ( args === undefined ) {
       this.values = [ 204 ];
@@ -13,15 +13,15 @@ module.exports = class UserResponse {
       this.values = [ 200, args ];
 
     } else if ( typeof args === 'number' ) {
-      validators.statusCode( args );
+      Validator.statusCode( args );
       this.values = [ args ];
 
     } else if ( Array.isArray( args ) ) {
-      validators.statusCode( args[0] );
+      Validator.statusCode( args[0] );
       this.values = args;
 
     } else if ( args.statusCode ) {
-      validators.statusCode( args.statusCode );
+      Validator.statusCode( args.statusCode );
       this.values = [ args.statusCode, args.body, args.headers, args.isBase64Encoded ];
 
     } else if ( [ undefined, null ].includes( args ) ) {

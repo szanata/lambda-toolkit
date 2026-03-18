@@ -1,17 +1,32 @@
-const { StartQueryCommand } = require( '@aws-sdk/client-cloudwatch-logs' );
-const startQuery = require( './start_query' );
+import { describe, it, mock, beforeEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( './polling_delay', () => 50 );
-jest.mock( '@aws-sdk/client-cloudwatch-logs', () => ( {
-  StartQueryCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-cloudwatch-logs', {
+  namedExports: {
+    StartQueryCommand: new Proxy( class StartQueryCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+mock.module( './polling_delay.js', {
+  namedExports: {
+    pollingDelay: 1000
+  }
+} );
+
+const { startQuery } = await import( './start_query.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const queryId = '123';
-const commandInstance = jest.fn();
 
 const fullNativeArgs = {
   startTime: Math.trunc( new Date( '2025-03-22T00:00:00.000Z' ).getTime() / 1000 ),
@@ -26,36 +41,39 @@ const to = new Date( '2025-03-22T10:00:00.000Z' ).getTime();
 
 describe( 'Start Query Spec', () => {
   beforeEach( () => {
-    client.send.mockReset();
-    StartQueryCommand.mockReset();
-    StartQueryCommand.mockReturnValue( commandInstance );
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should send out all native arguments to the StartQueryCommand', async () => {
-    client.send.mockResolvedValue( { queryId } );
+    client.send.mock.mockImplementation( () => ( { queryId } ) );
     const result = await startQuery( { client, nativeArgs: fullNativeArgs } );
 
-    expect( result ).toEqual( queryId );
-    expect( StartQueryCommand ).toHaveBeenCalledWith( fullNativeArgs );
+    strictEqual( result, queryId );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], fullNativeArgs );
   } );
 
   it( 'Should allow range.from to overwrite startTime, if present', async () => {
-    client.send.mockResolvedValue( { queryId } );
+    client.send.mock.mockImplementation( () => ( { queryId } ) );
     const result = await startQuery( { client, nativeArgs: { ...fullNativeArgs }, range: { from } } );
 
-    expect( result ).toEqual( queryId );
-    expect( StartQueryCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, queryId );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       ...fullNativeArgs,
       startTime: Math.trunc( from / 1000 )
     } );
   } );
 
   it( 'Should allow range.to to overwrite endTime, if present', async () => {
-    client.send.mockResolvedValue( { queryId } );
+    client.send.mock.mockImplementation( () => ( { queryId } ) );
     const result = await startQuery( { client, nativeArgs: { ...fullNativeArgs }, range: { to } } );
 
-    expect( result ).toEqual( queryId );
-    expect( StartQueryCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, queryId );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       ...fullNativeArgs,
       endTime: Math.trunc( to / 1000 )
     } );

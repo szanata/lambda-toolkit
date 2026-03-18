@@ -1,11 +1,11 @@
-const copy = require( './copy' );
-const download = require( './download' );
-const getSignedUrl = require( './get_signed_url' );
-const head = require( './head' );
-const upload = require( './upload' );
-const { S3Client } = require( '@aws-sdk/client-s3' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { copy } from './copy.js';
+import { download } from './download.js';
+import { getSignedUrl } from './get_signed_url.js';
+import { head } from './head.js';
+import { upload } from './upload.js';
+import { S3Client } from '@aws-sdk/client-s3';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   copy,
@@ -15,4 +15,4 @@ const methods = {
   upload
 };
 
-module.exports = createInstance( clientProvider.bind( null, S3Client ), methods );
+export const s3 = createInstance( genericClientProvider.bind( null, S3Client ), methods );

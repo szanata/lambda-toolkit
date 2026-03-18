@@ -1,6 +1,6 @@
-const parseValue = require( './parse_value' );
+import { parseValue } from './parse_value.js';
 
-module.exports = item =>
+export const parseItem = item =>
   item.reduce( ( row, { field, value } ) =>
     Object.assign( row, {
       [field]: parseValue( value )

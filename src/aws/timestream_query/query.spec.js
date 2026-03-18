@@ -1,11 +1,28 @@
-const query = require( './query' );
-const { QueryCommand } = require( '@aws-sdk/client-timestream-query' );
-const parseItems = require( './parse_items' );
+import { describe, it, afterEach, mock } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-timestream-query', () => ( {
-  QueryCommand: jest.fn()
-} ) );
-jest.mock( './parse_items', () => jest.fn() );
+const parseItemsMock = mock.fn();
+
+mock.module( './parse_items.js', {
+  namedExports: {
+    parseItems: parseItemsMock
+  }
+} );
+
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-timestream-query', {
+  namedExports: {
+    QueryCommand: new Proxy( class QueryCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { query } = await import( './query.js' );
 
 const queryResponse = {
   $metadata: {
@@ -25,31 +42,26 @@ const queryResponse = {
   Rows: Array( 5 ).fill( {} )
 };
 
-const client = {
-  send: jest.fn()
-};
-
-const commandInstance = jest.fn();
+const client = { send: mock.fn() };
 const queryString = 'SELECT * FROM "cars"';
 
 describe( 'TimestreamQuery Query Spec', () => {
-  beforeEach( () => {
-    parseItems.mockReturnValue( [ 1, 2, 3 ] );
-  } );
-
   afterEach( () => {
-    client.send.mockReset();
-    parseItems.mockReset();
-    QueryCommand.mockReset();
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+
+    mock.reset();
+    constructorMock.mock.resetCalls();
+    client.send.mock.resetCalls();
+    parseItemsMock.mock.resetCalls();
   } );
 
   it( 'Should send a query to timestream and return the results parsed', async () => {
-    QueryCommand.mockReturnValue( commandInstance );
-    client.send.mockResolvedValue( queryResponse );
+    parseItemsMock.mock.mockImplementation( () => [ 1, 2, 3 ] );
+    client.send.mock.mockImplementation( () => queryResponse );
 
     const result = await query( client, queryString );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       count: 3,
       nextToken: 'next-pagination-token',
       items: [ 1, 2, 3 ],
@@ -59,19 +71,22 @@ describe( 'TimestreamQuery Query Spec', () => {
         progressPercentage: 16.666666666666668
       }
     } );
-    expect( parseItems ).toHaveBeenCalledWith( queryResponse );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( QueryCommand ).toHaveBeenCalledWith( { QueryString: queryString } );
+    deepStrictEqual( parseItemsMock.mock.calls[0].arguments[0], queryResponse );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      QueryString: queryString,
+      NextToken: undefined,
+      MaxRows: undefined
+    } );
   } );
 
   it( 'Should allow the use of pagination token', async () => {
-    QueryCommand.mockReturnValue( commandInstance );
-    client.send.mockResolvedValue( queryResponse );
+    parseItemsMock.mock.mockImplementation( () => [ 1, 2, 3 ] );
+    client.send.mock.mockImplementation( () => queryResponse );
 
     const paginationToken = '123';
     const result = await query( client, queryString, { paginationToken } );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       count: 3,
       nextToken: 'next-pagination-token',
       items: [ 1, 2, 3 ],
@@ -81,49 +96,62 @@ describe( 'TimestreamQuery Query Spec', () => {
         progressPercentage: 16.666666666666668
       }
     } );
-    expect( parseItems ).toHaveBeenCalledWith( queryResponse );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( QueryCommand ).toHaveBeenCalledWith( { QueryString: queryString, NextToken: paginationToken } );
+    deepStrictEqual( parseItemsMock.mock.calls[0].arguments[0], queryResponse );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      QueryString: queryString,
+      NextToken: paginationToken,
+      MaxRows: undefined
+    } );
   } );
 
   it( 'Should recursive paginate the response and return all results', async () => {
-    QueryCommand.mockReturnValue( commandInstance );
-    client.send.mockResolvedValueOnce( {
-      ColumnInfo: [ {} ],
-      NextToken: 'next-pagination-token',
-      Rows: Array( 3 ).fill( {} ),
-      QueryStatus: {
-        CumulativeBytesMetered: 10000000,
-        CumulativeBytesScanned: 2000000,
-        ProgressPercentage: 50
+    const pages = [
+      {
+        ColumnInfo: [ {} ],
+        NextToken: 'next-pagination-token',
+        Rows: Array( 3 ).fill( {} ),
+        QueryStatus: {
+          CumulativeBytesMetered: 10000000,
+          CumulativeBytesScanned: 2000000,
+          ProgressPercentage: 50
+        }
+      },
+      {
+        ColumnInfo: [ {} ],
+        Rows: Array( 3 ).fill( {} ),
+        QueryStatus: {
+          CumulativeBytesMetered: 20000000,
+          CumulativeBytesScanned: 4000000,
+          ProgressPercentage: 100
+        }
       }
-    } );
-    client.send.mockResolvedValueOnce( {
-      ColumnInfo: [ {} ],
-      Rows: Array( 3 ).fill( {} ),
-      QueryStatus: {
-        CumulativeBytesMetered: 20000000,
-        CumulativeBytesScanned: 4000000,
-        ProgressPercentage: 100
-      }
-    } );
+    ];
+    client.send.mock.mockImplementation( () => pages.shift() );
 
-    parseItems.mockReturnValueOnce( [ 1, 2, 3 ] );
-    parseItems.mockReturnValueOnce( [ 4, 5, 6 ] );
+    const parsedResults = [ [ 1, 2, 3 ], [ 4, 5, 6 ] ];
+    parseItemsMock.mock.mockImplementation( () => parsedResults.shift() );
 
     const result = await query( client, queryString, { recursive: true } );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       count: 6,
       items: [ 1, 2, 3, 4, 5, 6 ],
+      nextToken: undefined,
       queryStatus: {
         cumulativeBytesMetered: 20000000,
         cumulativeBytesScanned: 4000000,
         progressPercentage: 100
       }
     } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( QueryCommand ).toHaveBeenNthCalledWith( 1, { QueryString: queryString } );
-    expect( QueryCommand ).toHaveBeenNthCalledWith( 2, { QueryString: queryString, NextToken: 'next-pagination-token' } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      QueryString: queryString,
+      NextToken: undefined,
+      MaxRows: undefined
+    } );
+    deepStrictEqual( constructorMock.mock.calls[1].arguments[0], {
+      QueryString: queryString,
+      NextToken: 'next-pagination-token',
+      MaxRows: undefined
+    } );
   } );
 } );

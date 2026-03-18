@@ -1,4 +1,4 @@
-module.exports = ( n, d = 2 ) => {
+export const roundGaussian = ( n, d = 2 ) => {
   if ( !isFinite( n ) || typeof n !== 'number' ) { return NaN; }
 
   const m = Math.pow( 10, d );

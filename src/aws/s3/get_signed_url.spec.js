@@ -1,41 +1,59 @@
-const { getSignedUrl } = require( '@aws-sdk/s3-request-presigner' );
-const { GetObjectCommand } = require( '@aws-sdk/client-s3' );
-const index = require( './get_signed_url' );
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-s3', () => ( {
-  GetObjectCommand: jest.fn()
-} ) );
-jest.mock( '@aws-sdk/s3-request-presigner', () => ( {
-  getSignedUrl: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-s3', {
+  namedExports: {
+    GetObjectCommand: new Proxy( class GetObjectCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const getSignedUrlMock = mock.fn();
+
+mock.module( '@aws-sdk/s3-request-presigner', {
+  namedExports: {
+    getSignedUrl: getSignedUrlMock
+  }
+} );
+
+const { getSignedUrl } = await import( './get_signed_url.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const bucket = 'bucket';
 const key = 'key';
 const expiration = 360;
-const commandInstance = jest.fn();
 const response = 'htts://my-signed-url';
 
 describe( 'S3 Get Signed Url Spec', () => {
   beforeEach( () => {
-    GetObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
   } );
 
   afterEach( () => {
-    client.send.mockReset();
-    GetObjectCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
+    getSignedUrlMock.mock.resetCalls();
   } );
 
   it( 'Should getSignedUrl a file from S3 and return its content', async () => {
-    getSignedUrl.mockResolvedValue( response );
+    getSignedUrlMock.mock.mockImplementation( () => response );
 
-    const result = await index( client, bucket, key, expiration );
+    const result = await getSignedUrl( client, bucket, key, expiration );
 
-    expect( result ).toBe( response );
-    expect( GetObjectCommand ).toHaveBeenCalledWith( { Key: key, Bucket: bucket } );
-    expect( getSignedUrl ).toHaveBeenCalledWith( client, commandInstance, { expiresIn: expiration } );
+    strictEqual( result, response );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Key: key, Bucket: bucket } );
+    strictEqual( getSignedUrlMock.mock.calls.length, 1 );
+    deepStrictEqual( getSignedUrlMock.mock.calls[0].arguments, [ client, commandInstance, { expiresIn: expiration } ] );
   } );
 } );

@@ -1,3 +1,3 @@
-const select = require( './select' );
+import { select } from './select.js';
 
-module.exports = async ( client, ...args ) => select( client, 'query', ...args );
+export const query = async ( client, ...args ) => select( client, 'query', ...args );

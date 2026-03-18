@@ -1,7 +1,7 @@
-const { InvokeCommand } = require( '@aws-sdk/client-lambda' );
-const AWSLambdaError = require( './lambda_error' );
+import { InvokeCommand } from '@aws-sdk/client-lambda';
+import { LambdaError } from './lambda_error.js';
 
-module.exports = async ( client, name, payload = {}, type = 'RequestResponse' ) => {
+export const invoke = async ( client, name, payload = {}, type = 'RequestResponse' ) => {
   const response = await client.send( new InvokeCommand( {
     FunctionName: name,
     InvocationType: type,
@@ -9,7 +9,7 @@ module.exports = async ( client, name, payload = {}, type = 'RequestResponse' ) 
   } ) );
 
   if ( response.FunctionError ) {
-    throw new AWSLambdaError( response );
+    throw new LambdaError( response );
   }
 
   if ( type !== 'RequestResponse' ) { return true; }

@@ -2,11 +2,15 @@ global.__redisInstances = {};
 
 /**
  * Create a redis client instance
- * @param {Object} redis Redis npm dependency
- * @param {String} address Redis DB address (either RW or RO)
+ *
+ * @param {Object} args
+ * @param {Object} args.redis Redis npm dependency
+ * @param {String} args.address Redis DB address (either RW or RO)
+ * @param {String} [args.protocol=rediss] Redis connection protocol
+ * @param {String} [args.port=6379] Redis DB connection port
  * @returns redisClient A new redis client instance connected to the database
  */
-module.exports = async ( { redis, address, protocol = 'rediss', port = 6379 } ) => {
+export const createClient = async ( { redis, address, protocol = 'rediss', port = 6379 } ) => {
   if ( global.__redisInstances[address] ) {
     try {
       const r = await global.__redisInstances[address].ping();

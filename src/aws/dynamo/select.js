@@ -1,5 +1,5 @@
-const { encode, decode } = require( '../core/encoder' );
-const { ScanCommand, QueryCommand } = require( '@aws-sdk/lib-dynamodb' );
+import { ScanCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { Encoder } from '../core/encoder.js';
 
 const query = async ( { client, command, args, recursive, startKey, items = [], count = 0 } ) => {
   const response = await client.send( new command( {
@@ -17,7 +17,7 @@ const query = async ( { client, command, args, recursive, startKey, items = [], 
   };
 
   if ( !recursive ) {
-    return { items: result.items, count: result.count, ...( result.startKey && { nextToken: encode( result.startKey ) } ) };
+    return { items: result.items, count: result.count, ...( result.startKey && { nextToken: Encoder.encode( result.startKey ) } ) };
   }
 
   if ( result.startKey && ( isCount || ( hasLimit && result.items.length < args.Limit ) || ( !isCount && !hasLimit ) ) ) {
@@ -31,8 +31,8 @@ const query = async ( { client, command, args, recursive, startKey, items = [], 
   return { items: trimmedItems, count: trimmedItems.length };
 };
 
-module.exports = async ( client, method, args, options = { recursive: false, paginationToken: null } ) => {
+export const select = async ( client, method, args, options = { recursive: false, paginationToken: null } ) => {
   const command = method === 'scan' ? ScanCommand : QueryCommand;
 
-  return query( { client, command, args, recursive: options.recursive, startKey: decode( options.paginationToken ) } );
+  return query( { client, command, args, recursive: options.recursive, startKey: Encoder.decode( options.paginationToken ) } );
 };

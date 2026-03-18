@@ -1,10 +1,18 @@
-const parseItem = require( './parse_item' );
-const parseValue = require( './parse_value' );
+import { describe, it, mock } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
-jest.mock( './parse_value', () => jest.fn() );
+const parseValueMock = mock.fn();
+
+mock.module( './parse_value.js', {
+  namedExports: {
+    parseValue: parseValueMock
+  }
+} );
+
+const { parseItem } = await import( './parse_item.js' );
 
 describe( 'Parse Item Spec', () => {
-  parseValue.mockImplementation( x => 'parsed_value:' + x );
+  parseValueMock.mock.mockImplementation( x => 'parsed_value:' + x );
 
   it( 'Should reduce an item (array) to an object', () => {
     const item = [
@@ -19,7 +27,7 @@ describe( 'Parse Item Spec', () => {
     ];
 
     const result = parseItem( item );
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       foo: 'parsed_value:1',
       bar: 'parsed_value:2'
     } );

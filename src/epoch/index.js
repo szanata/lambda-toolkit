@@ -1,12 +1,12 @@
-const days = require( './days' );
-const hours = require( './hours' );
-const minutes = require( './minutes' );
-const months = require( './months' );
-const msToS = require( './ms_to_s' );
-const round = require( './round' );
-const seconds = require( './seconds' );
+import { days } from './days.js';
+import { hours } from './hours.js';
+import { minutes } from './minutes.js';
+import { months } from './months.js';
+import { msToS } from './ms_to_s.js';
+import { round } from './round.js';
+import { seconds } from './seconds.js';
 
-module.exports = {
+export {
   days,
   hours,
   minutes,

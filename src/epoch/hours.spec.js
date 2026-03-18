@@ -1,7 +1,9 @@
-const hours = require( './hours' );
+import { hours } from './hours.js';
+import { describe, it } from 'node:test';
+import { strictEqual } from 'node:assert';
 
 describe( 'Hours Spec', () => {
   it( 'Should return x hours in ms', () => {
-    expect( hours( 3 ) ).toBe( 1.08e+7 );
+    strictEqual( hours( 3 ), 1.08e+7 );
   } );
 } );

@@ -1,10 +1,10 @@
-const invoke = require( './invoke' );
-const { LambdaClient } = require( '@aws-sdk/client-lambda' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { invoke } from './invoke.js';
+import { LambdaClient } from '@aws-sdk/client-lambda';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   invoke
 };
 
-module.exports = createInstance( clientProvider.bind( null, LambdaClient ), methods );
+export const lambda = createInstance( genericClientProvider.bind( null, LambdaClient ), methods );
