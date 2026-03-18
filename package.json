@@ -7,7 +7,6 @@
     "./dist"
   ],
   "type": "module",
-  "main": "./dist/index.js",
   "exports": {
     "require": "./dist/index.cjs",
     "import": "./dist/index.mjs"
