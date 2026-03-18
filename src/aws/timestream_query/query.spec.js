@@ -72,7 +72,11 @@ describe( 'TimestreamQuery Query Spec', () => {
       }
     } );
     deepStrictEqual( parseItemsMock.mock.calls[0].arguments[0], queryResponse );
-    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      QueryString: queryString,
+      NextToken: undefined,
+      MaxRows: undefined
+    } );
   } );
 
   it( 'Should allow the use of pagination token', async () => {
@@ -93,7 +97,11 @@ describe( 'TimestreamQuery Query Spec', () => {
       }
     } );
     deepStrictEqual( parseItemsMock.mock.calls[0].arguments[0], queryResponse );
-    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString, NextToken: paginationToken } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      QueryString: queryString,
+      NextToken: paginationToken,
+      MaxRows: undefined
+    } );
   } );
 
   it( 'Should recursive paginate the response and return all results', async () => {
@@ -128,13 +136,22 @@ describe( 'TimestreamQuery Query Spec', () => {
     deepStrictEqual( result, {
       count: 6,
       items: [ 1, 2, 3, 4, 5, 6 ],
+      nextToken: undefined,
       queryStatus: {
         cumulativeBytesMetered: 20000000,
         cumulativeBytesScanned: 4000000,
         progressPercentage: 100
       }
     } );
-    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { QueryString: queryString } );
-    deepStrictEqual( constructorMock.mock.calls[1].arguments[0], { QueryString: queryString, NextToken: 'next-pagination-token' } );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      QueryString: queryString,
+      NextToken: undefined,
+      MaxRows: undefined
+    } );
+    deepStrictEqual( constructorMock.mock.calls[1].arguments[0], {
+      QueryString: queryString,
+      NextToken: 'next-pagination-token',
+      MaxRows: undefined
+    } );
   } );
 } );

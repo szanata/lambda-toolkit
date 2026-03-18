@@ -1,6 +1,10 @@
 import { query } from './query.js';
 import { TimestreamQueryClient } from '@aws-sdk/client-timestream-query';
+<<<<<<< HEAD
 import { Agent } from 'node:https';
+=======
+import { Agent } from 'https';
+>>>>>>> 3184e33 (refactor: remove CJS files (#50))
 import { genericClientProvider } from '../core/generic_client_provider.js';
 import { createInstance } from '../core/create_instance.js';
 
