@@ -46,7 +46,7 @@ describe( 'Generic Client Provider', () => {
 
       strictEqual( result, instance );
       strictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], 'MockClass()' );
-      strictEqual( cacheStorageMock.set.mock.calls[0].arguments[0], 'MockClass()', instance );
+      deepStrictEqual( cacheStorageMock.set.mock.calls[0].arguments, [ 'MockClass()', instance ] );
       strictEqual( constructorMock.mock.calls.length, 1 );
     } );
 

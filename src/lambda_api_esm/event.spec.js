@@ -2,7 +2,7 @@ import { Event } from './event.js';
 import awsEventV1 from './fixtures/request_payload_v1.json' with { type: 'json' };
 import awsEventV2 from './fixtures/request_payload_v2.json' with { type: 'json' };
 import { describe, it } from 'node:test';
-import { deepEqual, deepStrictEqual } from 'node:assert';
+import { deepStrictEqual } from 'node:assert';
 
 describe( 'Event Spec', () => {
   describe( 'AWS Event Payload v1', () => {
@@ -10,7 +10,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV1 );
 
-      deepEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: { claims: null, scopes: null },
         headers: {
           header1: 'value1',
@@ -35,7 +35,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { version: '1.0' } );
 
-      deepEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: undefined,
         headers: {
         },
@@ -57,7 +57,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV2 );
 
-      deepEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: {
           jwt: {
             claims: {
@@ -93,7 +93,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { requestContext: { http: {} } } );
 
-      deepEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: undefined,
         headers: {},
         method: undefined,
