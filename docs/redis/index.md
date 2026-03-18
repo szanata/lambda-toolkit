@@ -37,8 +37,14 @@ A connect Redis client, the client is the one implement by [Redis](https://www.n
 #### Example
 
 ```js
+// CJS
 const redis = require( 'redis' );
-const { redis: { createClient } } = require( '<this lib>' );
+const { redis: { createClient } } = require( 'lambda-toolkit' );
+
+// ESM
+import { redis } from 'redis';
+import { redis as redisToolkit } from 'lambda-toolkit';
+const { createClient } = redisToolkit;
 
 const client = createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
 assert.equal( typeof client.send, 'function' );

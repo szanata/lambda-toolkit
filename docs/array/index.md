@@ -30,6 +30,13 @@ A single array containing each unique item from each array determined by the `ke
 #### Example
 
 ```js
+// CJS
+const { array: { joinUniqueCustom } } = require( 'lambda-toolkit' );
+
+// ESM
+import { array } from 'lambda-toolkit';
+const { joinUniqueCustom } = array;
+
 const result = joinUniqueCustom( { items: [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], key: v => v % 2 === 0 } );
 assert.deepEqual( result, [ 1, 2 ] );
 // or
@@ -54,6 +61,13 @@ A single array containing each unique value of all arrays joined together.
 #### Example
 
 ```js
+// CJS
+const { array: { joinUnique } } = require( 'lambda-toolkit' );
+
+// ESM
+import { array } from 'lambda-toolkit';
+const { joinUnique } = array;
+
 const result = joinUnique( [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ] );
 assert.deepEqual( result, [ 1, 2, 3 ] );
 ```
@@ -76,6 +90,13 @@ An array with _n_ arrays inside, each having _x_ size except the last, which's s
 #### Example
 
 ```js
+// CJS
+const { array: { splitBatches } } = require( 'lambda-toolkit' );
+
+// ESM
+import { array } from 'lambda-toolkit';
+const { splitBatches } = array;
+
 const result = splitBatches( [ 1, 2, 3, 4, 5, 6, 7, 7, 9 ], 2 );
 assert.deepEqual( result, [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9 ] ] );
 ```

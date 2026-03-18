@@ -26,7 +26,12 @@ Sends a query to TimeStream and return the result, parsed. Abstracts the `QueryC
 
 Example:
 ```js
-const { aws: { timestreamQuery } } = require( '<this-library>' );
+// CJS
+const { aws: { timestreamQuery } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { timestreamQuery } = aws;
 
 const { items } = await timestreamQuery.query( 'SELECT* FROM "table"', { paginationToken: 'sdh398-0sadsdk-sdjsd1' } );
 ```

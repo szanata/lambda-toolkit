@@ -37,7 +37,12 @@ Since all commands are dispatched to `DynamoDBDocumentClient`, all data returned
 This function is an abstraction for DynamoDB's `getItem` action, using `GetCommand`. It will retrieve a single row from the database by its key, either with a convenient syntax sugar, or with the native arguments.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 const item = await dynamo.get( table, { pk: '123' } );
 ```
@@ -80,7 +85,12 @@ The AWS policy statement to use this function is:
 This function is an abstraction for DynamoDB's `batchWrite` action, using `BatchWriteCommand`. It will upsert many records at once.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 // syntax sugar
 const items = [
@@ -128,7 +138,12 @@ The AWS policy statement to use this function is:
 This function is an abstraction for DynamoDB's `putItem` action, using `PutCommand`. It will upsert a record to the database, either with a convenient syntax sugar, or with the native arguments. If using the syntax sugar, the options `ReturnValues`, `ReturnConsumedCapacity` are both set to `'NONE'`.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 // syntax sugar
 await dynamo.put( table, { id: '123', name: 'Roger' } );
@@ -183,7 +198,12 @@ Query is identical to scan, the only difference is that it uses `QueryCommand`. 
 This function is an abstraction for DynamoDB's `batchWrite` action, using `BatchWriteCommand`. It will remove many records at once.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 // syntax sugar
 const keys = [
@@ -231,7 +251,12 @@ The AWS policy statement to use this function is:
 This function is an abstraction for DynamoDB's `remove` action, using `RemoveCommand`. It will remove a single record.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 const removedItem = await dynamo.remove( table, { id: '123' } );
 ```
@@ -271,7 +296,12 @@ The AWS policy statement to use this function is:
 This function is an abstraction for DynamoDB's `scan` action, using `ScanCommand`. It will fetch rows from the table.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 const { items, count } = await dynamo.scan( {
   TableName: tableName,
@@ -362,7 +392,12 @@ The AWS policy statement to use this function is:
 This function is an abstraction for DynamoDB's `updateItem` action, using `UpdateCommand`. It will update an record by it has a friendly syntax to make it simple to do common update features.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 await dynamo.smartUpdate( tableName, { id: '123' }, { foo: 'bar' } );
 ```
@@ -492,7 +527,12 @@ Depends on the operations used.
 This function is an abstraction for DynamoDB's `updateItem` action, using `UpdateCommand`. It will dispatch the update statement. By default it sets the `ReturnValues` to `ALL_NEW`, but this can be overwritten by the arguments.
 
 ```js
-const { aws: { dynamo } } = require( '<this-library>' );
+// CJS
+const { aws: { dynamo } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { dynamo } = aws;
 
 await dynamo.update( {
   TableName: 'my-table',
