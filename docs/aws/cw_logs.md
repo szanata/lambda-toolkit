@@ -22,7 +22,12 @@ This commands starts a CloudWatch query and waits it to complete, finally return
 
 Example:
 ```js
-const { aws: { cwLogs } } = require( '<this-library>' );
+// CJS
+const { aws: { cwLogs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { cwLogs } = aws;
 
 const { items } = await cwLogs.query( {
   logGroupName: "/aws/lambda/example",

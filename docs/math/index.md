@@ -33,6 +33,13 @@ The mean value between the numbers
 #### Example
 
 ```js
+// CJS
+const { math: { calcMean } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { calcMean } = math;
+
 const result = calcMean( [ 1, 2, 3, 4] );
 assert.equal( result, 2.5 );
 ```
@@ -54,6 +61,13 @@ The median value between the numbers
 #### Example
 
 ```js
+// CJS
+const { math: { calcMedian } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { calcMedian } = math;
+
 const result = calcMedian( [ 1, 2, 3, 4, 5] );
 assert.equal( result, 3 );
 ```
@@ -75,6 +89,13 @@ The MAD value between the numbers
 #### Example
 
 ```js
+// CJS
+const { math: { calcMedianAbsDev } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { calcMedianAbsDev } = math;
+
 const result = calcMedianAbsDev( [ 1, 2, 3, 4, 5] );
 assert.equal( result, 1 );
 ```
@@ -96,6 +117,13 @@ The standard deviation value between the numbers
 #### Example
 
 ```js
+// CJS
+const { math: { calcStdDevPopulation } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { calcStdDevPopulation } = math;
+
 const result = calcStdDevPopulation( [ 1, 2, 3, 4, 5, 6, 7] );
 assert.equal( result, 2 );
 ```
@@ -117,6 +145,13 @@ The standard deviation value between the numbers
 #### Example
 
 ```js
+// CJS
+const { math: { calcStdDevSample } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { calcStdDevSample } = math;
+
 const result = calcStdDevSample( [ 1, 2, 3 ] );
 assert.equal( result, 1 );
 
@@ -140,6 +175,13 @@ The Z Score of the sample number.
 #### Example
 
 ```js
+// CJS
+const { math: { calcZScore } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { calcZScore } = math;
+
 const result = calcZScore( 3, 2, 2.5 );
 assert.equal( result, 0.4 );
 ```
@@ -162,6 +204,13 @@ The rounded number.
 #### Example
 
 ```js
+// CJS
+const { math: { roundStandard } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { roundStandard } = math;
+
 const result = roundStandard( 2.5543 );
 assert.equal( result, 2.55 );
 
@@ -185,6 +234,13 @@ The Z Score of the sample number.
 #### Example
 
 ```js
+// CJS
+const { math: { roundGaussian } } = require( 'lambda-toolkit' );
+
+// ESM
+import { math } from 'lambda-toolkit';
+const { roundGaussian } = math;
+
 assert.equal( roundGaussian( 1.3150 ), 1.32 );
 assert.equal( roundGaussian( 1.3250 ), 1.32 );
 ```

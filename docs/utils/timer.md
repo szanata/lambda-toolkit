@@ -41,6 +41,13 @@ The milliseconds elapsed since the Timer started.
 
 ## Example
 ```js
+// CJS
+const { utils: { Timer } } = require( 'lambda-toolkit' );
+
+// ESM
+import { utils } from 'lambda-toolkit';
+const { Timer } = utils;
+
 const timer = new Timer().start();
 
 const elapsedTime = timer.stop();

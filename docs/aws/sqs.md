@@ -22,7 +22,12 @@ Deletes a given message from a queue. Abstracts the `DeleteMessageCommand`.
 
 Example:
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+// CJS
+const { aws: { sqs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sqs } = aws;
 
 await sqs.deleteMessage( 'my-queue', 'receipt-handle' );
 ```
@@ -65,7 +70,12 @@ Sends a message to an queue. Abstracts the `SendMessageCommand`.
 
 Example:
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+// CJS
+const { aws: { sqs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sqs } = aws;
 
 await sqs.sendMessage( 'my-queue', {
   title: 'Warlords of Atlantis'
@@ -115,7 +125,12 @@ Sends a batch of messages to an queue. Abstracts the `SendMessageBatchCommand`.
 
 Example:
 ```js
-const { aws: { sqs } } = require( '<this-library>' );
+// CJS
+const { aws: { sqs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sqs } = aws;
 
 await sqs.sendMessageBatch( 'my-queue', [
   {
