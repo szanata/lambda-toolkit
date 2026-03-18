@@ -1,7 +1,7 @@
-const js = require( '@eslint/js' );
-const globals = require( 'globals' );
-const importPlugin = require( 'eslint-plugin-import' );
-const stylistic = require( '@stylistic/eslint-plugin' );
+import js from '@eslint/js';
+import globals from 'globals';
+import importPlugin from 'eslint-plugin-import';
+import stylistic from '@stylistic/eslint-plugin';
 
 const styleRules = {
   '@stylistic/array-bracket-spacing': [ 'error', 'always' ],
@@ -78,7 +78,7 @@ const lintRules = {
   'require-atomic-updates': 0
 };
 
-module.exports = [
+export default [
   {
     ignores: [
       'dist/**',
