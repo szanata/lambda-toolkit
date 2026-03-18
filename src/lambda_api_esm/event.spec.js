@@ -10,7 +10,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV1 );
 
-      deepStrictEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: { claims: null, scopes: null },
         headers: {
           header1: 'value1',
@@ -35,7 +35,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { version: '1.0' } );
 
-      deepStrictEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: undefined,
         headers: {
         },
@@ -57,7 +57,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV2 );
 
-      deepStrictEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: {
           jwt: {
             claims: {
@@ -93,7 +93,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { requestContext: { http: {} } } );
 
-      deepStrictEqual( event, {
+      deepStrictEqual( { ...event }, {
         authorizer: undefined,
         headers: {},
         method: undefined,

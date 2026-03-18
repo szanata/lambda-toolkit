@@ -40,6 +40,6 @@ describe( 'User Response Spec', () => {
 
   it( 'Should accept an object, with just statusCode', () => {
     const response = new UserResponse( { statusCode: 304 } );
-    deepStrictEqual( response.values, [ 304 ] );
+    deepStrictEqual( response.values, [ 304, undefined, undefined, undefined ] );
   } );
 } );
