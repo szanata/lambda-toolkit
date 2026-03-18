@@ -1,8 +1,8 @@
-const { QueryCommand } = require( '@aws-sdk/client-timestream-query' );
-const { camelize } = require( '../../object' );
-const parseItems = require( './parse_items' );
+import { QueryCommand } from '@aws-sdk/client-timestream-query';
+import { camelize } from '../../object/index.js';
+import { parseItems } from './parse_items.js';
 
-const query = async ( client, queryString, { prevItems = [], recursive, paginationToken, maxRows, rawResponse } ) => {
+const sendQuery = async ( client, queryString, { prevItems = [], recursive, paginationToken, maxRows, rawResponse } ) => {
   const response = await client.send( new QueryCommand( { QueryString: queryString, NextToken: paginationToken, MaxRows: maxRows } ) );
   if ( !recursive && rawResponse ) {
     return response;
@@ -10,12 +10,13 @@ const query = async ( client, queryString, { prevItems = [], recursive, paginati
 
   const nextToken = response.NextToken;
   if ( nextToken && recursive ) {
-    return query( client, queryString, { prevItems: parseItems( response ), recursive, paginationToken: nextToken, maxRows } );
+    return sendQuery( client, queryString, { prevItems: parseItems( response ), recursive, paginationToken: nextToken, maxRows } );
   }
 
   const items = prevItems.concat( parseItems( response ) );
   return { nextToken, count: items.length, items, queryStatus: camelize( response.QueryStatus ) };
 };
 
-module.exports = async ( client, queryString, { recursive = false, paginationToken = undefined, maxRows = undefined, rawResponse = false } = {} ) =>
-  query( client, queryString, { recursive, paginationToken, maxRows, rawResponse } );
+export const query =
+  async ( client, queryString, { recursive = false, paginationToken = undefined, maxRows = undefined, rawResponse = false } = {} ) =>
+    sendQuery( client, queryString, { recursive, paginationToken, maxRows, rawResponse } );

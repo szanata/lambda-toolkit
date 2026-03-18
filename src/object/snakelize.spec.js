@@ -1,4 +1,6 @@
-const snakelize = require( './snakelize' );
+import { snakelize } from './snakelize.js';
+import { describe, it } from 'node:test';
+import { deepStrictEqual, strictEqual } from 'node:assert';
 
 describe( 'Object: Snakelize', () => {
   it( 'Should return a copy the object where each key was snakelize', () => {
@@ -19,7 +21,7 @@ describe( 'Object: Snakelize', () => {
 
     const result = snakelize( obj );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       prop_tree: {
         all_caps: 1,
         deep_prop: {
@@ -44,7 +46,7 @@ describe( 'Object: Snakelize', () => {
 
     const result = snakelize( obj, { keepAllCaps: true } );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       prop_tree: {
         ALL_CAPS: 1
       }
@@ -53,6 +55,6 @@ describe( 'Object: Snakelize', () => {
 
   it( 'Should not break on null object', () => {
     const result = snakelize( null );
-    expect( result ).toBe( null );
+    strictEqual( result, null );
   } );
 } );

@@ -1,6 +1,8 @@
-const Event = require( './event' );
-const awsEventV1 = require( './fixtures/request_payload_v1.json' );
-const awsEventV2 = require( './fixtures/request_payload_v2.json' );
+import { Event } from './event.js';
+import awsEventV1 from './fixtures/request_payload_v1.json' with { type: 'json' };
+import awsEventV2 from './fixtures/request_payload_v2.json' with { type: 'json' };
+import { describe, it } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
 describe( 'Event Spec', () => {
   describe( 'AWS Event Payload v1', () => {
@@ -8,7 +10,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV1 );
 
-      expect( event ).toEqual( {
+      deepStrictEqual( { ...event }, {
         authorizer: { claims: null, scopes: null },
         headers: {
           header1: 'value1',
@@ -33,7 +35,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { version: '1.0' } );
 
-      expect( event ).toEqual( {
+      deepStrictEqual( { ...event }, {
         authorizer: undefined,
         headers: {
         },
@@ -55,7 +57,7 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( awsEventV2 );
 
-      expect( event ).toEqual( {
+      deepStrictEqual( { ...event }, {
         authorizer: {
           jwt: {
             claims: {
@@ -91,10 +93,9 @@ describe( 'Event Spec', () => {
       const event = new Event();
       event.parseFromAwsEvent( { requestContext: { http: {} } } );
 
-      expect( event ).toEqual( {
+      deepStrictEqual( { ...event }, {
         authorizer: undefined,
-        headers: {
-        },
+        headers: {},
         method: undefined,
         path: undefined,
         route: undefined,
@@ -117,9 +118,9 @@ describe( 'Event Spec', () => {
       const event = new Event( { transform: 'snakecase' } );
       event.parseFromAwsEventV2( { body, pathParameters, queryStringParameters, requestContext: { http: {} } } );
 
-      expect( event.body ).toEqual( { page_size: 23 } );
-      expect( event.params ).toEqual( { java_script: 'ES6' } );
-      expect( event.queryString ).toEqual( { filter_event: 'static' } );
+      deepStrictEqual( event.body, { page_size: 23 } );
+      deepStrictEqual( event.params, { java_script: 'ES6' } );
+      deepStrictEqual( event.queryString, { filter_event: 'static' } );
     } );
 
     it( 'Should build an event and convert qs, params and body to camelcase', () => {
@@ -130,9 +131,9 @@ describe( 'Event Spec', () => {
       const event = new Event( { transform: 'camelcase' } );
       event.parseFromAwsEventV2( { body, pathParameters, queryStringParameters, requestContext: { http: {} } } );
 
-      expect( event.body ).toEqual( { pageSize: 23 } );
-      expect( event.params ).toEqual( { javaScript: 'ES6' } );
-      expect( event.queryString ).toEqual( { filterEvent: 'static' } );
+      deepStrictEqual( event.body, { pageSize: 23 } );
+      deepStrictEqual( event.params, { javaScript: 'ES6' } );
+      deepStrictEqual( event.queryString, { filterEvent: 'static' } );
     } );
 
     it( 'Should not convert string body to camelcase', () => {
@@ -140,7 +141,7 @@ describe( 'Event Spec', () => {
       const event = new Event( { transform: 'camelcase' } );
       event.parseFromAwsEventV2( { body, requestContext: { http: {} } } );
 
-      expect( event.body ).toEqual( 'Hi there' );
+      deepStrictEqual( event.body, 'Hi there' );
     } );
 
     it( 'Should not convert string body to snakecase', () => {
@@ -148,7 +149,7 @@ describe( 'Event Spec', () => {
       const event = new Event( { transform: 'snakecase' } );
       event.parseFromAwsEventV2( { body, requestContext: { http: {} } } );
 
-      expect( event.body ).toEqual( 'Hi there' );
+      deepStrictEqual( event.body, 'Hi there' );
     } );
   } );
 } );

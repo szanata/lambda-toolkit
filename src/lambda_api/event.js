@@ -1,4 +1,4 @@
-const { camelize, snakelize } = require( '../object' );
+import { snakelize, camelize } from '../object/index.js';
 
 const transformFns = {
   camelcase: camelize,
@@ -13,7 +13,7 @@ const parseJson = content => {
   }
 };
 
-module.exports = class Event {
+export class Event {
   #transformFn;
   authorizer;
   body;

@@ -1,7 +1,7 @@
 // https://docs.aws.amazon.com/timestream/latest/developerguide/API_query_Type.html
 // https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html
 
-const { ScalarType } = require( '@aws-sdk/client-timestream-query' );
+import { ScalarType } from '@aws-sdk/client-timestream-query';
 
 const parseBigInt = value => {
   const asInt = parseInt( value, 10 );
@@ -64,7 +64,7 @@ const parseValue = ( typeInfo, datum ) => {
   return parseScalarValue( typeInfo.ScalarType, datum['ScalarValue'] );
 };
 
-module.exports = response => {
+export const parseItems = response => {
   const { ColumnInfo: colInfo, Rows: rows } = response;
   return rows.map( row =>
     row.Data.reduce( ( entry, value, index ) => {

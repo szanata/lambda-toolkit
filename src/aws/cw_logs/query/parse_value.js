@@ -12,7 +12,7 @@ const parseFloatingPoint = value => {
 };
 
 /* eslint-disable consistent-return */
-module.exports = value => {
+export const parseValue = value => {
   if ( [ null, undefined ].includes( value ) ) {
     return undefined;
   }

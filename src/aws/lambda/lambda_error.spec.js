@@ -1,4 +1,6 @@
-const LambdaError = require( './lambda_error' );
+import { describe, it } from 'node:test';
+import { strictEqual, throws } from 'node:assert';
+import { LambdaError } from './lambda_error.js';
 
 describe( 'LambdaError spec', () => {
   it( 'Should parse an error threw by the function', () => {
@@ -15,12 +17,12 @@ describe( 'LambdaError spec', () => {
 
     const error = new LambdaError( response );
 
-    expect( error ).toMatchObject( {
+    throws( () => { throw error; }, {
       statusCode: 200,
       lambdaErrorMessage: 'Something went very wrong',
       lambdaErrorType: 'SomeErrorType'
     } );
-    expect( error.message ).toBe( 'Invoked function threw "[SomeErrorType] Something went very wrong"' );
+    strictEqual( error.message, 'Invoked function threw "[SomeErrorType] Something went very wrong"' );
   } );
 
   it( 'Should parse errors generated during the invocation itself', async () => {
@@ -33,12 +35,12 @@ describe( 'LambdaError spec', () => {
 
     const error = new LambdaError( response );
 
-    expect( error ).toMatchObject( {
+    throws( () => { throw error; }, {
       statusCode: 500,
       lambdaErrorMessage: undefined,
       lambdaErrorType: 'Error'
     } );
-    expect( error.message ).toBe( 'Error invoking the function' );
+    strictEqual( error.message, 'Error invoking the function' );
   } );
 
   it( 'Should parse a timeout error from the lambda', async () => {
@@ -51,11 +53,11 @@ describe( 'LambdaError spec', () => {
 
     const error = new LambdaError( response );
 
-    expect( error ).toMatchObject( {
+    throws( () => { throw error; }, {
       statusCode: 200,
       lambdaErrorMessage: 'RequestId: xxx Process exited before completing request',
       lambdaErrorType: 'Error'
     } );
-    expect( error.message ).toBe( 'Invoked function threw "[Error] RequestId: xxx Process exited before completing request"' );
+    strictEqual( error.message, 'Invoked function threw "[Error] RequestId: xxx Process exited before completing request"' );
   } );
 } );

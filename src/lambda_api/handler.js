@@ -1,6 +1,6 @@
-const validators = require( './validators' );
+import { Validator } from './validator.js';
 
-module.exports = class Handler {
+export class Handler {
   #method;
   #fn;
   #route;
@@ -13,16 +13,16 @@ module.exports = class Handler {
   #pathMatches;
 
   constructor( { method, fn, ...matchers } ) {
-    validators.httpMethod( method );
-    validators.function( fn );
-    validators.matcherRoute( matchers.route );
-    validators.matcherRouteIncludes( matchers.routeIncludes );
-    validators.matcherRouteNotIncludes( matchers.routeNotIncludes );
-    validators.matcherRouteMatch( matchers.routeMatch );
-    validators.matcherPath( matchers.path );
-    validators.matcherPathIncludes( matchers.pathIncludes );
-    validators.matcherPathNotIncludes( matchers.pathNotIncludes );
-    validators.matcherPathMatch( matchers.pathMatch );
+    Validator.httpMethod( method );
+    Validator.function( fn );
+    Validator.matcherRoute( matchers.route );
+    Validator.matcherRouteIncludes( matchers.routeIncludes );
+    Validator.matcherRouteNotIncludes( matchers.routeNotIncludes );
+    Validator.matcherRouteMatch( matchers.routeMatch );
+    Validator.matcherPath( matchers.path );
+    Validator.matcherPathIncludes( matchers.pathIncludes );
+    Validator.matcherPathNotIncludes( matchers.pathNotIncludes );
+    Validator.matcherPathMatch( matchers.pathMatch );
 
     this.#method = method;
     this.#fn = fn;

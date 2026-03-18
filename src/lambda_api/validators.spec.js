@@ -1,57 +1,59 @@
-const validators = require( './validators' );
-const LambdaApiValidationError = require( './lambda_api_validation_error' );
+import { Validator } from './validator.js';
+import { LambdaApiValidationError } from './lambda_api_validation_error.js';
+import { describe, it } from 'node:test';
+import { throws, doesNotThrow } from 'node:assert';
 
-describe( 'Validators Spec', () => {
+describe( 'Validator Spec', () => {
   describe( 'errorType', () => {
     it( 'Should allow a constructor', () => {
-      expect( _ => validators.errorType( Error ) ).not.toThrow();
-      expect( _ => validators.errorType( function x() {} ) ).not.toThrow();
+      doesNotThrow( _ => Validator.errorType( Error ) );
+      doesNotThrow( _ => Validator.errorType( function x() {} ) );
     } );
     it( 'Should throw on other values', () => {
-      expect( _ => validators.errorType( 'foo' ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( {} ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( 1 ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( /a/ ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( true ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( [] ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( _ => {} ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( undefined ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( null ) ).toThrow( LambdaApiValidationError );
+      throws( _ => Validator.errorType( 'foo' ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( {} ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( 1 ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( /a/ ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( true ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( [] ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( _ => {} ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( undefined ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( null ), LambdaApiValidationError );
     } );
   } );
 
   describe( 'fn', () => {
     it( 'Should allow a function', () => {
-      expect( _ => validators.function( Error ) ).not.toThrow();
-      expect( _ => validators.function( function x() {} ) ).not.toThrow();
-      expect( _ => validators.function( _ => {} ) ).not.toThrow();
+      doesNotThrow( _ => Validator.function( Error ) );
+      doesNotThrow( _ => Validator.function( function x() {} ) );
+      doesNotThrow( _ => Validator.function( _ => {} ) );
     } );
     it( 'Should throw on other values', () => {
-      expect( _ => validators.function( 'foo' ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( {} ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( 1 ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( /a/ ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( true ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( [] ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( undefined ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.function( null ) ).toThrow( LambdaApiValidationError );
+      throws( _ => Validator.function( 'foo' ), LambdaApiValidationError );
+      throws( _ => Validator.function( {} ), LambdaApiValidationError );
+      throws( _ => Validator.function( 1 ), LambdaApiValidationError );
+      throws( _ => Validator.function( /a/ ), LambdaApiValidationError );
+      throws( _ => Validator.function( true ), LambdaApiValidationError );
+      throws( _ => Validator.function( [] ), LambdaApiValidationError );
+      throws( _ => Validator.function( undefined ), LambdaApiValidationError );
+      throws( _ => Validator.function( null ), LambdaApiValidationError );
     } );
   } );
 
   describe( 'httpMethod', () => {
     it( 'Should allow know HTTP methods constructor', () => {
-      expect( _ => validators.httpMethod( 'DELETE' ) ).not.toThrow();
-      expect( _ => validators.httpMethod( 'GET' ) ).not.toThrow();
-      expect( _ => validators.httpMethod( 'HEAD' ) ).not.toThrow();
-      expect( _ => validators.httpMethod( 'PATCH' ) ).not.toThrow();
-      expect( _ => validators.httpMethod( 'POST' ) ).not.toThrow();
-      expect( _ => validators.httpMethod( 'PUT' ) ).not.toThrow();
+      doesNotThrow( _ => Validator.httpMethod( 'DELETE' ) );
+      doesNotThrow( _ => Validator.httpMethod( 'GET' ) );
+      doesNotThrow( _ => Validator.httpMethod( 'HEAD' ) );
+      doesNotThrow( _ => Validator.httpMethod( 'PATCH' ) );
+      doesNotThrow( _ => Validator.httpMethod( 'POST' ) );
+      doesNotThrow( _ => Validator.httpMethod( 'PUT' ) );
     } );
     it( 'Should throw on other values', () => {
-      expect( _ => validators.errorType( 'get' ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( 'put' ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( Symbol.for( 'GET' ) ) ).toThrow( LambdaApiValidationError );
-      expect( _ => validators.errorType( '' ) ).toThrow( LambdaApiValidationError );
+      throws( _ => Validator.errorType( 'get' ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( 'put' ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( Symbol.for( 'GET' ) ), LambdaApiValidationError );
+      throws( _ => Validator.errorType( '' ), LambdaApiValidationError );
     } );
   } );
 
@@ -59,22 +61,22 @@ describe( 'Validators Spec', () => {
   for ( const fn of g1 ) {
     describe( fn, () => {
       it( 'Should allow undefined', () => {
-        expect( _ => validators[fn]( undefined ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( undefined ) );
       } );
 
       it( 'Should a string', () => {
-        expect( _ => validators[fn]( '/foo/bar' ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( '/foo/bar' ) );
       } );
 
       it( 'Should not allow an empty string', () => {
-        expect( _ => validators[fn]( '' ) ).toThrow( LambdaApiValidationError );
+        throws( _ => Validator[fn]( '' ), LambdaApiValidationError );
       } );
 
       it( 'Should throw on other values', () => {
-        expect( _ => validators[fn]( 1 ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( true ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( /a/ ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( null ) ).toThrow( LambdaApiValidationError );
+        throws( _ => Validator[fn]( 1 ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( true ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( /a/ ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( null ), LambdaApiValidationError );
       } );
     } );
   }
@@ -83,19 +85,19 @@ describe( 'Validators Spec', () => {
   for ( const fn of g2 ) {
     describe( fn, () => {
       it( 'Should allow undefined', () => {
-        expect( _ => validators[fn]( undefined ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( undefined ) );
       } );
 
       it( 'Should allow a RegExp', () => {
-        expect( _ => validators[fn]( /foo/ ) ).not.toThrow();
-        expect( _ => validators[fn]( new RegExp( 'foo' ) ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( /foo/ ) );
+        doesNotThrow( _ => Validator[fn]( new RegExp( 'foo' ) ) );
       } );
 
       it( 'Should throw on other values', () => {
-        expect( _ => validators[fn]( '/foo/bar/' ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( 1 ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( true ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( null ) ).toThrow( LambdaApiValidationError );
+        throws( _ => Validator[fn]( '/foo/bar/' ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( 1 ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( true ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( null ), LambdaApiValidationError );
       } );
     } );
   }
@@ -104,25 +106,25 @@ describe( 'Validators Spec', () => {
   for ( const fn of g3 ) {
     describe( fn, () => {
       it( 'Should allow null', () => {
-        expect( _ => validators[fn]( null ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( null ) );
       } );
 
       it( 'Should allow a false', () => {
-        expect( _ => validators[fn]( false ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( false ) );
       } );
 
       it( 'Should allow snakecase', () => {
-        expect( _ => validators[fn]( 'snakecase' ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( 'snakecase' ) );
       } );
 
       it( 'Should allow camelcase', () => {
-        expect( _ => validators[fn]( 'camelcase' ) ).not.toThrow();
+        doesNotThrow( _ => Validator[fn]( 'camelcase' ) );
       } );
 
       it( 'Should throw on other values', () => {
-        expect( _ => validators[fn]( 'kebabcase' ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( undefined ) ).toThrow( LambdaApiValidationError );
-        expect( _ => validators[fn]( true ) ).toThrow( LambdaApiValidationError );
+        throws( _ => Validator[fn]( 'kebabcase' ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( undefined ), LambdaApiValidationError );
+        throws( _ => Validator[fn]( true ), LambdaApiValidationError );
       } );
     } );
   }

@@ -1,12 +1,23 @@
-const { UpdateCommand } = require( '@aws-sdk/lib-dynamodb' );
-const update = require( './update' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual, rejects } from 'node:assert';
 
-jest.mock( '@aws-sdk/lib-dynamodb', () => ( {
-  UpdateCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/lib-dynamodb', {
+  namedExports: {
+    UpdateCommand: new Proxy( class UpdateCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { update } = await import( './update.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const tableName = 'table';
@@ -23,8 +34,9 @@ const args = {
 
 describe( 'Update Spec', () => {
   afterEach( () => {
-    client.send.mockReset();
-    UpdateCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should return the update element (ALL_NEW) if the config is not overwrite', async () => {
@@ -32,20 +44,26 @@ describe( 'Update Spec', () => {
       id: '123',
       foo: 'bar'
     };
-    client.send.mockResolvedValue( { Attributes: updatedItem } );
+    client.send.mock.mockImplementation( () => ( { Attributes: updatedItem } ) );
     const result = await update( client, args );
 
-    expect( result ).toEqual( updatedItem );
-    expect( UpdateCommand ).toHaveBeenCalledWith( Object.assign( { ReturnValues: 'ALL_NEW' }, args ) );
+    deepStrictEqual( result, updatedItem );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], Object.assign( { ReturnValues: 'ALL_NEW' }, args ) );
   } );
 
   it( 'Should return nothing if there are no attributes in the response', async () => {
-    client.send.mockResolvedValue( {} );
+    client.send.mock.mockImplementation( () => ( {} ) );
     const noReturnArgs = Object.assign( { ReturnValues: 'NONE' }, args );
     const result = await update( client, noReturnArgs );
 
-    expect( result ).toEqual( undefined );
-    expect( UpdateCommand ).toHaveBeenCalledWith( noReturnArgs );
+    strictEqual( result, undefined );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], noReturnArgs );
   } );
 
   it( 'Should throw errros', async () => {
@@ -56,10 +74,11 @@ describe( 'Update Spec', () => {
       }
     }
     const error = new ConditionalCheckFailedException();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
-    await expect( update( client, args ) ).rejects.toThrow( error );
+    await rejects( update( client, args ), error );
 
-    expect( client.send ).toHaveBeenCalled();
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
   } );
 } );

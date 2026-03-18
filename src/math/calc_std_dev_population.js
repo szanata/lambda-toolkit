@@ -1,6 +1,6 @@
-const calcMean = require( './calc_mean' );
+import { calcMean } from './calc_mean.js';
 
-module.exports = values => {
+export const calcStdDevPopulation = values => {
   const mean = calcMean( values );
   const squareDiffs = values.map( value => Math.pow( value - mean, 2 ) );
   const avgSquareDiff = calcMean( squareDiffs );

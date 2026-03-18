@@ -1,4 +1,4 @@
-const sleep = require( './sleep' );
+import { sleep } from './sleep.js';
 
 const execWithRetry = async ( closure, { limit, delay, retryHook, execCount = 0 } ) => {
   if ( !( closure instanceof Function ) ) {
@@ -44,5 +44,5 @@ const execWithRetry = async ( closure, { limit, delay, retryHook, execCount = 0 
  *                             If this functions throws an error, the retry flow is aborted with that error
  * @returns {Any} The closure result
  */
-module.exports = async ( closure, { limit = 0, delay = 0, retryHook = null } = {} ) =>
+export const retryOnError = async ( closure, { limit = 0, delay = 0, retryHook = null } = {} ) =>
   execWithRetry( closure, { limit, delay, retryHook } );

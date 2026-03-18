@@ -1,11 +1,27 @@
-const startQuery = require( './start_query' );
-const getResults = require( './get_results' );
-const parseResults = require( './parse_results' );
-const query = require( './' );
+import { describe, it, mock } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( './start_query', () => jest.fn() );
-jest.mock( './get_results', () => jest.fn() );
-jest.mock( './parse_results', () => jest.fn() );
+const startQueryMock = mock.fn();
+const getResultsMock = mock.fn();
+const parseResultsMock = mock.fn();
+
+mock.module( './start_query.js', {
+  namedExports: {
+    startQuery: startQueryMock
+  }
+} );
+mock.module( './get_results.js', {
+  namedExports: {
+    getResults: getResultsMock
+  }
+} );
+mock.module( './parse_results.js', {
+  namedExports: {
+    parseResults: parseResultsMock
+  }
+} );
+
+const { query } = await import( './index.js' );
 
 const client = 'client';
 const nativeArgs = 'nativeArgs';
@@ -16,15 +32,18 @@ const finalResults = 'finalResults';
 
 describe( 'Query Spec', () => {
   it( 'Should start the query, get the results and parse them before returning', async () => {
-    startQuery.mockResolvedValue( queryId );
-    getResults.mockResolvedValue( rawResults );
-    parseResults.mockReturnValue( finalResults );
+    startQueryMock.mock.mockImplementation( () => queryId );
+    getResultsMock.mock.mockImplementation( () => rawResults );
+    parseResultsMock.mock.mockImplementation( () => finalResults );
 
     const result = await query( client, nativeArgs, { range } );
 
-    expect( result ).toEqual( { items: finalResults, count: finalResults.length } );
-    expect( startQuery ).toHaveBeenCalledWith( { client, nativeArgs, range } );
-    expect( getResults ).toHaveBeenCalledWith( { client, queryId } );
-    expect( parseResults ).toHaveBeenCalledWith( rawResults );
+    deepStrictEqual( result, { items: finalResults, count: finalResults.length } );
+    strictEqual( startQueryMock.mock.calls.length, 1 );
+    deepStrictEqual( startQueryMock.mock.calls[0].arguments[0], { client, nativeArgs, range } );
+    strictEqual( getResultsMock.mock.calls.length, 1 );
+    deepStrictEqual( getResultsMock.mock.calls[0].arguments[0], { client, queryId } );
+    strictEqual( parseResultsMock.mock.calls.length, 1 );
+    deepStrictEqual( parseResultsMock.mock.calls[0].arguments[0], rawResults );
   } );
 } );

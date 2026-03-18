@@ -1,42 +1,56 @@
-const sendMessage = require( './send_message' );
-const { SendMessageCommand } = require( '@aws-sdk/client-sqs' );
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-sqs', () => ( {
-  SendMessageCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-sqs', {
+  namedExports: {
+    SendMessageCommand: new Proxy( class SendMessageCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { sendMessage } = await import( './send_message.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const queue = 'sqs://mw.com';
-const commandInstance = jest.fn();
 const messageId = '123';
 
 describe( 'SQS Send Message Spec', () => {
+  beforeEach( () => {
+    client.send.mock.mockImplementation( () => ( { MessageId: messageId } ) );
+    constructorMock.mock.mockImplementation( () => commandInstance );
+  } );
+
   afterEach( () => {
-    client.send.mockReset();
-    SendMessageCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should send a message to SQS an return its id', async () => {
-    client.send.mockResolvedValue( { MessageId: messageId } );
-    SendMessageCommand.mockReturnValue( commandInstance );
     const message = 'foo-bar';
 
     const result = await sendMessage( client, queue, message );
 
-    expect( result ).toEqual( messageId );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( SendMessageCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, messageId );
+    strictEqual( client.send.mock.calls.length, 1 );
+    strictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       QueueUrl: queue,
       MessageBody: message
     } );
   } );
 
   it( 'Should accept more native arguments', async () => {
-    client.send.mockResolvedValue( { MessageId: messageId } );
-    SendMessageCommand.mockReturnValue( commandInstance );
     const message = 'foo-bar';
 
     const result = await sendMessage( client, queue, message, {
@@ -45,9 +59,11 @@ describe( 'SQS Send Message Spec', () => {
       MessageDeduplicationId: 'unique'
     } );
 
-    expect( result ).toEqual( messageId );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( SendMessageCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, messageId );
+    strictEqual( client.send.mock.calls.length, 1 );
+    strictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       QueueUrl: queue,
       MessageBody: message,
       DelaySeconds: 30,
@@ -57,15 +73,15 @@ describe( 'SQS Send Message Spec', () => {
   } );
 
   it( 'Should serialize to string if the body is an object', async () => {
-    client.send.mockResolvedValue( { MessageId: messageId } );
-    SendMessageCommand.mockReturnValue( commandInstance );
     const message = { foo: 'bar' };
 
     const result = await sendMessage( client, queue, message );
 
-    expect( result ).toEqual( messageId );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( SendMessageCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, messageId );
+    strictEqual( client.send.mock.calls.length, 1 );
+    strictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       QueueUrl: queue,
       MessageBody: '{"foo":"bar"}'
     } );

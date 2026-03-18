@@ -1,57 +1,66 @@
-const cacheStorage = require( '../core/cache_storage' );
-const get = require( './get' );
-const { GetParameterCommand } = require( '@aws-sdk/client-ssm' );
+import { describe, it, afterEach, mock } from 'node:test';
+import { deepStrictEqual, strictEqual, rejects, ok } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-ssm', () => ( {
-  GetParameterCommand: jest.fn()
-} ) );
-
-const client = {
-  send: jest.fn()
+const cacheStorageMock = {
+  get: mock.fn(),
+  set: mock.fn()
 };
 
-jest.mock( '../core/cache_storage', () => ( {
-  get: jest.fn(),
-  set: jest.fn()
-} ) );
+mock.module( '../core/cache_storage.js', {
+  namedExports: {
+    CacheStorage: cacheStorageMock
+  }
+} );
 
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-ssm', {
+  namedExports: {
+    GetParameterCommand: new Proxy( class GetParameterCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { get } = await import( './get.js' );
+
+const client = { send: mock.fn() };
 const name = 'key';
 const value = 'value';
 const cacheKey = 'SSM_key';
-const commandInstance = jest.fn();
 
 describe( 'SSM Get Spec', () => {
-  beforeEach( () => {
-    GetParameterCommand.mockReturnValue( commandInstance );
-  } );
-
   afterEach( () => {
-    expect( cacheStorage.get ).toHaveBeenCalledWith( cacheKey );
-    client.send.mockReset();
-    cacheStorage.set.mockReset();
-    cacheStorage.get.mockReset();
-    GetParameterCommand.mockReset();
+    deepStrictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], cacheKey );
+    mock.reset();
+    constructorMock.mock.resetCalls();
+    client.send.mock.resetCalls();
+    cacheStorageMock.set.mock.resetCalls();
+    cacheStorageMock.get.mock.resetCalls();
   } );
 
   it( 'Should get a parameter from storage and return it, storing to cache', async () => {
-    client.send.mockResolvedValue( { Parameter: { Value: value } } );
+    client.send.mock.mockImplementation( () => ( { Parameter: { Value: value } } ) );
 
     const result = await get( client, name );
 
-    expect( result ).toBe( value );
-    expect( GetParameterCommand ).toHaveBeenCalledWith( { Name: name, WithDecryption: true } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( cacheStorage.set ).toHaveBeenCalledWith( cacheKey, value );
+    strictEqual( result, value );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Name: name, WithDecryption: true } );
+    strictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    deepStrictEqual( cacheStorageMock.set.mock.calls[0].arguments, [ cacheKey, value ] );
   } );
 
   it( 'Should return from cache if it is there', async () => {
-    cacheStorage.get.mockReturnValue( value );
+    cacheStorageMock.get.mock.mockImplementationOnce( () => value );
 
     const result = await get( client, name );
 
-    expect( result ).toBe( value );
-    expect( client.send ).not.toHaveBeenCalled();
-    expect( GetParameterCommand ).not.toHaveBeenCalled();
+    strictEqual( result, value );
+    ok( client.send.mock.calls.length === 0 );
+    ok( constructorMock.mock.calls.length === 0 );
   } );
 
   it( 'Should return null on parameter not found', async () => {
@@ -63,24 +72,24 @@ describe( 'SSM Get Spec', () => {
     }
 
     const error = new ParameterNotFound();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
     const result = await get( client, name );
 
-    expect( result ).toBe( null );
-    expect( GetParameterCommand ).toHaveBeenCalledWith( { Name: name, WithDecryption: true } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( cacheStorage.set ).not.toHaveBeenCalled();
+    strictEqual( result, null );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Name: name, WithDecryption: true } );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    ok( cacheStorageMock.set.mock.calls.length === 0 );
   } );
 
   it( 'Should throw other errors', async () => {
     const error = new Error();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
-    await expect( get( client, name ) ).rejects.toThrow( error );
+    await rejects( async () => get( client, name ), error );
 
-    expect( GetParameterCommand ).toHaveBeenCalledWith( { Name: name, WithDecryption: true } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( cacheStorage.set ).not.toHaveBeenCalled();
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Name: name, WithDecryption: true } );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    ok( cacheStorageMock.set.mock.calls.length === 0 );
   } );
 } );

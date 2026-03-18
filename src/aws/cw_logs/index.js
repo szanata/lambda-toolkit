@@ -1,10 +1,10 @@
-const { CloudWatchLogsClient } = require( '@aws-sdk/client-cloudwatch-logs' );
-const clientProvider = require( '../core/generic_client_provider' );
-const query = require( './query' );
-const createInstance = require( '../core/create_instance' );
+import { CloudWatchLogsClient } from '@aws-sdk/client-cloudwatch-logs';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
+import { query } from './query/index.js';
 
 const methods = {
   query
 };
 
-module.exports = createInstance( clientProvider.bind( null, CloudWatchLogsClient ), methods );
+export const cwLogs = createInstance( genericClientProvider.bind( null, CloudWatchLogsClient ), methods );

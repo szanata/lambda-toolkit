@@ -1,4 +1,6 @@
-const removeEmptyArrays = require( './remove_empty_arrays' );
+import { removeEmptyArrays } from './remove_empty_arrays.js';
+import { describe, it } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
 describe( 'Object: Remove Empty Arrays', () => {
   it( 'Should return false for a Date', () => {
@@ -11,7 +13,7 @@ describe( 'Object: Remove Empty Arrays', () => {
       f: { g: [], h: [ 1 ] },
       i: { j: [] }
     } );
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       b: 2,
       c: [ 1, 2, 3 ],
       d: undefined,

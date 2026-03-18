@@ -1,15 +1,17 @@
-const Timer = require( './timer' );
+import { Timer } from './timer.js';
+import { describe, it } from 'node:test';
+import { strictEqual, ok } from 'node:assert';
 
 describe( 'Timer Spec', () => {
   describe( 'Initial State', () => {
     it( 'Timer starts stopped, "running" is false', () => {
       const timer = new Timer();
-      expect( timer.running ).toBe( false );
+      strictEqual( timer.running, false );
     } );
 
     it( 'Timer starts stopped, "elapsed" is 0', () => {
       const timer = new Timer();
-      expect( timer.elapsed ).toBe( 0 );
+      strictEqual( timer.elapsed, 0 );
     } );
   } );
 
@@ -17,29 +19,34 @@ describe( 'Timer Spec', () => {
     it( 'Calling "start" starts the timer and "running" is true', () => {
       const timer = new Timer();
       timer.start();
-      expect( timer.running ).toBe( true );
+      strictEqual( timer.running, true );
     } );
 
     it( 'Calling "start" starts the timer and "elapse" is how much time passed since', () => {
       const timer = new Timer();
       timer.start();
       const waitTime = 50;
-      setTimeout( () => {
-        expect( timer.elapsed ).toBeGreaterThanOrEqual( waitTime - 10 );
-      }, waitTime );
+      return new Promise( resolve => {
+        setTimeout( () => {
+          ok( timer.elapsed >= waitTime - 10 );
+          resolve();
+        }, waitTime );
+      } );
     } );
 
-    it( 'Calling "start" when the timer is already running does nothing', done => {
+    it( 'Calling "start" when the timer is already running does nothing', () => {
       const timer = new Timer();
       timer.start();
       const waitTime = 50;
-      setTimeout( () => {
-        timer.start();
+      return new Promise( resolve => {
         setTimeout( () => {
-          expect( timer.elapsed ).toBeGreaterThanOrEqual( ( waitTime * 2 ) - 10 );
-          done();
+          timer.start();
+          setTimeout( () => {
+            ok( timer.elapsed >= ( waitTime * 2 ) - 10 );
+            resolve();
+          }, waitTime );
         }, waitTime );
-      }, waitTime );
+      } );
     } );
   } );
 
@@ -47,37 +54,42 @@ describe( 'Timer Spec', () => {
     it( 'Calling "stop" on a timer that never started does nothing', () => {
       const timer = new Timer();
       timer.stop();
-      expect( timer.elapsed ).toBe( 0 );
-      expect( timer.running ).toBe( false );
+      strictEqual( timer.elapsed, 0 );
+      strictEqual( timer.running, false );
     } );
 
     it( 'Calling "stop" on a timer that was stopped does nothing', () => {
       const timer = new Timer();
       timer.start();
       const waitTime = 50;
-      setTimeout( () => {
-        timer.stop();
-        const elapsedTime = timer.elapsed;
+      return new Promise( resolve => {
         setTimeout( () => {
           timer.stop();
-          expect( timer.elapsed ).toBe( elapsedTime );
-          expect( timer.running ).toBe( false );
+          const elapsedTime = timer.elapsed;
+          setTimeout( () => {
+            timer.stop();
+            strictEqual( timer.elapsed, elapsedTime );
+            strictEqual( timer.running, false );
+            resolve();
+          }, waitTime );
         }, waitTime );
-      }, waitTime );
-
+      } );
     } );
 
     it( 'Calling "stop" on a running timer stops it and returns the elapsed time', () => {
       const timer = new Timer();
       timer.start();
       const waitTime = 50;
-      setTimeout( () => {
-        timer.stop();
-        const elapsedTime = timer.elapsed;
+      return new Promise( resolve => {
         setTimeout( () => {
-          expect( timer.elapsed ).toBe( elapsedTime );
+          timer.stop();
+          const elapsedTime = timer.elapsed;
+          setTimeout( () => {
+            strictEqual( timer.elapsed, elapsedTime );
+            resolve();
+          }, waitTime );
         }, waitTime );
-      }, waitTime );
+      } );
     } );
   } );
 
@@ -86,25 +98,31 @@ describe( 'Timer Spec', () => {
       const timer = new Timer();
       timer.start();
       const waitTime = 50;
-      setTimeout( () => {
-        timer.restart();
-        expect( timer.elapsed ).toBeLessThanOrEqual( 10 );
-      }, waitTime );
+      return new Promise( resolve => {
+        setTimeout( () => {
+          timer.restart();
+          ok( timer.elapsed <= 10 );
+          resolve();
+        }, waitTime );
+      } );
     } );
 
     it( 'Calling "restart" on a stopped runner timer re-starts it', () => {
       const timer = new Timer();
       timer.start();
       const waitTime = 50;
-      setTimeout( () => {
-        timer.stop();
+      return new Promise( resolve => {
         setTimeout( () => {
-          timer.restart();
+          timer.stop();
           setTimeout( () => {
-            expect( timer.elapsed ).toBeGreaterThanOrEqual( waitTime - 10 );
+            timer.restart();
+            setTimeout( () => {
+              ok( timer.elapsed >= waitTime - 10 );
+              resolve();
+            }, waitTime );
           }, waitTime );
         }, waitTime );
-      }, waitTime );
+      } );
     } );
   } );
 } );

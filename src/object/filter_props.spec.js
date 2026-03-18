@@ -1,4 +1,6 @@
-const filterProps = require( './filter_props' );
+import { filterProps } from './filter_props.js';
+import { describe, it } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
 describe( 'Object: Filter Props Spec', () => {
   it( 'Should return false for a Date', () => {
@@ -7,9 +9,6 @@ describe( 'Object: Filter Props Spec', () => {
       b: 2,
       c: 3
     }, [ 'a', 'c', 'd' ] );
-    expect( result ).toEqual( {
-      a: 1,
-      c: 3
-    } );
+    deepStrictEqual( result, { a: 1, c: 3 } );
   } );
 } );

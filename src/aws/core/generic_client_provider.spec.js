@@ -1,66 +1,65 @@
-const cache = require( './cache_storage' );
-const genericClientProvider = require( './generic_client_provider' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( './cache_storage', () => ( {
-  set: jest.fn(),
-  get: jest.fn()
-} ) );
-
-const className = 'class-name';
-
-// This will be the "class", the fn represents the constructor
-const constructor = new Proxy( jest.fn(), {
-  // this customizes the .name, since with jest.fn() this property is read-only
-  get: ( _this, prop ) => prop === 'name' ? className : _this[prop]
-} );
-
-// this is the supposed to be instance from constructor
-const instance = {
-  prop: 'I\'m an instance'
+const cacheStorageMock = {
+  set: mock.fn(),
+  get: mock.fn()
 };
 
-describe( 'Generic Client Provider', () => {
-  beforeEach( () => {
-    constructor.mockReturnValue( instance );
-  } );
+mock.module( './cache_storage.js', {
+  namedExports: { CacheStorage: cacheStorageMock }
+} );
 
+const { genericClientProvider } = await import( './generic_client_provider.js' );
+
+const instance = { prop: 'I\'m an instance' };
+const constructorMock = mock.fn( () => instance );
+
+const ProxiedMockClass = new Proxy( class MockClass {}, {
+  construct( _target, args ) {
+    return constructorMock( ...args );
+  }
+} );
+
+describe( 'Generic Client Provider', () => {
   afterEach( () => {
-    cache.set.mockReset();
-    cache.get.mockReset();
-    constructor.mockReset();
+    mock.reset();
+    cacheStorageMock.set.mock.resetCalls();
+    cacheStorageMock.get.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should return from cache if present', () => {
-    cache.get.mockReturnValue( 'cache-value' );
+    cacheStorageMock.get.mock.mockImplementation( () => 'cache-value' );
 
-    const result = genericClientProvider( constructor );
+    const result = genericClientProvider( ProxiedMockClass );
 
-    expect( result ).toBe( 'cache-value' );
-    expect( cache.get ).toHaveBeenCalledWith( `${className}()` );
-    expect( cache.set ).not.toHaveBeenCalled();
-    expect( constructor ).not.toHaveBeenCalled();
+    strictEqual( result, 'cache-value' );
+    strictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], 'MockClass()' );
+    strictEqual( cacheStorageMock.set.mock.calls.length, 0 );
+    strictEqual( constructorMock.mock.calls.length, 0 );
   } );
 
   describe( 'If not on cache', () => {
     it( 'Should initialize constructor without arguments and save to cache', () => {
-      const result = genericClientProvider( constructor );
+      const result = genericClientProvider( ProxiedMockClass );
 
-      expect( result ).toEqual( instance );
-      expect( cache.get ).toHaveBeenCalledWith( `${className}()` );
-      expect( cache.set ).toHaveBeenCalledWith( `${className}()`, instance );
-      expect( constructor ).toHaveBeenCalledWith();
+      strictEqual( result, instance );
+      strictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], 'MockClass()' );
+      deepStrictEqual( cacheStorageMock.set.mock.calls[0].arguments, [ 'MockClass()', instance ] );
+      strictEqual( constructorMock.mock.calls.length, 1 );
     } );
 
     it( 'Should initialize constructor with arguments and save to cache', () => {
       const args = [ { option: 'none' }, 2, '3' ];
 
-      const result = genericClientProvider( constructor, args );
+      const result = genericClientProvider( ProxiedMockClass, args );
 
-      const key = `${className}({"option":"none"},2,"3")`;
-      expect( result ).toEqual( instance );
-      expect( cache.get ).toHaveBeenCalledWith( key );
-      expect( cache.set ).toHaveBeenCalledWith( key, instance );
-      expect( constructor ).toHaveBeenCalledWith( ...args );
+      const key = 'MockClass({"option":"none"},2,"3")';
+      strictEqual( result, instance );
+      strictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], key );
+      deepStrictEqual( cacheStorageMock.set.mock.calls[0].arguments, [ key, instance ] );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments, args );
     } );
   } );
 } );

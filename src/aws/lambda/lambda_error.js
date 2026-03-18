@@ -6,7 +6,7 @@ const parsePayload = payload => {
   }
 };
 
-module.exports = class LambdaError extends Error {
+export class LambdaError extends Error {
   constructor( response ) {
     const { StatusCode: statusCode, Payload: rawPayload } = response;
     const payload = parsePayload( rawPayload );

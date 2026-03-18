@@ -1,4 +1,6 @@
-const camelize = require( './camelize' );
+import { camelize } from './camelize.js';
+import { describe, it } from 'node:test';
+import { deepStrictEqual, strictEqual } from 'node:assert';
 
 describe( 'Object: Camelize', () => {
   it( 'Should return a copy the object where each key was camelized', () => {
@@ -18,7 +20,7 @@ describe( 'Object: Camelize', () => {
 
     const result = camelize( obj );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       propTree: {
         allCaps: 1,
         deepProp: {
@@ -42,7 +44,7 @@ describe( 'Object: Camelize', () => {
 
     const result = camelize( obj, { keepAllCaps: true } );
 
-    expect( result ).toEqual( {
+    deepStrictEqual( result, {
       propTree: {
         ALL_CAPS: 1
       }
@@ -51,6 +53,6 @@ describe( 'Object: Camelize', () => {
 
   it( 'Should not break on null object', () => {
     const result = camelize( null );
-    expect( result ).toBe( null );
+    strictEqual( result, null );
   } );
 } );

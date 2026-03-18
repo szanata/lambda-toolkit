@@ -1,9 +1,9 @@
-const retryOnError = require( './retry_on_error' );
-const sleep = require( './sleep' );
-const Timer = require( './timer' );
-const untarJsonGz = require( './untar_json_gz' );
+import { retryOnError } from './retry_on_error.js';
+import { sleep } from './sleep.js';
+import { Timer } from './timer.js';
+import { untarJsonGz } from './untar_json_gz.js';
 
-module.exports = {
+export {
   retryOnError,
   sleep,
   Timer,

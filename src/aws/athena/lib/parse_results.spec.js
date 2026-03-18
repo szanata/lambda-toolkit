@@ -1,10 +1,12 @@
-const parsedResults = require( './parse_results' );
-const queryResult = require( '../fixtures/query_result.json' );
+import queryResult from '../fixtures/query_result.json' with { type: 'json' };
+import { describe, it } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
+import { parseResults } from './parse_results.js';
 
 describe( 'Parse Results Spec', () => {
   it( 'Should parse each column and serialize the result', () => {
-    const result = parsedResults( queryResult.ResultSet );
-    expect( result ).toEqual( [ {
+    const result = parseResults( queryResult.ResultSet );
+    deepStrictEqual( result, [ {
       available: true,
       colors: [
         'red',

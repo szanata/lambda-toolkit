@@ -1,1 +1,1 @@
-module.exports = ( time, interval ) => time - ( time % interval );
+export const round = ( time, interval ) => time - ( time % interval );

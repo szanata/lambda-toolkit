@@ -1,20 +1,22 @@
-const retry = require( './retry_on_error' );
+import { retryOnError } from './retry_on_error.js';
+import { describe, it } from 'node:test';
+import { strictEqual, ok, rejects } from 'node:assert';
 
 class RootError extends Error {}
 class HookError extends Error {}
 
 describe( 'Retry On Error Spec', () => {
   it( 'Should execute a sync closure', async () => {
-    const result = await retry( _ => 1 );
-    expect( result ).toBe( 1 );
+    const result = await retryOnError( _ => 1 );
+    strictEqual( result, 1 );
   } );
 
   it( 'Should execute an async closure that return an async function', async () => {
     const closure = _ => Promise.resolve( 5 );
 
-    const result = await retry( closure );
+    const result = await retryOnError( closure );
 
-    expect( result ).toBe( 5 );
+    strictEqual( result, 5 );
   } );
 
   describe( 'Retries', () => {
@@ -28,40 +30,40 @@ describe( 'Retry On Error Spec', () => {
         return 1;
       };
 
-      const result = await retry( closure, { limit: 5 } );
+      const result = await retryOnError( closure, { limit: 5 } );
 
-      expect( state.calls ).toBe( 3 );
-      expect( result ).toBe( 1 );
+      strictEqual( state.calls, 3 );
+      strictEqual( result, 1 );
     } );
 
     it( 'Should not retry if the the limit is 0', async () => {
       const state = { calls: 0 };
       const closure = () => { state.calls++; throw new RootError(); };
 
-      await expect( retry( closure, { limit: 0 } ) ).rejects.toThrow( RootError );
+      await rejects( retryOnError( closure, { limit: 0 } ), RootError );
 
-      expect( state.calls ).toBe( 1 );
+      strictEqual( state.calls, 1 );
     } );
 
     it( 'Should retry the closure execution until the limit is reached', async () => {
       const state = { calls: 0 };
       const closure = () => { state.calls++; throw new RootError(); };
 
-      await expect( retry( closure, { limit: 3 } ) ).rejects.toThrow( RootError );
+      await rejects( retryOnError( closure, { limit: 3 } ), RootError );
 
-      expect( state.calls ).toBe( 4 );
+      strictEqual( state.calls, 4 );
     } );
 
     it( 'Should delay exponentially the retries using the delay argument as base', async () => {
       const closure = () => { throw new RootError(); };
 
       const startTime = Date.now();
-      await expect( retry( closure, { delay: 5, limit: 3 } ) ).rejects.toThrow( RootError );
+      await rejects( retryOnError( closure, { delay: 5, limit: 3 } ), RootError );
       const elapsedTime = Date.now() - startTime;
 
       const uncertainty = 50;
-      expect( elapsedTime ).toBeGreaterThan( 155 - uncertainty );
-      expect( elapsedTime ).toBeLessThan( 155 + uncertainty );
+      ok( elapsedTime > 155 - uncertainty );
+      ok( elapsedTime < 155 + uncertainty );
     } );
   } );
 
@@ -70,28 +72,28 @@ describe( 'Retry On Error Spec', () => {
       const state = { calls: 0 };
       const fn = () => { state.calls++; throw new RootError(); };
 
-      const result = await retry( fn, { limit: 5, retryHook: _ => false } );
+      const result = await retryOnError( fn, { limit: 5, retryHook: _ => false } );
 
-      expect( state.calls ).toBe( 1 );
-      expect( result ).toBe( false );
+      strictEqual( state.calls, 1 );
+      strictEqual( result, false );
     } );
 
     it( 'Should throw error if the retry hook throws error', async () => {
       const state = { calls: 0 };
       const fn = () => { state.calls++; throw new RootError(); };
 
-      await expect( retry( fn, { limit: 5, retryHook: _ => { throw new HookError(); } } ) ).rejects.toThrow( HookError );
+      await rejects( retryOnError( fn, { limit: 5, retryHook: _ => { throw new HookError(); } } ), HookError );
 
-      expect( state.calls ).toBe( 1 );
+      strictEqual( state.calls, 1 );
     } );
 
     it( 'Should throw error if the retry hook resolves to error', async () => {
       const state = { calls: 0 };
       const fn = () => { state.calls++; throw new RootError(); };
 
-      await expect( retry( fn, { limit: 5, retryHook: async _ => Promise.reject( new HookError() ) } ) ).rejects.toThrow( HookError );
+      await rejects( retryOnError( fn, { limit: 5, retryHook: async _ => Promise.reject( new HookError() ) } ), HookError );
 
-      expect( state.calls ).toBe( 1 );
+      strictEqual( state.calls, 1 );
     } );
   } );
 } );

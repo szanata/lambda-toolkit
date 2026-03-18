@@ -1,4 +1,5 @@
-const { snakelize, camelize } = require( '../object' );
+import { snakelize, camelize } from '../object/index.js';
+
 const charset = 'utf-8';
 
 const transformFns = {
@@ -6,7 +7,7 @@ const transformFns = {
   snakecase: snakelize
 };
 
-module.exports = class ApiResponse {
+export class ApiResponse {
   #headers = null;
   #statusCode = null;
   #transformFn = false;
