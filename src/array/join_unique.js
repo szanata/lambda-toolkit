@@ -1,1 +1,1 @@
-module.exports = ( ...args ) => [ ...new Set( args.filter( Array.isArray ).flat() ) ];
+export const joinUnique = ( ...args ) => [ ...new Set( args.filter( Array.isArray ).flat() ) ];

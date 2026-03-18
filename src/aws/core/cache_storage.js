@@ -1,7 +1,8 @@
-const cacheSym = Symbol.for( 'cache' );
-const crypto = require( 'crypto' );
+import { createHash } from 'node:crypto';
 
-const hash = text => crypto.createHash( 'md5' ).update( text ).digest( 'hex' );
+const cacheSym = Symbol.for( 'cache' );
+
+const hash = text => createHash( 'md5' ).update( text ).digest( 'hex' );
 
 const propOpts = {
   enumerable: false,
@@ -9,7 +10,7 @@ const propOpts = {
   writable: false
 };
 
-module.exports = {
+export const CacheStorage = {
   set: ( key, value ) => {
     const keySym = Symbol.for( hash( key ) );
 

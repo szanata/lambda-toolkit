@@ -1,4 +1,4 @@
-module.exports = {
+export const Encoder = {
   encode: k => {
     if ( k === null || k === undefined ) { return k; }
 

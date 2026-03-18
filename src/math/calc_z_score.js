@@ -1,1 +1,1 @@
-module.exports = ( sample, mean, stdDev ) => stdDev === 0 ? NaN : ( sample - mean ) / stdDev;
+export const calcZScore = ( sample, mean, stdDev ) => stdDev === 0 ? NaN : ( sample - mean ) / stdDev;

@@ -1,10 +1,10 @@
-const { AthenaClient } = require( '@aws-sdk/client-athena' );
-const clientProvider = require( '../core/generic_client_provider' );
-const query = require( './query' );
-const createInstance = require( '../core/create_instance' );
+import { AthenaClient } from '@aws-sdk/client-athena';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { query } from './query.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   query
 };
 
-module.exports = createInstance( clientProvider.bind( null, AthenaClient ), methods );
+export const athena = createInstance( genericClientProvider.bind( null, AthenaClient ), methods );

@@ -1,26 +1,37 @@
-const sendMessageBatch = require( './send_message_batch' );
-const { SendMessageBatchCommand } = require( '@aws-sdk/client-sqs' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-sqs', () => ( {
-  SendMessageBatchCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-sqs', {
+  namedExports: {
+    SendMessageBatchCommand: new Proxy( class SendMessageBatchCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { sendMessageBatch } = await import( './send_message_batch.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const queue = 'sqs://mw.com';
-const commandInstance = jest.fn();
 
 describe( 'SQS Send Message Batch Spec', () => {
   afterEach( () => {
-    client.send.mockReset();
-    SendMessageBatchCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should send an batch of messages to SQS', async () => {
-    SendMessageBatchCommand.mockReturnValue( commandInstance );
-    client.send.mockResolvedValue( { Successful: [], Failed: [] } );
+    constructorMock.mock.mockImplementation( () => commandInstance );
+    client.send.mock.mockImplementation( () => ( { Successful: [], Failed: [] } ) );
 
     const result = await sendMessageBatch( client, 'sqs://mw.com', [ {
       body: {
@@ -32,8 +43,9 @@ describe( 'SQS Send Message Batch Spec', () => {
       }
     } ] );
 
-    expect( result ).toEqual( { Successful: [], Failed: [] } );
-    expect( SendMessageBatchCommand ).toHaveBeenCalledWith( {
+    deepStrictEqual( result, { Successful: [], Failed: [] } );
+    deepStrictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       QueueUrl: queue,
       Entries: [ {
         Id: 'message_0',

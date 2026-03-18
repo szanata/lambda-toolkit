@@ -1,1 +1,1 @@
-module.exports = v => Math.ceil( v / 1000 );
+export const msToS = v => Math.ceil( v / 1000 );

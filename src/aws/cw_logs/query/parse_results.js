@@ -1,3 +1,3 @@
-const parseItem = require( './parse_item' );
+import { parseItem } from './parse_item.js';
 
-module.exports = results => results.map( item => parseItem( item ) );
+export const parseResults = results => results.map( item => parseItem( item ) );

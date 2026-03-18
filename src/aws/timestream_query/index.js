@@ -1,8 +1,8 @@
-const query = require( './query' );
-const { TimestreamQueryClient } = require( '@aws-sdk/client-timestream-query' );
-const { Agent } = require( 'https' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { query } from './query.js';
+import { TimestreamQueryClient } from '@aws-sdk/client-timestream-query';
+import { Agent } from 'https';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = { query };
 const defaultArgs = {
@@ -10,4 +10,5 @@ const defaultArgs = {
   httpOptions: { timeout: 60000, agent: new Agent( { maxSockets: 5000 } ) }
 };
 
-module.exports = createInstance( args => clientProvider( TimestreamQueryClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );
+export const timestreamQuery =
+  createInstance( args => genericClientProvider( TimestreamQueryClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );

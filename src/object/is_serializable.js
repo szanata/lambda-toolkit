@@ -1,4 +1,4 @@
-module.exports = obj =>
+export const isSerializable = obj =>
   typeof obj === 'object' &&
   obj !== null &&
   !( obj instanceof String ) &&

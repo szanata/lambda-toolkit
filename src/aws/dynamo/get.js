@@ -1,4 +1,4 @@
-const { GetCommand } = require( '@aws-sdk/lib-dynamodb' );
+import { GetCommand } from '@aws-sdk/lib-dynamodb';
 
 const parseArgs = args => {
   // native args mode
@@ -12,7 +12,7 @@ const parseArgs = args => {
   };
 };
 
-module.exports = async ( client, ...args ) => {
+export const get = async ( client, ...args ) => {
   const response = await client.send( new GetCommand( parseArgs( args ) ) );
   return response.Item;
 };

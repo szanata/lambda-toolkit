@@ -1,38 +1,51 @@
-const { HeadObjectCommand } = require( '@aws-sdk/client-s3' );
-const head = require( './head' );
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-s3', () => ( {
-  HeadObjectCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-s3', {
+  namedExports: {
+    HeadObjectCommand: new Proxy( class HeadObjectCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { head } = await import( './head.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const bucket = 'bucket';
 const key = 'key';
-const commandInstance = jest.fn();
 const response = {
   ContentType: 'application/json'
 };
 
 describe( 'S3 Head Spec', () => {
   beforeEach( () => {
-    HeadObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
   } );
 
   afterEach( () => {
-    client.send.mockReset();
-    HeadObjectCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should head a file from S3 and return its content', async () => {
-    client.send.mockResolvedValue( response );
+    client.send.mock.mockImplementation( () => response );
 
     const result = await head( client, bucket, key );
 
-    expect( result ).toBe( response );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( HeadObjectCommand ).toHaveBeenCalledWith( { Key: key, Bucket: bucket } );
+    strictEqual( result, response );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Key: key, Bucket: bucket } );
   } );
 } );

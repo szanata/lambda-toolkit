@@ -1,7 +1,7 @@
 /**
  * This is base object each AWS abstraction will provide
  */
-module.exports = ( providerFn, methods ) => {
+export const createInstance = ( providerFn, methods ) => {
   // This creates the "instance",
   // so calling the method as a function returns a copy of its client instantiated with the given args
   // every method called from it will use this instance

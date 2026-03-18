@@ -1,47 +1,68 @@
-const invoke = require( './invoke' );
-const { InvokeCommand } = require( '@aws-sdk/client-lambda' );
-const LambdaError = require( './lambda_error' );
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual, rejects } from 'node:assert';
+
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-lambda', {
+  namedExports: {
+    InvokeCommand: new Proxy( class InvokeCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const lambdaErrorConstructorMock = mock.fn();
+
+mock.module( './lambda_error.js', {
+  namedExports: {
+    LambdaError: new Proxy( class LambdaError {}, {
+      construct( _, args ) {
+        return lambdaErrorConstructorMock( ...args );
+      }
+    } )
+  }
+} );
 
 class MockLambdaError extends Error {}
 
-jest.mock( '@aws-sdk/client-lambda', () => ( {
-  InvokeCommand: jest.fn()
-} ) );
-
-jest.mock( './lambda_error', () => jest.fn() );
+const { invoke } = await import( './invoke.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const functionName = 'my-function';
 const payload = { foo: 'bar' };
-const commandInstance = jest.fn();
-
 const responsePayload = { foo: 'bar' };
 
 describe( 'Lambda invoke Spec', () => {
   beforeEach( () => {
-    InvokeCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
   } );
 
   afterEach( () => {
-    InvokeCommand.mockReset();
-    client.send.mockReset();
+    mock.restoreAll();
+    constructorMock.mock.resetCalls();
+    client.send.mock.resetCalls();
   } );
 
   it( 'Should invoke a lambda with invocation type RequestResponse and return its result', async () => {
-    client.send.mockResolvedValue( {
+    client.send.mock.mockImplementation( () => ( {
       StatusCode: 200,
       ExecutedVersion: '$LATEST',
       Payload: Uint8Array.from( Buffer.from( JSON.stringify( responsePayload ) ) )
-    } );
+    } ) );
 
     const result = await invoke( client, functionName, payload, 'RequestResponse' );
 
-    expect( result ).toEqual( responsePayload );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( InvokeCommand ).toHaveBeenCalledWith( {
+    deepStrictEqual( result, responsePayload );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       InvocationType: 'RequestResponse',
       FunctionName: functionName,
       Payload: Buffer.from( JSON.stringify( payload ) )
@@ -49,16 +70,18 @@ describe( 'Lambda invoke Spec', () => {
   } );
 
   it( 'Should invoke a lambda with invocation type Event', async () => {
-    client.send.mockResolvedValue( {
+    client.send.mock.mockImplementation( () => ( {
       StatusCode: 200,
       ExecutedVersion: '$LATEST'
-    } );
+    } ) );
 
     const result = await invoke( client, functionName, payload, 'Event' );
 
-    expect( result ).toEqual( true );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( InvokeCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, true );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       InvocationType: 'Event',
       FunctionName: functionName,
       Payload: Buffer.from( JSON.stringify( payload ) )
@@ -67,19 +90,19 @@ describe( 'Lambda invoke Spec', () => {
 
   describe( 'Error handling', () => {
     beforeEach( () => {
-      LambdaError.mockReturnValue( new MockLambdaError() );
+      lambdaErrorConstructorMock.mock.mockImplementation( () => new MockLambdaError() );
     } );
 
     afterEach( () => {
-      LambdaError.mockReset();
+      lambdaErrorConstructorMock.mock.resetCalls();
     } );
 
     it( 'Should throw errors', async () => {
       const error = new Error( 'SyntaxError' );
 
-      client.send.mockRejectedValue( error );
+      client.send.mock.mockImplementation( () => { throw error; } );
 
-      await expect( invoke( client, functionName, {} ) ).rejects.toThrow( error );
+      await rejects( invoke( client, functionName, {} ), error );
     } );
 
     it( 'Should parse errors from response and them throw them as "LambdaError"', async () => {
@@ -90,10 +113,11 @@ describe( 'Lambda invoke Spec', () => {
         Payload: 'ServiceException'
       };
 
-      client.send.mockResolvedValue( response );
+      client.send.mock.mockImplementation( () => response );
 
-      await expect( invoke( client, functionName, {} ) ).rejects.toThrow( MockLambdaError );
-      expect( LambdaError ).toHaveBeenCalledWith( response );
+      await rejects( invoke( client, functionName, {} ), MockLambdaError );
+      strictEqual( lambdaErrorConstructorMock.mock.calls.length, 1 );
+      deepStrictEqual( lambdaErrorConstructorMock.mock.calls[0].arguments[0], response );
     } );
   } );
 } );

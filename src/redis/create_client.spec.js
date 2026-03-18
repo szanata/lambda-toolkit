@@ -1,24 +1,28 @@
-const createClient = require( './create_client' );
+import { createClient } from './create_client.js';
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { deepStrictEqual, strictEqual } from 'node:assert';
 
 const redis = {
-  createClient: jest.fn()
+  createClient: mock.fn()
 };
 
 const instance = {
-  connect: jest.fn(),
-  ping: jest.fn()
+  connect: mock.fn(),
+  ping: mock.fn()
 };
+
 const address = 'foo.bar';
 
 describe( 'Redis: Create Client Spec', () => {
   beforeEach( () => {
-    redis.createClient.mockReturnValue( instance );
+    redis.createClient.mock.mockImplementation( () => instance );
   } );
 
   afterEach( () => {
-    redis.createClient.mockReset();
-    instance.connect.mockReset();
-    instance.ping.mockReset();
+    mock.reset();
+    redis.createClient.mock.resetCalls();
+    instance.connect.mock.resetCalls();
+    instance.ping.mock.resetCalls();
   } );
 
   it( 'Should create an instance using createClient from redis lib for the address, connect, cache and return it', async () => {
@@ -26,10 +30,11 @@ describe( 'Redis: Create Client Spec', () => {
 
     const result = await createClient( { redis, address } );
 
-    expect( result ) .toEqual( instance );
-    expect( redis.createClient ).toHaveBeenCalledWith( { url: 'rediss://foo.bar:6379', socket: { keepAlive: 15000 } } );
-    expect( instance.connect ).toHaveBeenCalled();
-    expect( global.__redisInstances[address] ).toEqual( instance );
+    deepStrictEqual( result, instance );
+    strictEqual( redis.createClient.mock.calls.length, 1 );
+    deepStrictEqual( redis.createClient.mock.calls[0].arguments[0], { url: 'rediss://foo.bar:6379', socket: { keepAlive: 15000 } } );
+    strictEqual( instance.connect.mock.calls.length, 1 );
+    deepStrictEqual( global.__redisInstances[address], instance );
   } );
 
   it( 'Should return the instance from cache if present and it is alive', async () => {
@@ -37,12 +42,12 @@ describe( 'Redis: Create Client Spec', () => {
       [address]: instance
     };
 
-    instance.ping.mockResolvedValue( 'PONG' );
+    instance.ping.mock.mockImplementation( () => 'PONG' );
 
     const result = await createClient( { redis, address } );
 
-    expect( result ) .toEqual( instance );
-    expect( redis.createClient ).not.toHaveBeenCalled();
+    deepStrictEqual( result, instance );
+    strictEqual( redis.createClient.mock.calls.length, 0 );
   } );
 
   it( 'Should create a new instance if the one from cache is not alive anymore', async () => {
@@ -50,13 +55,14 @@ describe( 'Redis: Create Client Spec', () => {
       [address]: instance
     };
 
-    instance.ping.mockRejectedValue( new Error() );
+    instance.ping.mock.mockImplementation( () => { throw new Error(); } );
 
     const result = await createClient( { redis, address } );
 
-    expect( result ) .toEqual( instance );
-    expect( redis.createClient ).toHaveBeenCalledWith( { url: 'rediss://foo.bar:6379', socket: { keepAlive: 15000 } } );
-    expect( instance.connect ).toHaveBeenCalled();
-    expect( global.__redisInstances[address] ).toEqual( instance );
+    deepStrictEqual( result, instance );
+    strictEqual( redis.createClient.mock.calls.length, 1 );
+    deepStrictEqual( redis.createClient.mock.calls[0].arguments[0], { url: 'rediss://foo.bar:6379', socket: { keepAlive: 15000 } } );
+    strictEqual( instance.connect.mock.calls.length, 1 );
+    deepStrictEqual( global.__redisInstances[address], instance );
   } );
 } );

@@ -1,5 +1,5 @@
-const createClient = require( './create_client' );
+import { createClient } from './create_client.js';
 
-module.exports = {
+export {
   createClient
 };

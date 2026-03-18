@@ -1,3 +1,3 @@
-const LambdaApi = require( './lambda_api' );
+import { LambdaApi } from './lambda_api.js';
 
-module.exports = { LambdaApi };
+export { LambdaApi };

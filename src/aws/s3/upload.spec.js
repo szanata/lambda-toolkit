@@ -1,12 +1,23 @@
-const upload = require( './upload' );
-const { PutObjectCommand } = require( '@aws-sdk/client-s3' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-s3', () => ( {
-  PutObjectCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-s3', {
+  namedExports: {
+    PutObjectCommand: new Proxy( class PutObjectCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { upload } = await import( './upload.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const bucket = 'foo-bucket';
@@ -15,36 +26,49 @@ const stringContent = 'Hi Mark';
 const bufferContent = Buffer.alloc( 1 );
 const objectContent = { foo: 'bar' };
 const contentType = 'image/jpeg';
-const commandInstance = jest.fn();
 
 describe( 'S3 Upload Spec', () => {
+  afterEach( () => {
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
+  } );
+
   it( 'Should put a string on S3', async () => {
-    PutObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
 
     await upload( client, bucket, key, stringContent, { ContentType: contentType } );
 
-    expect( PutObjectCommand )
-      .toHaveBeenCalledWith( { ContentType: contentType, Key: key, Bucket: bucket, Body: stringContent } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { ContentType: contentType, Key: key, Bucket: bucket, Body: stringContent } );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
   } );
 
   it( 'Should put a buffer on S3', async () => {
-    PutObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
 
     await upload( client, bucket, key, bufferContent, { ContentType: contentType } );
 
-    expect( PutObjectCommand )
-      .toHaveBeenCalledWith( { ContentType: contentType, Key: key, Bucket: bucket, Body: bufferContent } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { ContentType: contentType, Key: key, Bucket: bucket, Body: bufferContent } );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
   } );
 
   it( 'Should put an object on S3', async () => {
-    PutObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
 
     await upload( client, bucket, key, objectContent, { ContentType: contentType } );
 
-    expect( PutObjectCommand )
-      .toHaveBeenCalledWith( { ContentType: contentType, Key: key, Bucket: bucket, Body: JSON.stringify( objectContent ) } );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
+      ContentType: contentType,
+      Key: key,
+      Bucket: bucket,
+      Body: JSON.stringify( objectContent )
+    } );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
   } );
 } );

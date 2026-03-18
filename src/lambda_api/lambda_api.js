@@ -1,12 +1,12 @@
-const validators = require( './validators' );
-const ApiResponse = require( './api_response' );
-const Event = require( './event' );
-const Handler = require( './handler' );
-const Hook = require( './hook' );
-const UserResponse = require( './user_response' );
-const Text = require( './text_enum' );
+import { Validator } from './validator.js';
+import { ApiResponse } from './api_response.js';
+import { Event } from './event.js';
+import { Handler } from './handler.js';
+import { Hook } from './hook.js';
+import { UserResponse } from './user_response.js';
+import { Text } from './text_enum.js';
 
-module.exports = class LambdaApi {
+export class LambdaApi {
   #apiResponse = null;
   #handlers = [];
   #errorResponses = [];
@@ -20,8 +20,8 @@ module.exports = class LambdaApi {
    * @param {Object} headers Any headers you want to be included in all responses
    */
   constructor( { headers = {}, transformRequest = false, transformResponse = false } = {} ) {
-    validators.transformRequest( transformRequest );
-    validators.transformResponse( transformResponse );
+    Validator.transformRequest( transformRequest );
+    Validator.transformResponse( transformResponse );
 
     this.#transformRequest = transformRequest;
     this.#apiResponse = new ApiResponse( { headers, transform: transformResponse } );
@@ -76,8 +76,8 @@ module.exports = class LambdaApi {
    * @param {message} [args.errorType] And optional message to display
    */
   addErrorHandler( { errorType, code, message = null } = {} ) {
-    validators.statusCode( code );
-    validators.errorType( errorType );
+    Validator.statusCode( code );
+    Validator.errorType( errorType );
     this.#errorResponses.push( { errorType, code, message } );
   }
 

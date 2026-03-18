@@ -1,15 +1,25 @@
-const { CopyObjectCommand } = require( '@aws-sdk/client-s3' );
-const copy = require( './copy' );
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-s3', () => ( {
-  CopyObjectCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-s3', {
+  namedExports: {
+    CopyObjectCommand: new Proxy( class CopyObjectCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { copy } = await import( './copy.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
-const commandInstance = jest.fn();
 const bucket = 'foo-bucket';
 const key = 'foo-key.txt';
 const source = 'bar-bucket/bar-key.txt';
@@ -17,24 +27,27 @@ const response = { Ok: true };
 
 describe( 'S3 copy spec', () => {
   beforeEach( () => {
-    CopyObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
   } );
 
   afterEach( () => {
-    client.send.mockReset();
-    CopyObjectCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should copy a file from two s3 places', async () => {
-    client.send.mockResolvedValue( response );
+    client.send.mock.mockImplementation( () => response );
 
     const result = await copy( client, bucket, key, source, {
       ACL: 'Private'
     } );
 
-    expect( result ).toBe( response );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( CopyObjectCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, response );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       ACL: 'Private',
       Bucket: bucket,
       CopySource: source,

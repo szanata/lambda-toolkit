@@ -1,4 +1,4 @@
-module.exports = ( { key, items } ) => [
+export const joinUniqueCustom = ( { key, items } ) => [
   ...items.filter( Array.isArray ).flat().reduce( ( map, v ) => {
     const k = key( v );
     if ( !map.has( k ) ) {

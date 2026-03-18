@@ -1,10 +1,10 @@
-const validators = require( './validators' );
+import { Validator } from './validator.js';
 
-module.exports = class Hook {
+export class Hook {
   #fn;
 
   constructor( { fn } ) {
-    validators.function( fn );
+    Validator.function( fn );
     this.#fn = fn;
   }
 

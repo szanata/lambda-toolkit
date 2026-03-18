@@ -1,10 +1,10 @@
-const { encode, decode } = require( '../core/encoder' );
-const startQuery = require( './lib/start_query' );
-const getResults = require( './lib/get_results' );
+import { Encoder } from '../core/encoder.js';
+import { startQuery } from './lib/start_query.js';
+import { getResults } from './lib/get_results.js';
 
 const getQueryExecutionId = async ( { client, nativeArgs, recursive, paginationToken } ) => {
   if ( !recursive && paginationToken ) {
-    const { queryExecutionId, token } = decode( paginationToken );
+    const { queryExecutionId, token } = Encoder.decode( paginationToken );
     return { queryExecutionId, token };
   }
 
@@ -29,11 +29,11 @@ const getQueryExecutionId = async ( { client, nativeArgs, recursive, paginationT
  * @param {Number=} options.maxResults The maximum number of results per page (only when using pagination token)
  * @returns {Result} The query result
  */
-module.exports = async ( client, nativeArgs, options ) => {
+export const query = async ( client, nativeArgs, options ) => {
   const { recursive = false, paginationToken, maxResults } = options;
 
   const { queryExecutionId, token } = await getQueryExecutionId( { client, nativeArgs, recursive, paginationToken } );
 
   const { nextToken, items } = await getResults( { client, queryExecutionId, token, recursive, maxResults } );
-  return { paginationToken: nextToken ? encode( { queryExecutionId, token: nextToken } ) : undefined, items };
+  return { paginationToken: nextToken ? Encoder.encode( { queryExecutionId, token: nextToken } ) : undefined, items };
 };

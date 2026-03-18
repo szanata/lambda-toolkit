@@ -1,5 +1,7 @@
-const LambdaApi = require( './lambda_api' );
-const Event = require( './event' );
+import { LambdaApi } from './lambda_api.js';
+import { Event } from './event.js';
+import { describe, it } from 'node:test';
+import { ok, partialDeepStrictEqual, strictEqual } from 'node:assert';
 
 const awsEvent = {
   version: '2.0',
@@ -29,7 +31,7 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 200, body: 'Ok' } );
+      partialDeepStrictEqual( result, { statusCode: 200, body: 'Ok' } );
     } );
 
     it( 'Should handle an event using the registered sync handler', async () => {
@@ -38,7 +40,7 @@ describe( 'Api Spec', () => {
 
       const result = await api.process( awsEvent );
 
-      expect( result ).toMatchObject( { statusCode: 200 } );
+      partialDeepStrictEqual( result, { statusCode: 200 } );
     } );
 
     it( 'Should invoke just the first matching handler', async () => {
@@ -47,7 +49,7 @@ describe( 'Api Spec', () => {
       api.addHandler( { method: 'GET', fn: _ => 300 } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 200 } );
+      partialDeepStrictEqual( result, { statusCode: 200 } );
     } );
 
     it( 'Should append extra headers in the responses', async () => {
@@ -57,7 +59,7 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( {
+      partialDeepStrictEqual( result, {
         statusCode: 200,
         body: '',
         headers: {
@@ -66,8 +68,8 @@ describe( 'Api Spec', () => {
       } );
     } );
 
-    it( 'Should receive event as handler argument', async () => {
-      const control = jest.fn();
+    it( 'Should receive event as handler argument', async t => {
+      const control = t.mock.fn();
       const api = new LambdaApi();
       api.addHandler( {
         method: 'GET', fn: event => {
@@ -77,8 +79,8 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 200 } );
-      expect( control ).toHaveBeenCalledWith( expect.any( Event ) );
+      partialDeepStrictEqual( result, { statusCode: 200 } );
+      ok( control.mock.calls[0].arguments[0] instanceof Event );
     } );
   } );
 
@@ -93,7 +95,7 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 500, body: 'Internal Server Error' } );
+      partialDeepStrictEqual( result, { statusCode: 500, body: 'Internal Server Error' } );
     } );
 
     it( 'Should return HTTP 500 when sync handler throws error', async () => {
@@ -101,7 +103,7 @@ describe( 'Api Spec', () => {
       api.addHandler( { method: 'GET', fn: _ => { throw new WellDefinedError(); } } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 500, body: 'Internal Server Error' } );
+      partialDeepStrictEqual( result, { statusCode: 500, body: 'Internal Server Error' } );
     } );
 
     it( 'Should return HTTP 405 when no handler is matched', async () => {
@@ -109,7 +111,7 @@ describe( 'Api Spec', () => {
       api.addHandler( { method: 'POST', fn: _ => { throw new WellDefinedError(); } } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 405, body: 'Method Not Allowed' } );
+      partialDeepStrictEqual( result, { statusCode: 405, body: 'Method Not Allowed' } );
     } );
 
     it( 'Should append extra headers in the responses', async () => {
@@ -117,7 +119,7 @@ describe( 'Api Spec', () => {
       api.addHandler( { method: 'GET', fn: _ => { throw new WellDefinedError(); } } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( {
+      partialDeepStrictEqual( result, {
         statusCode: 500,
         body: 'Internal Server Error',
         headers: {
@@ -139,7 +141,7 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 413, body: 'This is a feature not a bug' } );
+      partialDeepStrictEqual( result, { statusCode: 413, body: 'This is a feature not a bug' } );
     } );
 
     it( 'Should handle an error by its extended class and return a specific HTTP code', async () => {
@@ -153,7 +155,7 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 413, body: 'This is a feature not a bug' } );
+      partialDeepStrictEqual( result, { statusCode: 413, body: 'This is a feature not a bug' } );
     } );
 
     it( 'Should respect the order of the error handlers when many match the error thrown', async () => {
@@ -168,7 +170,7 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 411, body: 'This is a feature not a bug' } );
+      partialDeepStrictEqual( result, { statusCode: 411, body: 'This is a feature not a bug' } );
     } );
 
     it( 'Should return registered HTTP code + message when handler throws expected error', async () => {
@@ -182,14 +184,14 @@ describe( 'Api Spec', () => {
       } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 413, body: 'I\'m error' } );
+      partialDeepStrictEqual( result, { statusCode: 413, body: 'I\'m error' } );
     } );
   } );
 
   describe( 'Hooks', () => {
     describe( 'If a handler is found', () => {
-      it( 'Should execute the before hooks in order', async () => {
-        const control = jest.fn();
+      it( 'Should execute the before hooks in order', async t => {
+        const control = t.mock.fn();
         const api = new LambdaApi();
         api.addBeforeHook( { fn: _ => control( 1 ) } );
         api.addBeforeHook( { fn: _ => control( 2 ) } );
@@ -201,14 +203,14 @@ describe( 'Api Spec', () => {
         } );
 
         const result = await api.process( awsEvent );
-        expect( result ).toMatchObject( { statusCode: 200 } );
-        expect( control ).toHaveBeenNthCalledWith( 1, 1 );
-        expect( control ).toHaveBeenNthCalledWith( 2, 2 );
-        expect( control ).toHaveBeenNthCalledWith( 3, 3 );
+        partialDeepStrictEqual( result, { statusCode: 200 } );
+        strictEqual( control.mock.calls[0].arguments[0], 1 );
+        strictEqual( control.mock.calls[1].arguments[0], 2 );
+        strictEqual( control.mock.calls[2].arguments[0], 3 );
       } );
 
-      it( 'Should execute the after hooks in order', async () => {
-        const control = jest.fn();
+      it( 'Should execute the after hooks in order', async t => {
+        const control = t.mock.fn();
         const api = new LambdaApi();
         api.addAfterHook( { fn: _ => control( 1 ) } );
         api.addAfterHook( { fn: _ => control( 2 ) } );
@@ -220,14 +222,14 @@ describe( 'Api Spec', () => {
         } );
 
         const result = await api.process( awsEvent );
-        expect( result ).toMatchObject( { statusCode: 200 } );
-        expect( control ).toHaveBeenNthCalledWith( 1, 3 );
-        expect( control ).toHaveBeenNthCalledWith( 2, 1 );
-        expect( control ).toHaveBeenNthCalledWith( 3, 2 );
+        partialDeepStrictEqual( result, { statusCode: 200 } );
+        strictEqual( control.mock.calls[0].arguments[0], 3 );
+        strictEqual( control.mock.calls[1].arguments[0], 1 );
+        strictEqual( control.mock.calls[2].arguments[0], 2 );
       } );
 
-      it( 'Should share event.context between before hook, handler and after.hook', async () => {
-        const control = jest.fn();
+      it( 'Should share event.context between before hook, handler and after.hook', async t => {
+        const control = t.mock.fn();
         const api = new LambdaApi();
         api.addBeforeHook( {
           fn: event => {
@@ -248,22 +250,22 @@ describe( 'Api Spec', () => {
         } );
 
         const result = await api.process( awsEvent );
-        expect( result ).toMatchObject( { statusCode: 200 } );
-        expect( control ).toHaveBeenNthCalledWith( 1, 'before hook' );
-        expect( control ).toHaveBeenNthCalledWith( 2, 'handler' );
+        partialDeepStrictEqual( result, { statusCode: 200 } );
+        strictEqual( control.mock.calls[0].arguments[0], 'before hook' );
+        strictEqual( control.mock.calls[1].arguments[0], 'handler' );
       } );
     } );
 
-    it( 'If no handler is match it should not execute hooks', async () => {
-      const control = jest.fn();
+    it( 'If no handler is match it should not execute hooks', async t => {
+      const control = t.mock.fn();
       const api = new LambdaApi();
       api.addBeforeHook( { fn: _ => control( 1 ) } );
       api.addAfterHook( { fn: _ => control( 1 ) } );
       api.addHandler( { method: 'POST', fn: _ => { throw new WellDefinedError(); } } );
 
       const result = await api.process( awsEvent );
-      expect( result ).toMatchObject( { statusCode: 405, body: 'Method Not Allowed' } );
-      expect( control ).not.toHaveBeenCalled();
+      partialDeepStrictEqual( result, { statusCode: 405, body: 'Method Not Allowed' } );
+      strictEqual( control.mock.calls.length, 0 );
     } );
   } );
 } );

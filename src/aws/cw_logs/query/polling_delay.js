@@ -1,1 +1,1 @@
-module.exports = 500;
+export const pollingDelay = 500;

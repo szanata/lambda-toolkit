@@ -1,6 +1,6 @@
-const calcMedian = require( './calc_median' );
+import { calcMedian } from './calc_median.js';
 
-module.exports = pop => {
+export const calcMedianAbsDev = pop => {
   const center = calcMedian( pop );
   return calcMedian( pop.map( v => Math.abs( v - center ) ) );
 };

@@ -1,43 +1,56 @@
-const { GetObjectCommand } = require( '@aws-sdk/client-s3' );
-const download = require( './download' );
+import { describe, it, mock, beforeEach, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/client-s3', () => ( {
-  GetObjectCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/client-s3', {
+  namedExports: {
+    GetObjectCommand: new Proxy( class GetObjectCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { download } = await import( './download.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
-const commandInstance = jest.fn();
 const bucket = 'foo-bucket';
 const key = 'foo/bar';
 
 describe( 'S3 Download Spec', () => {
   beforeEach( () => {
-    GetObjectCommand.mockReturnValue( commandInstance );
+    constructorMock.mock.mockImplementation( () => commandInstance );
   } );
 
   afterEach( () => {
-    client.send.mockReset();
-    GetObjectCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should download a file from S3 and return its content', async () => {
     const content = 'Hi there';
-    const httpIncommingMessageMock = {
+    const httpIncomingMessageMock = {
       toArray: async () => [ Buffer.from( content ) ]
     };
 
-    client.send.mockResolvedValue( { Body: httpIncommingMessageMock } );
+    client.send.mock.mockImplementation( () => ( { Body: httpIncomingMessageMock } ) );
 
     const result = await download( client, bucket, key, {
       ResponseContentEncoding: 'utf-8'
     } );
 
-    expect( result ).toBe( content );
-    expect( client.send ).toHaveBeenCalledWith( commandInstance );
-    expect( GetObjectCommand ).toHaveBeenCalledWith( {
+    strictEqual( result, content );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       ResponseContentEncoding: 'utf-8',
       Key: key,
       Bucket: bucket

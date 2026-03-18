@@ -1,7 +1,7 @@
-const { SendMessageCommand } = require( '@aws-sdk/client-sqs' );
-const sanitizeSqs = require( './sanitize_sqs' );
+import { SendMessageCommand } from '@aws-sdk/client-sqs';
+import { sanitizeSqs } from './sanitize_sqs.js';
 
-module.exports = async ( client, queue, body, args ) => {
+export const sendMessage = async ( client, queue, body, args ) => {
   const response = await client.send( new SendMessageCommand( {
     ...args,
     MessageBody: sanitizeSqs( typeof body === 'string' ? body : JSON.stringify( body ) ),

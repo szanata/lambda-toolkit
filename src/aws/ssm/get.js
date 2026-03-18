@@ -1,15 +1,15 @@
-const cacheStorage = require( '../core/cache_storage' );
-const { GetParameterCommand } = require( '@aws-sdk/client-ssm' );
+import { CacheStorage } from '../core/cache_storage.js';
+import { GetParameterCommand } from '@aws-sdk/client-ssm';
 
-module.exports = async ( client, name ) => {
+export const get = async ( client, name ) => {
   const key = `SSM_${name}`;
-  const cacheValue = cacheStorage.get( key );
+  const cacheValue = CacheStorage.get( key );
   if ( cacheValue ) { return cacheValue; }
 
   try {
     const response = await client.send( new GetParameterCommand( { Name: name, WithDecryption: true } ) );
     const value = response?.Parameter?.Value;
-    cacheStorage.set( key, value );
+    CacheStorage.set( key, value );
     return value;
   } catch ( error ) {
     if ( error.constructor.name === 'ParameterNotFound' ) {

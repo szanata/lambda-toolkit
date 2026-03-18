@@ -1,4 +1,4 @@
-const { unzipSync } = require( 'zlib' );
+import { unzipSync } from 'node:zlib';
 
 const firstIndexOf = ( c, ...vars ) => Math.min( ...vars.map( v => c.indexOf( v ) ).filter( n => n > -1 ) );
 const lastIndexOf = ( c, ...vars ) => Math.max( ...vars.map( v => c.lastIndexOf( v ) ) );
@@ -15,7 +15,7 @@ const lastIndexOf = ( c, ...vars ) => Math.max( ...vars.map( v => c.lastIndexOf(
  *
  * Enjoy this 100% native tarball decompression!
  */
-module.exports = raw =>
+export const untarJsonGz = raw =>
   unzipSync( raw )
     .toString( 'utf-8' )
     .split( '\0ustar' )

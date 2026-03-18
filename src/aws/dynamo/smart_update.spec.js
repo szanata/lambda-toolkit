@@ -1,22 +1,33 @@
-const smartUpdate = require( './smart_update' );
-const { UpdateCommand } = require( '@aws-sdk/lib-dynamodb' );
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual } from 'node:assert';
 
-jest.mock( '@aws-sdk/lib-dynamodb', () => ( {
-  UpdateCommand: jest.fn()
-} ) );
+const commandInstance = {};
+const constructorMock = mock.fn( () => commandInstance );
+
+mock.module( '@aws-sdk/lib-dynamodb', {
+  namedExports: {
+    UpdateCommand: new Proxy( class UpdateCommand {}, {
+      construct( _, args ) {
+        return constructorMock( ...args );
+      }
+    } )
+  }
+} );
+
+const { smartUpdate } = await import( './smart_update.js' );
 
 const client = {
-  send: jest.fn()
+  send: mock.fn()
 };
 
 const tableName = 'table';
 const key = { id: '123' };
-const command = {};
 
 describe( 'Smart Update Spec', () => {
   afterEach( () => {
-    client.send.mockReset();
-    UpdateCommand.mockReset();
+    mock.restoreAll();
+    client.send.mock.resetCalls();
+    constructorMock.mock.resetCalls();
   } );
 
   it( 'Should return null if the object does not exists in the database', async () => {
@@ -27,26 +38,27 @@ describe( 'Smart Update Spec', () => {
       }
     }
     const error = new ConditionalCheckFailedException();
-    client.send.mockRejectedValue( error );
+    client.send.mock.mockImplementation( () => { throw error; } );
 
     const result = await smartUpdate( client, tableName, key, { foo: 'bar' } );
 
-    expect( result ).toEqual( null );
-    expect( client.send ).toHaveBeenCalled();
+    strictEqual( result, null );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
   } );
 
   it( 'Should just return null if there are no updates', async () => {
     const result = await smartUpdate( client, tableName, key, {} );
 
-    expect( result ).toEqual( null );
-    expect( client.send ).not.toHaveBeenCalled();
+    strictEqual( result, null );
+    strictEqual( client.send.mock.calls.length, 0 );
   } );
 
   it( 'Should process nested paths and create an update expression with no repeating attr names', async () => {
     const updateResponse = { Attributes: { id: '123' } };
-    client.send.mockResolvedValue( updateResponse );
+    client.send.mock.mockImplementation( () => updateResponse );
 
-    UpdateCommand.mockReturnValue( command );
+    constructorMock.mock.mockImplementation( () => commandInstance );
 
     const result = await smartUpdate( client, tableName, key, {
       'settings.general.color': 'red',
@@ -55,9 +67,11 @@ describe( 'Smart Update Spec', () => {
       version: 1
     } );
 
-    expect( result ).toEqual( updateResponse.Attributes );
-    expect( client.send ).toHaveBeenCalledWith( command );
-    expect( UpdateCommand ).toHaveBeenCalledWith( {
+    deepStrictEqual( result, updateResponse.Attributes );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       TableName: tableName,
       ReturnValues: 'ALL_NEW',
       Key: key,
@@ -85,15 +99,18 @@ describe( 'Smart Update Spec', () => {
 
   it( 'Should process paths inside arrays and create an update expression with no repeating attr names', async () => {
     const updateResponse = { Attributes: { id: '123' } };
-    client.send.mockResolvedValue( updateResponse );
+    client.send.mock.mockImplementation( () => updateResponse );
 
     const result = await smartUpdate( client, tableName, key, {
       'settings[0].general.color': 'red',
       'settings[0].general.size': 'L'
     } );
 
-    expect( result ).toEqual( updateResponse.Attributes );
-    expect( client.send ).toHaveBeenCalledWith( new UpdateCommand( {
+    deepStrictEqual( result, updateResponse.Attributes );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       TableName: tableName,
       ReturnValues: 'ALL_NEW',
       Key: key,
@@ -110,17 +127,20 @@ describe( 'Smart Update Spec', () => {
         ':v0': 'red',
         ':v1': 'L'
       }
-    } ) );
+    } );
   } );
 
   it( 'Should remove attributes from the DB if the value is undefined', async () => {
     const updateResponse = { Attributes: { id: '123' } };
-    client.send.mockResolvedValue( updateResponse );
+    client.send.mock.mockImplementation( () => updateResponse );
 
     const result = await smartUpdate( client, tableName, key, { temp_flag: undefined } );
 
-    expect( result ).toEqual( updateResponse.Attributes );
-    expect( client.send ).toHaveBeenCalledWith( new UpdateCommand( {
+    deepStrictEqual( result, updateResponse.Attributes );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       TableName: tableName,
       ReturnValues: 'ALL_NEW',
       Key: key,
@@ -130,12 +150,12 @@ describe( 'Smart Update Spec', () => {
         '#key_id': 'id',
         '#temp_flag0': 'temp_flag'
       }
-    } ) );
+    } );
   } );
 
   it( 'Should remove and set attributes', async () => {
     const updateResponse = { Attributes: { id: '123' } };
-    client.send.mockResolvedValue( updateResponse );
+    client.send.mock.mockImplementation( () => updateResponse );
 
     const result = await smartUpdate( client, tableName, key, {
       type: 'major',
@@ -143,8 +163,11 @@ describe( 'Smart Update Spec', () => {
       'settings.color': 'red'
     } );
 
-    expect( result ).toEqual( updateResponse.Attributes );
-    expect( client.send ).toHaveBeenCalledWith( new UpdateCommand( {
+    deepStrictEqual( result, updateResponse.Attributes );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       TableName: tableName,
       ReturnValues: 'ALL_NEW',
       Key: key,
@@ -161,14 +184,14 @@ describe( 'Smart Update Spec', () => {
         ':v0': 'major',
         ':v2': 'red'
       }
-    } ) );
+    } );
   } );
 
   it( 'Should process updates for tables with composite keys', async () => {
     const updateResponse = { Attributes: { id: '123' } };
-    client.send.mockResolvedValue( updateResponse );
+    client.send.mock.mockImplementation( () => updateResponse );
 
-    UpdateCommand.mockReturnValue( command );
+    constructorMock.mock.mockImplementation( () => commandInstance );
 
     const key = {
       hashKey: 'hash',
@@ -178,9 +201,11 @@ describe( 'Smart Update Spec', () => {
       foo: 'bar'
     } );
 
-    expect( result ).toEqual( updateResponse.Attributes );
-    expect( client.send ).toHaveBeenCalledWith( command );
-    expect( UpdateCommand ).toHaveBeenCalledWith( {
+    deepStrictEqual( result, updateResponse.Attributes );
+    strictEqual( client.send.mock.calls.length, 1 );
+    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
       TableName: tableName,
       ReturnValues: 'ALL_NEW',
       Key: key,
