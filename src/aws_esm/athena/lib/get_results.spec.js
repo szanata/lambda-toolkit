@@ -1,5 +1,5 @@
 import { describe, it, afterEach, beforeEach, mock } from 'node:test';
-import { deepStrictEqual, ok, rejects } from 'node:assert';
+import { deepStrictEqual, rejects, strictEqual } from 'node:assert';
 
 const instance = {};
 const getQueryExecutionCommand = mock.fn( () => instance );
@@ -65,10 +65,10 @@ describe( 'Get Results Spec', () => {
     const result = await getResults( { client, queryExecutionId: queryId, recursive: true } );
 
     deepStrictEqual( result, { items: [ { data: 'test' } ] } );
-    ok( getQueryExecutionCommand.mock.calls.length, 3 );
+    strictEqual( getQueryExecutionCommand.mock.calls.length, 3 );
     deepStrictEqual( getQueryExecutionCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId } );
     deepStrictEqual( getQueryResultsCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId } );
-    ok( client.send.mock.calls.length, 4 );
+    strictEqual( client.send.mock.calls.length, 4 );
   } );
 
   it( 'Should recursively ping the query until it completes and then return the results using all the provided parameters', async () => {
@@ -83,10 +83,10 @@ describe( 'Get Results Spec', () => {
     const result = await getResults( { client, queryExecutionId: queryId, maxResults: 100, token: 'more-data' } );
 
     deepStrictEqual( result, { items: [ { data: 'test' } ], nextToken: '1' } );
-    ok( getQueryExecutionCommand.mock.calls.length, 3 );
+    strictEqual( getQueryExecutionCommand.mock.calls.length, 3 );
     deepStrictEqual( getQueryExecutionCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId } );
     deepStrictEqual( getQueryResultsCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId, MaxResults: 100, NextToken: 'more-data' } );
-    ok( client.send.mock.calls.length, 4 );
+    strictEqual( client.send.mock.calls.length, 4 );
   } );
 
   it( 'Should get all the results until a next token is present and concatenate the results rows when recursive is true', async () => {
@@ -102,13 +102,13 @@ describe( 'Get Results Spec', () => {
 
     const result = await getResults( { client, queryExecutionId: queryId, recursive: true } );
 
-    ok( result.items.length === 3 );
-    ok( getQueryExecutionCommand.mock.calls.length, 3 );
+    strictEqual( result.items.length, 3 );
+    strictEqual( getQueryExecutionCommand.mock.calls.length, 3 );
     deepStrictEqual( getQueryExecutionCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId } );
     deepStrictEqual( getQueryResultsCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId } );
     deepStrictEqual( getQueryResultsCommand.mock.calls[1].arguments[0], { QueryExecutionId: queryId, NextToken: '1' } );
     deepStrictEqual( getQueryResultsCommand.mock.calls[2].arguments[0], { QueryExecutionId: queryId, NextToken: '2' } );
-    ok( client.send.mock.calls.length, 6 );
+    strictEqual( client.send.mock.calls.length, 6 );
   } );
 
   it( 'Should throw error when the query fails', async () => {
@@ -120,9 +120,9 @@ describe( 'Get Results Spec', () => {
 
     await rejects( () => getResults( { client, queryExecutionId: queryId } ), new Error( 'Omg it broke!' ) );
 
-    ok( getQueryExecutionCommand.mock.calls.length, 2 );
+    strictEqual( getQueryExecutionCommand.mock.calls.length, 2 );
     deepStrictEqual( getQueryExecutionCommand.mock.calls[0].arguments[0], { QueryExecutionId: queryId } );
-    ok( getQueryResultsCommand.mock.calls.length === 0 );
-    ok( client.send.mock.calls.length === 2 );
+    strictEqual( getQueryResultsCommand.mock.calls.length, 0 );
+    strictEqual( client.send.mock.calls.length, 2 );
   } );
 } );
