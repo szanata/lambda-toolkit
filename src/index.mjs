@@ -1,4 +1,4 @@
-export * as LambdaApi from './lambda_api/index.js';
+export * from './lambda_api/index.js';
 export * as array from './array/index.js';
 export * as aws from './aws/index.js';
 export * as epoch from './epoch/index.js';
