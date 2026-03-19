@@ -54,6 +54,15 @@ const lintRules = {
   eqeqeq: [ 'error' ],
   'func-names': 0,
   'global-require': [ 'error' ],
+  'import/extensions': [
+    'error',
+    'ignorePackages',
+    {
+      js: 'always',
+      mjs: 'always',
+      json: 'always'
+    }
+  ],
   'init-declarations': [ 'error', 'always' ],
   'no-bitwise': [ 'error', { int32Hint: true } ],
   'no-buffer-constructor': [ 'error' ],
