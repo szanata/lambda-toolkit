@@ -18,7 +18,7 @@ export class LambdaApi {
    * Creates a new Lambda Api
    *
    * @param {Object} args
-   * @param {Object} [args.headers={}] Any headers to be included in all responses. Defaults to none.          
+   * @param {Object} [args.headers={}] Any headers to be included in all responses. Defaults to none.
    * @param {'camelcase'|'snakecase'} [args.transformRequest=false]
    *                                  Transform the request query string, parameters and body to camelCase or snake_case.
    *                                  Defaults to no transformation.
