@@ -23,7 +23,7 @@ npm run build
 
 printf "\e[0;36m(Generating types)\e[0m\n"
 
-npx -p typescript tsc \
+npx --yes -p typescript tsc \
   --allowJs --checkJs false --strict false \
   --module nodenext --target ES2024 \
   --skipLibCheck --declaration --emitDeclarationOnly \
@@ -37,7 +37,7 @@ echo '{
   }
 }' > ./dts-out/tsconfig.json
 
-npx dts-bundle-generator \
+npx --yes dts-bundle-generator \
   --out-file dist/index.d.ts \
   --project ./dts-out/tsconfig.json \
   ./dts-out/index.d.ts
