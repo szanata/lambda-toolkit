@@ -18,7 +18,7 @@ export class LambdaApi {
    * Creates a new Lambda Api
    *
    * @param {Object} args
-   * @param {Object} [args.headers={}] Any headers to be included in all responses. Defaults to none.
+   * @param {Object<string, string|number>} [args.headers={}] Any headers to be included in all responses. Defaults to none.
    * @param {'camelcase'|'snakecase'} [args.transformRequest=false]
    *                                  Transform the request query string, parameters and body to camelCase or snake_case.
    *                                  Defaults to no transformation.
@@ -77,7 +77,7 @@ export class LambdaApi {
    * Register an automatic error code response for given error class (constructor name)
    *
    * @param {Object} args
-   * @param {class} args.errorType The error class
+   * @param {Function} args.errorType The error class
    * @param {number} args.code The HTTP status code to return
    * @param {string} [args.message=null] Optional message to return for the status code, if not present will default to Error.message
    */
