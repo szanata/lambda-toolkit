@@ -1,6 +1,6 @@
 import { writeRecords } from './write_records.js';
 import { TimestreamWriteClient } from '@aws-sdk/client-timestream-write';
-import { Agent } from 'https';
+import { Agent } from 'node:https';
 import { genericClientProvider } from '../core/generic_client_provider.js';
 import { createInstance } from '../core/create_instance.js';
 
