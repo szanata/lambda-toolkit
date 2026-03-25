@@ -31,4 +31,27 @@ if [ ! -f ./dist/index.mjs ]; then
   exit 1
 fi
 
+printf "\e[0;36m(Generating types)\e[0m\n"
+
+npx --yes -p typescript tsc \
+  --allowJs --checkJs false --strict false \
+  --module nodenext --target ES2024 \
+  --skipLibCheck --declaration --emitDeclarationOnly \
+  --declarationDir ./dts-out \
+  src/index.js
+
+echo '{
+  "compilerOptions": {
+    "target": "ES2024",
+    "typeRoots": []
+  }
+}' > ./dts-out/tsconfig.json
+
+npx --yes dts-bundle-generator \
+  --out-file dist/index.d.ts \
+  --project ./dts-out/tsconfig.json \
+  ./dts-out/index.d.ts
+
+rm -rf ./dts-out
+
 printf "\e[0;36m(Done)\e[0m\n"
