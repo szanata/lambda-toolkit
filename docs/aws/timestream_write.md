@@ -26,7 +26,12 @@ Sends a query to TimeStream and return the result, parsed. Abstracts the `QueryC
 
 Example:
 ```js
-const { aws: { timestreamWrite } } = require( '<this-library>' );
+// CJS
+const { aws: { timestreamWrite } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { timestreamWrite } = aws;
 
 const { items } = await timestreamWrite.writeRecords( {
   database: 'my-db',

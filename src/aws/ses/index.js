@@ -1,12 +1,12 @@
-const deleteSuppressedDestination = require( './delete_suppressed_destination' );
-const sendEmail = require( './send_email' );
-const { SESv2Client } = require( '@aws-sdk/client-sesv2' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { deleteSuppressedDestination } from './delete_suppressed_destination.js';
+import { sendEmail } from './send_email.js';
+import { SESv2Client } from '@aws-sdk/client-sesv2';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   deleteSuppressedDestination,
   sendEmail
 };
 
-module.exports = createInstance( clientProvider.bind( null, SESv2Client ), methods );
+export const ses = createInstance( genericClientProvider.bind( null, SESv2Client ), methods );

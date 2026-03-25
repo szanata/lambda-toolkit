@@ -1,6 +1,6 @@
-const { GetObjectCommand } = require( '@aws-sdk/client-s3' );
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 
-module.exports = async ( client, bucket, key, nativeArgs ) => {
+export const download = async ( client, bucket, key, nativeArgs ) => {
   const response = await client.send( new GetObjectCommand( {
     ...nativeArgs,
     Bucket: bucket,

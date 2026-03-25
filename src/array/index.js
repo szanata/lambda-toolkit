@@ -1,8 +1,8 @@
-const joinUnique = require( './join_unique' );
-const joinUniqueCustom = require( './join_unique_custom' );
-const splitBatches = require( './split_batches' );
+import { joinUnique } from './join_unique.js';
+import { joinUniqueCustom } from './join_unique_custom.js';
+import { splitBatches } from './split_batches.js';
 
-module.exports = {
+export {
   joinUnique,
   joinUniqueCustom,
   splitBatches

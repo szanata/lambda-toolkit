@@ -1,6 +1,6 @@
-const calcMean = require( './calc_mean' );
+import { calcMean } from './calc_mean.js';
 
-module.exports = values => {
+export const calcStdDevSample = values => {
   if ( values.length < 2 ) { return NaN; }
 
   const mean = calcMean( values );

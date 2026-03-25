@@ -1,1 +1,1 @@
-module.exports = class LambdaApiValidationError extends Error {};
+export class LambdaApiValidationError extends Error {};

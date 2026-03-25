@@ -1,8 +1,8 @@
-const { DynamoDBClient } = require( '@aws-sdk/client-dynamodb' );
-const { DynamoDBDocumentClient } = require( '@aws-sdk/lib-dynamodb' );
-const cache = require( '../core/cache_storage' );
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { CacheStorage } from '../core/cache_storage.js';
 
-module.exports = nativeArgs => {
+export const documentClientProvider = nativeArgs => {
   const translateConfig = {
     // Yes I copied those from the docs, read more here:
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1
@@ -21,11 +21,11 @@ module.exports = nativeArgs => {
   };
 
   const key = `Dynamodb(${JSON.stringify( nativeArgs )}).DocumentClient`;
-  return cache.get( key ) ?? ( () => {
+  return CacheStorage.get( key ) ?? ( () => {
     const client = new DynamoDBClient( nativeArgs );
     const docClient = DynamoDBDocumentClient.from( client, translateConfig );
 
-    cache.set( key, docClient );
+    CacheStorage.set( key, docClient );
     return docClient;
   } )();
 };

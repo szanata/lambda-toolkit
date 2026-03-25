@@ -1,9 +1,9 @@
-const deleteMessage = require( './delete_message' );
-const sendMessage = require( './send_message' );
-const sendMessageBatch = require( './send_message_batch' );
-const { SQSClient } = require( '@aws-sdk/client-sqs' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { deleteMessage } from './delete_message.js';
+import { sendMessage } from './send_message.js';
+import { sendMessageBatch } from './send_message_batch.js';
+import { SQSClient } from '@aws-sdk/client-sqs';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   deleteMessage,
@@ -11,4 +11,4 @@ const methods = {
   sendMessageBatch
 };
 
-module.exports = createInstance( clientProvider.bind( null, SQSClient ), methods );
+export const sqs = createInstance( genericClientProvider.bind( null, SQSClient ), methods );

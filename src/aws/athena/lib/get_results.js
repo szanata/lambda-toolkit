@@ -1,6 +1,6 @@
-const { GetQueryExecutionCommand, GetQueryResultsCommand } = require( '@aws-sdk/client-athena' );
-const parseResults = require( './parse_results' );
-const pollingDelay = require( './polling_delay' );
+import { GetQueryExecutionCommand, GetQueryResultsCommand } from '@aws-sdk/client-athena';
+import { parseResults } from './parse_results.js';
+import { pollingDelay } from './polling_delay.js';
 
 const sleep = t => new Promise( r => setTimeout( () => r(), t ) );
 
@@ -26,7 +26,7 @@ const getQueryResultsRecursive = async ( { client, queryExecutionId, token } ) =
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/athena/command/GetQueryResultsCommand/
  * { client, recursive, queryExecutionId, maxResults, paginationToken }
  */
-const getResults = async ( { client, recursive, queryExecutionId, token, maxResults } ) => {
+export const getResults = async ( { client, recursive, queryExecutionId, token, maxResults } ) => {
   const { QueryExecution: { Status: status } } = await client.send( new GetQueryExecutionCommand( { QueryExecutionId: queryExecutionId } ) );
 
   if ( status.State === 'FAILED' ) {
@@ -42,5 +42,3 @@ const getResults = async ( { client, recursive, queryExecutionId, token, maxResu
   await sleep( pollingDelay );
   return getResults( { client, recursive, queryExecutionId, token, maxResults } );
 };
-
-module.exports = getResults;

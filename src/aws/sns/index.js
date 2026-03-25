@@ -1,12 +1,12 @@
-const publish = require( './publish' );
-const publishBatch = require( './publish_batch' );
-const { SNSClient } = require( '@aws-sdk/client-sns' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { publish } from './publish.js';
+import { publishBatch } from './publish_batch.js';
+import { SNSClient } from '@aws-sdk/client-sns';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   publish,
   publishBatch
 };
 
-module.exports = createInstance( clientProvider.bind( null, SNSClient ), methods );
+export const sns = createInstance( genericClientProvider.bind( null, SNSClient ), methods );

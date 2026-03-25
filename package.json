@@ -1,16 +1,28 @@
 {
   "name": "lambda-toolkit",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A set of tools to help and simplify Node Js code development for AWS Lambdas",
   "files": [
     "./license",
     "./dist"
   ],
-  "main": "./dist/index.js",
-  "author": "Stéfano Zanata",
+  "type": "module",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.mjs"
+  },
+  "author": {
+    "name": "Stéfano Zanata",
+    "url": "https://szanata.com"
+  },
+  "contributors": [
+    {
+      "name": "Lorenzo Zanatta"
+    }
+  ],
   "scripts": {
     "build": "webpack --stats errors-only",
-    "test": "jest --env=node",
+    "test": "node --experimental-test-module-mocks --test",
     "lint:fix": "eslint --fix",
     "lint": "eslint"
   },

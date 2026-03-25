@@ -21,9 +21,9 @@ As for the AWS SDK dependencies, this code is intended to run on AWS Lambda envi
 }
 ```
 
-## ES6
+## ESM and CJS
 
-This codebase was written in ES5 flavor. I plan to re-write it in ES6 and then provide both ES5 and ES6 builds when publishing to npm.
+This codebase is written in ESM, but both ESM and CJS builds are provided. When you import this library, Node.js automatically selects the correct build based on its module resolution rules. See the Node.js documentation on [determining the module system](https://nodejs.org/api/packages.html#determining-module-system) for more information.
 
 ## Documentation
 

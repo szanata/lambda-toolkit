@@ -1,6 +1,6 @@
-const { PublishBatchCommand } = require( '@aws-sdk/client-sns' );
+import { PublishBatchCommand } from '@aws-sdk/client-sns';
 
-module.exports = async ( client, topic, messages ) => {
+export const publishBatch = async ( client, topic, messages ) => {
   if ( messages.length > 10 ) {
     throw new Error( 'SNS.publishBatch only accepts up to 10 messages.' );
   }

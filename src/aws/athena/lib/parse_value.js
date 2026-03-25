@@ -5,7 +5,7 @@ const removeNullValues = ( o, isArray = Array.isArray( o ) ) =>
     return Object.assign( newObj, { [k]: v?.constructor === Object ? removeNullValues( v ) : v } );
   }, isArray ? [] : {} );
 
-module.exports = ( v, type ) => {
+export const parseValue = ( v, type ) => {
   if ( [ null, undefined ].includes( v ) ) {
     return undefined;
   }

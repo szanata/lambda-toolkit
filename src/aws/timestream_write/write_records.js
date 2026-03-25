@@ -1,6 +1,6 @@
-const { WriteRecordsCommand } = require( '@aws-sdk/client-timestream-write' );
+import { WriteRecordsCommand } from '@aws-sdk/client-timestream-write';
 
-module.exports = async ( client, { database, table, records, ignoreRejections = false } ) => {
+export const writeRecords = async ( client, { database, table, records, ignoreRejections = false } ) => {
   try {
     const response = await client.send( new WriteRecordsCommand( {
       DatabaseName: database,

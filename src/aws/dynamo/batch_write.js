@@ -1,5 +1,5 @@
-const { BatchWriteCommand } = require( '@aws-sdk/lib-dynamodb' );
-const splitBatches = require( '../../array/split_batches' );
+import { BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
+import { splitBatches } from '../../array/split_batches.js';
 
 const batchSize = 25;
 
@@ -17,5 +17,5 @@ const process = async ( { client, method, table, batches } ) => {
   } );
 };
 
-module.exports = async ( client, method, table, items ) =>
+export const batchWrite = async ( client, method, table, items ) =>
   process( { client, method, table, batches: splitBatches( items.map( getMapper( method ) ), batchSize ) } );

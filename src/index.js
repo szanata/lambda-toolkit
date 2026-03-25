@@ -1,21 +1,9 @@
-const { LambdaApi } = require( './lambda_api' );
-const array = require( './array' );
-const aws = require( './aws' );
-const epoch = require( './epoch' );
-const math = require( './math' );
-const object = require( './object' );
-const redis = require( './redis' );
-const string = require( './string' );
-const utils = require( './utils' );
-
-module.exports = {
-  array,
-  aws,
-  epoch,
-  LambdaApi,
-  math,
-  object,
-  redis,
-  string,
-  utils
-};
+export * from './lambda_api/index.js';
+export * as array from './array/index.js';
+export * as aws from './aws/index.js';
+export * as epoch from './epoch/index.js';
+export * as math from './math/index.js';
+export * as object from './object/index.js';
+export * as redis from './redis/index.js';
+export * as string from './string/index.js';
+export * as utils from './utils/index.js';

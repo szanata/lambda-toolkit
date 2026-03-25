@@ -1,8 +1,8 @@
-const writeRecords = require( './write_records' );
-const { TimestreamWriteClient } = require( '@aws-sdk/client-timestream-write' );
-const { Agent } = require( 'https' );
-const clientProvider = require( '../core/generic_client_provider' );
-const createInstance = require( '../core/create_instance' );
+import { writeRecords } from './write_records.js';
+import { TimestreamWriteClient } from '@aws-sdk/client-timestream-write';
+import { Agent } from 'node:https';
+import { genericClientProvider } from '../core/generic_client_provider.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = { writeRecords };
 const defaultArgs = {
@@ -10,4 +10,5 @@ const defaultArgs = {
   httpOptions: { timeout: 60000, agent: new Agent( { maxSockets: 5000 } ) }
 };
 
-module.exports = createInstance( args => clientProvider( TimestreamWriteClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );
+export const timestreamWrite =
+  createInstance( args => genericClientProvider( TimestreamWriteClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );

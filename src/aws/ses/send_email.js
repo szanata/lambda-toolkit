@@ -1,6 +1,6 @@
-const { SendEmailCommand } = require( '@aws-sdk/client-sesv2' );
+import { SendEmailCommand } from '@aws-sdk/client-sesv2';
 
-module.exports = ( client, { to = [], from, html, subject }, args ) =>
+export const sendEmail = ( client, { to = [], from, html, subject }, args ) =>
   client.send( new SendEmailCommand( {
     Destination: {
       ToAddresses: to

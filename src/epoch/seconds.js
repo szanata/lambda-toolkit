@@ -1,1 +1,1 @@
-module.exports = t => t * 1000;
+export const seconds = t => t * 1000;

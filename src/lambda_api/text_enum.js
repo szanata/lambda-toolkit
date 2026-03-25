@@ -1,4 +1,4 @@
-module.exports = {
+export const Text = {
   ERROR_500: 'Internal Server Error',
   ERROR_405: 'Method Not Allowed',
   INVALID_ERROR_TYPE: 'Argument "errorType" must be a constructor Function',

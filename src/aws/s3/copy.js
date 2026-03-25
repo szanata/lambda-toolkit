@@ -1,6 +1,6 @@
-const { CopyObjectCommand } = require( '@aws-sdk/client-s3' );
+import { CopyObjectCommand } from '@aws-sdk/client-s3';
 
-module.exports = async ( client, bucket, key, source, nativeArgs ) => {
+export const copy = async ( client, bucket, key, source, nativeArgs ) => {
   const response = await client.send( new CopyObjectCommand( {
     ...nativeArgs,
     Bucket: bucket,

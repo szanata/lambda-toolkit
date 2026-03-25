@@ -1,5 +1,5 @@
 // convert a string to snake_case
-module.exports = ( input, { keepAllCaps = false } = {} ) =>
+export const snakelize = ( input, { keepAllCaps = false } = {} ) =>
   // Break the string into sequences to rebuild later
   !input ? input : input.split( /\s/ )
     // ALL_CAPS terms are ignored

@@ -1,6 +1,6 @@
-const startQuery = require( './start_query' );
-const getResults = require( './get_results' );
-const parseResults = require( './parse_results' );
+import { startQuery } from './start_query.js';
+import { getResults } from './get_results.js';
+import { parseResults } from './parse_results.js';
 
 /**
  * @class Result
@@ -19,7 +19,7 @@ const parseResults = require( './parse_results' );
  * @param {Number} options.range.to The end of the time range to query, overwrites "endTime"
  * @returns {Result} The query result
  */
-module.exports = async ( client, nativeArgs, { range = {} } = {} ) => {
+export const query = async ( client, nativeArgs, { range = {} } = {} ) => {
   const queryId = await startQuery( { client, nativeArgs, range } );
   const results = await getResults( { client, queryId } );
   const items = parseResults( results );

@@ -1,6 +1,6 @@
-const { UpdateCommand } = require( '@aws-sdk/lib-dynamodb' );
+import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
-module.exports = async ( client, tableName, key, keyValues ) => {
+export const smartUpdate = async ( client, tableName, key, keyValues ) => {
   const { updates, removals, names, values } = Object.entries( keyValues ).reduce( ( args, [ k, value ], index ) => {
     const isRemoval = value === undefined;
 

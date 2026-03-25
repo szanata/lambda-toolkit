@@ -1,15 +1,15 @@
-const documentClientProvider = require( './document_client_provider' );
-const get = require( './get' );
-const put = require( './put' );
-const putBatch = require( './put_batch' );
-const query = require( './query' );
-const remove = require( './remove' );
-const removeBatch = require( './remove_batch' );
-const scan = require( './scan' );
-const smartUpdate = require( './smart_update' );
-const transactWrite = require( './transact_write' );
-const update = require( './update' );
-const createInstance = require( '../core/create_instance' );
+import { documentClientProvider } from './document_client_provider.js';
+import { get } from './get.js';
+import { put } from './put.js';
+import { putBatch } from './put_batch.js';
+import { query } from './query.js';
+import { remove } from './remove.js';
+import { removeBatch } from './remove_batch.js';
+import { scan } from './scan.js';
+import { smartUpdate } from './smart_update.js';
+import { transactWrite } from './transact_write.js';
+import { update } from './update.js';
+import { createInstance } from '../core/create_instance.js';
 
 const methods = {
   get,
@@ -24,4 +24,4 @@ const methods = {
   update
 };
 
-module.exports = createInstance( documentClientProvider, methods );
+export const dynamo = createInstance( documentClientProvider, methods );

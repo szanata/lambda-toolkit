@@ -1,6 +1,6 @@
-const { StartQueryCommand } = require( '@aws-sdk/client-cloudwatch-logs' );
+import { StartQueryCommand } from '@aws-sdk/client-cloudwatch-logs';
 
-module.exports = async ( { client, nativeArgs, range } ) => {
+export const startQuery = async ( { client, nativeArgs, range } ) => {
   const startTime = range?.from ? Math.trunc( range.from / 1000 ) : nativeArgs.startTime;
   const endTime = range?.to ? Math.trunc( range.to / 1000 ) : nativeArgs.endTime;
 

@@ -1,6 +1,6 @@
-const { PublishCommand } = require( '@aws-sdk/client-sns' );
+import { PublishCommand } from '@aws-sdk/client-sns';
 
-module.exports = async ( client, topic, message, args = {} ) => {
+export const publish = async ( client, topic, message, args = {} ) => {
   const response = await client.send( new PublishCommand( {
     ...args,
     TopicArn: topic,

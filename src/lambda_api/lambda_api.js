@@ -1,12 +1,12 @@
-const validators = require( './validators' );
-const ApiResponse = require( './api_response' );
-const Event = require( './event' );
-const Handler = require( './handler' );
-const Hook = require( './hook' );
-const UserResponse = require( './user_response' );
-const Text = require( './text_enum' );
+import { Validator } from './validator.js';
+import { ApiResponse } from './api_response.js';
+import { Event } from './event.js';
+import { Handler } from './handler.js';
+import { Hook } from './hook.js';
+import { UserResponse } from './user_response.js';
+import { Text } from './text_enum.js';
 
-module.exports = class LambdaApi {
+export class LambdaApi {
   #apiResponse = null;
   #handlers = [];
   #errorResponses = [];
@@ -17,11 +17,18 @@ module.exports = class LambdaApi {
   /**
    * Creates a new Lambda Api
    *
-   * @param {Object} headers Any headers you want to be included in all responses
+   * @param {Object} args
+   * @param {Object} [args.headers={}] Any headers to be included in all responses. Defaults to none.
+   * @param {'camelcase'|'snakecase'} [args.transformRequest=false]
+   *                                  Transform the request query string, parameters and body to camelCase or snake_case.
+   *                                  Defaults to no transformation.
+   * @param {'camelcase'|'snakecase'} [args.transformResponse=false]
+   *                                  Transform the response body to camelCase or snake_case
+   *                                  Defaults to no transformation.
    */
   constructor( { headers = {}, transformRequest = false, transformResponse = false } = {} ) {
-    validators.transformRequest( transformRequest );
-    validators.transformResponse( transformResponse );
+    Validator.transformRequest( transformRequest );
+    Validator.transformResponse( transformResponse );
 
     this.#transformRequest = transformRequest;
     this.#apiResponse = new ApiResponse( { headers, transform: transformResponse } );
@@ -70,19 +77,18 @@ module.exports = class LambdaApi {
    * Register an automatic error code response for given error class (constructor name)
    *
    * @param {Object} args
-   * @param {string} args.code The HTTP status code to return
    * @param {class} args.errorType The error class
+   * @param {number} args.code The HTTP status code to return
    * @param {string} [args.message=null] Optional message to return for the status code, if not present will default to Error.message
-   * @param {message} [args.errorType] And optional message to display
    */
   addErrorHandler( { errorType, code, message = null } = {} ) {
-    validators.statusCode( code );
-    validators.errorType( errorType );
+    Validator.statusCode( code );
+    Validator.errorType( errorType );
     this.#errorResponses.push( { errorType, code, message } );
   }
 
   /**
-   * Init the flow using a given AWS Lambda APIGateway event (v2 syntax)
+   * Init the flow using a given AWS Lambda APIGateway event
    *
    * @param {Object} ApiGatewayPayload The raw API Gateway event
    * @returns {Object} The http response with status, body and headers

@@ -41,6 +41,13 @@ A new string which the value is the converted input.
 #### Example
 
 ```js
+// CJS
+const { string: { camelize } } = require( 'lambda-toolkit' );
+
+// ESM
+import { string } from 'lambda-toolkit';
+const { camelize } = string;
+
 const result = camelize( 'foo_bar' );
 assert.deepEqual( result, 'fooBar' );
 ```
@@ -64,6 +71,13 @@ A new string which the value is the converted input.
 #### Example
 
 ```js
+// CJS
+const { string: { capitalizeWords } } = require( 'lambda-toolkit' );
+
+// ESM
+import { string } from 'lambda-toolkit';
+const { capitalizeWords } = string;
+
 const result = capitalizeWords( 'snake_case bar' );
 assert.deepEqual( result, 'Snake_case Bar' );
 ```
@@ -97,6 +111,13 @@ A new string which the value is the converted input.
 #### Example
 
 ```js
+// CJS
+const { string: { snakelize } } = require( 'lambda-toolkit' );
+
+// ESM
+import { string } from 'lambda-toolkit';
+const { snakelize } = string;
+
 const result = snakelize( 'fooBar' );
 assert.deepEqual( result, 'foo_bar' );
 ```

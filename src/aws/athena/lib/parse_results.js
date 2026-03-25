@@ -1,6 +1,6 @@
-const parseValue = require( './parse_value' );
+import { parseValue } from './parse_value.js';
 
-module.exports = resultSet => {
+export const parseResults = resultSet => {
   const columns = resultSet.ResultSetMetadata.ColumnInfo
     .map( col => ( { name: col.Name, type: col.Type } ) );
 

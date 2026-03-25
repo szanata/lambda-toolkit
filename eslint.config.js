@@ -1,7 +1,7 @@
-const js = require( '@eslint/js' );
-const globals = require( 'globals' );
-const importPlugin = require( 'eslint-plugin-import' );
-const stylistic = require( '@stylistic/eslint-plugin' );
+import js from '@eslint/js';
+import globals from 'globals';
+import importPlugin from 'eslint-plugin-import';
+import stylistic from '@stylistic/eslint-plugin';
 
 const styleRules = {
   '@stylistic/array-bracket-spacing': [ 'error', 'always' ],
@@ -54,6 +54,15 @@ const lintRules = {
   eqeqeq: [ 'error' ],
   'func-names': 0,
   'global-require': [ 'error' ],
+  'import/extensions': [
+    'error',
+    'ignorePackages',
+    {
+      js: 'always',
+      mjs: 'always',
+      json: 'always'
+    }
+  ],
   'init-declarations': [ 'error', 'always' ],
   'no-bitwise': [ 'error', { int32Hint: true } ],
   'no-buffer-constructor': [ 'error' ],
@@ -78,7 +87,7 @@ const lintRules = {
   'require-atomic-updates': 0
 };
 
-module.exports = [
+export default [
   {
     ignores: [
       'dist/**',
@@ -89,11 +98,9 @@ module.exports = [
   js.configs.recommended,
   importPlugin.flatConfigs.recommended,
   {
+    files: [ '**/*.{js,cjs,mjs}' ],
     languageOptions: {
-      parserOptions: {
-        ecmaVersion: 2024,
-        sourceType: 'commonjs'
-      },
+      ecmaVersion: 2025,
       globals: {
         ...globals.node,
         ...globals.jest

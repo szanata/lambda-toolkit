@@ -1,4 +1,4 @@
-module.exports = input =>
+export const capitalizeWords = input =>
   // Break the string into sequences to rebuild later
   !input ? input : input.split( /\s/ )
     // ALL_CAPS terms are ignored
