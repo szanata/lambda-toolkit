@@ -24,21 +24,21 @@ if [[ $cmd == "node" ]]; then
 
 elif [[ $cmd == "publish" ]]; then
   print_title "Publishing"
-  docker run "$node_image" --rm -it \
+  docker run --rm -it \
     --env-file="./.env" \
     --entrypoint=sh \
     -e COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     -v `pwd`:/app/ \
-    -w /app/ \
+    -w /app/ "$node_image" \
     -c "corepack enable && ./ops/build.sh && ./ops/publish.sh"
 
 elif [[ $cmd = "aws" ]]; then
   print_title "AWS dev"
-  docker run "$infra_image" --rm -it \
-    --entrypoint bash \
+  docker run --rm -it \
+    --entrypoint=bash \
     -e COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     -v `pwd`:/app/:cached \
-    -w /app/ \
+    -w /app/ "$infra_image" \
     -c "corepack enable && exec bash"
 else
   printf "\n\e[1;31mInvalid command \"$cmd\". Try again :(\e[0m\n"
