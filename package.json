@@ -51,9 +51,11 @@
     "@aws-sdk/s3-request-presigner": "3.1018.0"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@stylistic/eslint-plugin": "5.10.0",
     "eslint": "10.1.0",
     "eslint-plugin-import": "2.32.0",
+    "globals": "17.4.0",
     "webpack": "5.105.4",
     "webpack-cli": "7.0.2"
   },
