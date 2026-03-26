@@ -21,4 +21,14 @@ npm run test
 printf "\e[0;36m(Bundling)\e[0m\n"
 npm run build
 
+printf "\e[0;36m(Check build)\e[0m\n"
+if [ ! -f ./dist/index.cjs ]; then
+  printf "\e[31mMissing .cjs build\e[0m\n"
+  exit 1
+fi
+if [ ! -f ./dist/index.mjs ]; then
+  printf "\e[31mMissing .mjs build\e[0m\n"
+  exit 1
+fi
+
 printf "\e[0;36m(Done)\e[0m\n"
