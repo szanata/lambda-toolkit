@@ -13,15 +13,33 @@ print_title() {
 
 if [[ $cmd == "node" ]]; then
   print_title "Node dev"
-  docker run --rm -it --env-file="./.env" -e NODE_ENV=development -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh
+  docker run --rm -it \
+    --env-file="./.env" \
+    --entrypoint=sh \
+    -e COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
+    -e NODE_ENV=development \
+    -v `pwd`:/app/ \
+    -w /app/ "$node_image" \
+    -c "corepack enable && exec sh"
 
 elif [[ $cmd == "publish" ]]; then
   print_title "Publishing"
-  docker run --rm -it --env-file="./.env" -v `pwd`:/app/ -w /app/ "$node_image" /bin/sh -c "./ops/build.sh && ./ops/publish.sh"
+  docker run --rm -it \
+    --env-file="./.env" \
+    --entrypoint=sh \
+    -e COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
+    -v `pwd`:/app/ \
+    -w /app/ "$node_image" \
+    -c "corepack enable && ./ops/build.sh && ./ops/publish.sh"
 
 elif [[ $cmd = "aws" ]]; then
   print_title "AWS dev"
-  docker run --rm -it -v `pwd`:/app/:cached -w /app/ "$infra_image" /bin/bash
+  docker run --rm -it \
+    --entrypoint=bash \
+    -e COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
+    -v `pwd`:/app/:cached \
+    -w /app/ "$infra_image" \
+    -c "corepack enable && exec bash"
 else
   printf "\n\e[1;31mInvalid command \"$cmd\". Try again :(\e[0m\n"
 fi

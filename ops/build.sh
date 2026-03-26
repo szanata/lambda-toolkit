@@ -10,16 +10,16 @@ printf "│ \e[0;36mBuild\e[0;36m │\n"
 printf "╰───────╯\e[0m\n"
 
 printf "\e[0;36m(Installing)\e[0m\n"
-npm i
+pnpm i
 
 printf "\e[0;36m(Linting)\e[0m\n"
-npm run lint
+pnpm run lint
 
 printf "\e[0;36m(Testing)\e[0m\n"
-npm run test
+pnpm run test
 
 printf "\e[0;36m(Bundling)\e[0m\n"
-npm run build
+pnpm run build
 
 printf "\e[0;36m(Check build)\e[0m\n"
 if [ ! -f ./dist/index.cjs ]; then
