@@ -1,10 +1,7 @@
 import { resolve } from 'node:path';
-import { rmSync } from 'node:fs';
 
 const __dirname = import.meta.dirname;
 const distFolder = resolve( __dirname, 'dist' );
-
-rmSync( distFolder, { recursive: true, force: true } );
 
 const config = {
   context: __dirname,
@@ -25,6 +22,9 @@ export default [
       filename: 'index.mjs',
       library: {
         type: 'module'
+      },
+      clean: {
+        keep: /\.cjs$/
       }
     },
     experiments: {
@@ -38,6 +38,9 @@ export default [
       filename: 'index.cjs',
       library: {
         type: 'commonjs2'
+      },
+      clean: {
+        keep: /\.mjs$/
       }
     }
   }
