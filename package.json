@@ -36,25 +36,31 @@
   },
   "homepage": "https://github.com/szanata/lambda-toolkit",
   "dependencies": {
-    "@aws-sdk/client-athena": "3.984.0",
-    "@aws-sdk/client-cloudwatch-logs": "3.984.0",
-    "@aws-sdk/client-dynamodb": "3.984.0",
-    "@aws-sdk/client-lambda": "3.984.0",
-    "@aws-sdk/client-s3": "3.984.0",
-    "@aws-sdk/client-sesv2": "3.984.0",
-    "@aws-sdk/client-sns": "3.984.0",
-    "@aws-sdk/client-sqs": "3.984.0",
-    "@aws-sdk/client-ssm": "3.984.0",
-    "@aws-sdk/client-timestream-query": "3.984.0",
-    "@aws-sdk/client-timestream-write": "3.984.0",
-    "@aws-sdk/lib-dynamodb": "3.984.0",
-    "@aws-sdk/s3-request-presigner": "3.984.0"
+    "@aws-sdk/client-athena": "3.1018.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.1018.0",
+    "@aws-sdk/client-dynamodb": "3.1018.0",
+    "@aws-sdk/client-lambda": "3.1018.0",
+    "@aws-sdk/client-s3": "3.1018.0",
+    "@aws-sdk/client-sesv2": "3.1018.0",
+    "@aws-sdk/client-sns": "3.1018.0",
+    "@aws-sdk/client-sqs": "3.1018.0",
+    "@aws-sdk/client-ssm": "3.1018.0",
+    "@aws-sdk/client-timestream-query": "3.1018.0",
+    "@aws-sdk/client-timestream-write": "3.1018.0",
+    "@aws-sdk/lib-dynamodb": "3.1018.0",
+    "@aws-sdk/s3-request-presigner": "3.1018.0"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "5.7.1",
-    "eslint": "9.39.2",
+    "@stylistic/eslint-plugin": "5.10.0",
+    "eslint": "10.1.0",
     "eslint-plugin-import": "2.32.0",
-    "webpack": "5.105.0",
-    "webpack-cli": "6.0.1"
+    "webpack": "5.105.4",
+    "webpack-cli": "7.0.2"
+  },
+  "packageManager": "pnpm@10.30.2",
+  "pnpm": {
+    "overrides": {
+      "brace-expansion@<5.0.5": ">=5.0.5"
+    }
   }
 }
