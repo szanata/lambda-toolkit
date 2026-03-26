@@ -23,7 +23,9 @@ export default [
       library: {
         type: 'module'
       },
-      clean: true
+      clean: {
+        keep: /\.cjs$/
+      }
     },
     experiments: {
       outputModule: true
@@ -37,7 +39,9 @@ export default [
       library: {
         type: 'commonjs2'
       },
-      clean: true
+      clean: {
+        keep: /\.mjs$/
+      }
     }
   }
 ];
