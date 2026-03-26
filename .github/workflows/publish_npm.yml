@@ -18,6 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Enable pnpm
+        run: corepack enable
+
       - name: Build
         run: ./ops/build.sh
 
