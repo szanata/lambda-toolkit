@@ -1,6 +1,6 @@
 # Lambda Toolkit
 
-A set of tools to simplify Node Js code development specific for AWS Lambdas, including common functions and AWS SDK v3 abstractions.
+A set of tools to simplify Node Js code development specific for AWS Lambdas, including common functions and AWS SDK v3 abstractions to work with multiple serveless services from AWS, such as DynamoDB, SNS, SQS, API Gateway, etc.
 
 ## Origin
 
