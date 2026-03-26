@@ -44,7 +44,15 @@ const { aws: { dynamo } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { dynamo } = aws;
 
-const item = await dynamo.get( table, { pk: '123' } );
+// syntax sugar
+const item = await dynamo.get( 'my-table', { pk: '123' } );
+
+// native args
+const item = await dynamo.get( 'my-table', {
+  TableName: 'my-table',
+  Key: { pk: '123' },
+  ConsistentRead: true
+} );
 ```
 
 #### Arguments
@@ -98,7 +106,7 @@ const items = [
   { id: '2', name: 'Roger Corman' },
   { id: '3', name: 'Menahem Golan' }
 ]
-await dynamo.putBatch( table, items );
+await dynamo.putBatch( 'my-table', items );
 ```
 
 It is possible to pass any number of items to upsert, the function will manage the limits and do many operations if necessary, the function will also retry failed items if possible until all items are upserted.
@@ -146,7 +154,7 @@ import { aws } from 'lambda-toolkit';
 const { dynamo } = aws;
 
 // syntax sugar
-await dynamo.put( table, { id: '123', name: 'Roger' } );
+await dynamo.put( 'my-table', { id: '123', name: 'Roger' } );
 
 // native args
 await dynamo.put( {
@@ -211,7 +219,7 @@ const keys = [
   { id: '2' },
   { id: '3' }
 ]
-await dynamo.removeBatch( table, keys );
+await dynamo.removeBatch( 'my-table', keys );
 ```
 
 It is possible to pass any number of items to remove, the function will manage the limits and do many operations if necessary, the function will also retry failed items if possible until all items are removed.
@@ -248,7 +256,7 @@ The AWS policy statement to use this function is:
 
 ### `fn` remove
 
-This function is an abstraction for DynamoDB's `remove` action, using `RemoveCommand`. It will remove a single record.
+This function is an abstraction for DynamoDB's `remove` action, using `DeleteCommand`. It will remove a single record by its key, either with a convenient syntax sugar, or with the native arguments.
 
 ```js
 // CJS
@@ -258,19 +266,31 @@ const { aws: { dynamo } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { dynamo } = aws;
 
-const removedItem = await dynamo.remove( table, { id: '123' } );
+// syntax sugar
+const removedItem = await dynamo.remove( 'my-table', { id: '123' } );
+
+// native args
+const removedItem = await dynamo.remove( {
+  TableName: 'my-table',
+  ConditionExpression: 'attribute_exists(id)',
+  Key: { id: '123' }
+} );
 ```
 
 #### Arguments
 
 |Name|Type|Description|Default|
 |---|---|---|---|
+|_If first argument is object_|
+|nativeArgs|Object|The `lib-dynamodb` SDK [DeleteCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/DeleteCommand/)||
+|_If first argument is string_|
 |tableName|String|The name of the table||
-|key|Object|An object containing the key (or keys) properties of the record to retrieve||
+|key|Object|An object containing the key (or keys) properties of the record to remove||
 
 #### Return
 
-It returns the removed item.
+- When using the syntax sugar, returns the removed item, if any, or undefined
+- When using the native args, returns what is specified in the `ReturnValues` field
 
 #### Permission
 
