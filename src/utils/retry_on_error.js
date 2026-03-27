@@ -42,7 +42,7 @@ const execWithRetry = async ( closure, { limit, delay, retryHook, execCount = 0 
  *                             If this functions returns true, the retry flow continues until limit
  *                             If this functions returns false, the retry flow is aborted, returning false
  *                             If this functions throws an error, the retry flow is aborted with that error
- * @returns {Any} The closure result
+ * @returns {*} The closure result
  */
 export const retryOnError = async ( closure, { limit = 0, delay = 0, retryHook = null } = {} ) =>
   execWithRetry( closure, { limit, delay, retryHook } );
