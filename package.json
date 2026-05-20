@@ -49,7 +49,7 @@
     "url": "https://github.com/szanata/lambda-toolkit/issues"
   },
   "homepage": "https://github.com/szanata/lambda-toolkit",
-  "dependencies": {
+  "peerDependencies": {
     "@aws-sdk/client-athena": "3.1018.0",
     "@aws-sdk/client-cloudwatch-logs": "3.1018.0",
     "@aws-sdk/client-dynamodb": "3.1018.0",
@@ -65,10 +65,22 @@
     "@aws-sdk/s3-request-presigner": "3.1018.0"
   },
   "devDependencies": {
+    "@aws-sdk/client-athena": "3.1018.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.1018.0",
+    "@aws-sdk/client-dynamodb": "3.1018.0",
+    "@aws-sdk/client-lambda": "3.1018.0",
+    "@aws-sdk/client-s3": "3.1018.0",
+    "@aws-sdk/client-sesv2": "3.1018.0",
+    "@aws-sdk/client-sns": "3.1018.0",
+    "@aws-sdk/client-sqs": "3.1018.0",
+    "@aws-sdk/client-ssm": "3.1018.0",
+    "@aws-sdk/client-timestream-query": "3.1018.0",
+    "@aws-sdk/client-timestream-write": "3.1018.0",
+    "@aws-sdk/lib-dynamodb": "3.1018.0",
+    "@aws-sdk/s3-request-presigner": "3.1018.0",
     "@eslint/js": "10.0.1",
     "@stylistic/eslint-plugin": "5.10.0",
     "eslint": "10.1.0",
-    "eslint-plugin-import": "2.32.0",
     "globals": "17.4.0",
     "webpack": "5.105.4",
     "webpack-cli": "7.0.2"
