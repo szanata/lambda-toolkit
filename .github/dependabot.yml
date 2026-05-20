@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    registries:
+      - npm-npmjs
+    target-branch: "main"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      minor-updates:
+        update-types: ['patch', 'minor']
+        applies-to: 'version-updates'
+    cooldown:
+      default-days: 7

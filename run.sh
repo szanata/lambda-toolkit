@@ -4,7 +4,7 @@ set -e
 cmd=$1
 
 infra_image=meltwater/node-terraform-aws:latest
-node_image=node:24.13.0-alpine3.22
+node_image=node:24.15.0-alpine3.22
 
 print_title() {
   printf "\n\e[1;34m$1\n"
