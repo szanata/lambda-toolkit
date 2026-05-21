@@ -1,6 +1,5 @@
 import js from '@eslint/js';
 import globals from 'globals';
-import importPlugin from 'eslint-plugin-import';
 import stylistic from '@stylistic/eslint-plugin';
 
 const styleRules = {
@@ -54,15 +53,6 @@ const lintRules = {
   eqeqeq: [ 'error' ],
   'func-names': 0,
   'global-require': [ 'error' ],
-  'import/extensions': [
-    'error',
-    'ignorePackages',
-    {
-      js: 'always',
-      mjs: 'always',
-      json: 'always'
-    }
-  ],
   'init-declarations': [ 'error', 'always' ],
   'no-bitwise': [ 'error', { int32Hint: true } ],
   'no-buffer-constructor': [ 'error' ],
@@ -96,7 +86,6 @@ export default [
     ]
   },
   js.configs.recommended,
-  importPlugin.flatConfigs.recommended,
   {
     files: [ '**/*.{js,cjs,mjs}' ],
     languageOptions: {

@@ -1,8 +1,6 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    registries:
-      - npm-npmjs
     target-branch: "main"
     directory: "/"
     schedule:
