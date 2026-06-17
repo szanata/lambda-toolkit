@@ -4,6 +4,7 @@ import { getSignedDownloadUrl } from './get_signed_download_url.js';
 import { getSignedPostUrl } from './get_signed_post_url.js';
 import { getSignedUploadUrl } from './get_signed_upload_url.js';
 import { getSignedUrl } from './get_signed_url.js';
+import { get } from './get.js';
 import { head } from './head.js';
 import { upload } from './upload.js';
 import { S3Client } from '@aws-sdk/client-s3';
@@ -17,6 +18,7 @@ const methods = {
   getSignedPostUrl,
   getSignedUploadUrl,
   getSignedUrl,
+  get,
   head,
   upload
 };
