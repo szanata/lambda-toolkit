@@ -6,7 +6,7 @@ const constructorMock = mock.fn( () => commandInstance );
 
 mock.module( '@aws-sdk/client-s3', {
   namedExports: {
-    GetObjectCommand: new Proxy( class GetObjectCommand {}, {
+    PutObjectCommand: new Proxy( class PutObjectCommand {}, {
       construct( _, args ) {
         return constructorMock( ...args );
       }
@@ -22,7 +22,7 @@ mock.module( '@aws-sdk/s3-request-presigner', {
   }
 } );
 
-const { getSignedUrl } = await import( './get_signed_url.js' );
+const { getSignedUploadUrl } = await import( './get_signed_upload_url.js' );
 
 const client = {
   send: mock.fn()
@@ -30,10 +30,11 @@ const client = {
 
 const bucket = 'bucket';
 const key = 'key';
+const contentType = 'application/json';
 const expiration = 360;
 const response = 'htts://my-signed-url';
 
-describe( 'S3 Get Signed Url Spec', () => {
+describe( 'S3 Get Signed Upload Url Spec', () => {
   beforeEach( () => {
     constructorMock.mock.mockImplementation( () => commandInstance );
   } );
@@ -45,14 +46,26 @@ describe( 'S3 Get Signed Url Spec', () => {
     getSignedUrlMock.mock.resetCalls();
   } );
 
-  it( 'Should getSignedUrl a file from S3 and return its content', async () => {
+  it( 'Should get a signed upload url for a file from S3 and return its content', async () => {
     getSignedUrlMock.mock.mockImplementation( () => response );
 
-    const result = await getSignedUrl( client, bucket, key, expiration );
+    const result = await getSignedUploadUrl( client, bucket, key, expiration );
 
     strictEqual( result, response );
     strictEqual( constructorMock.mock.calls.length, 1 );
     deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Key: key, Bucket: bucket } );
+    strictEqual( getSignedUrlMock.mock.calls.length, 1 );
+    deepStrictEqual( getSignedUrlMock.mock.calls[0].arguments, [ client, commandInstance, { expiresIn: expiration } ] );
+  } );
+
+  it( 'Should get a signed upload url for a file from S3 with native args and return its content', async () => {
+    getSignedUrlMock.mock.mockImplementation( () => response );
+
+    const result = await getSignedUploadUrl( client, bucket, key, expiration, { ContentType: contentType } );
+
+    strictEqual( result, response );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Key: key, Bucket: bucket, ContentType: contentType } );
     strictEqual( getSignedUrlMock.mock.calls.length, 1 );
     deepStrictEqual( getSignedUrlMock.mock.calls[0].arguments, [ client, commandInstance, { expiresIn: expiration } ] );
   } );
