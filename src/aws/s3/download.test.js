@@ -1,16 +1,11 @@
 import { describe, it, mock, beforeEach, afterEach } from 'node:test';
 import { strictEqual, deepStrictEqual } from 'node:assert';
 
-const commandInstance = {};
-const constructorMock = mock.fn( () => commandInstance );
+const getObjectMock = mock.fn();
 
-mock.module( '@aws-sdk/client-s3', {
+mock.module( './get_object.js', {
   namedExports: {
-    GetObjectCommand: new Proxy( class GetObjectCommand {}, {
-      construct( _, args ) {
-        return constructorMock( ...args );
-      }
-    } )
+    getObject: getObjectMock
   }
 } );
 
@@ -25,13 +20,13 @@ const key = 'foo/bar';
 
 describe( 'S3 Download Spec', () => {
   beforeEach( () => {
-    constructorMock.mock.mockImplementation( () => commandInstance );
+    getObjectMock.mock.mockImplementation( () => {} );
   } );
 
   afterEach( () => {
     mock.restoreAll();
     client.send.mock.resetCalls();
-    constructorMock.mock.resetCalls();
+    getObjectMock.mock.resetCalls();
   } );
 
   it( 'Should download a file from S3 and return its content', async () => {
@@ -40,20 +35,14 @@ describe( 'S3 Download Spec', () => {
       toArray: async () => [ Buffer.from( content ) ]
     };
 
-    client.send.mock.mockImplementation( () => ( { Body: httpIncomingMessageMock } ) );
+    getObjectMock.mock.mockImplementation( () => ( { Body: httpIncomingMessageMock } ) );
 
     const result = await download( client, bucket, key, {
       ResponseContentEncoding: 'utf-8'
     } );
 
     strictEqual( result, content );
-    strictEqual( client.send.mock.calls.length, 1 );
-    deepStrictEqual( client.send.mock.calls[0].arguments[0], commandInstance );
-    strictEqual( constructorMock.mock.calls.length, 1 );
-    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], {
-      ResponseContentEncoding: 'utf-8',
-      Key: key,
-      Bucket: bucket
-    } );
+    strictEqual( getObjectMock.mock.calls.length, 1 );
+    deepStrictEqual( getObjectMock.mock.calls[0].arguments, [ client, bucket, key, { ResponseContentEncoding: 'utf-8' } ] );
   } );
 } );

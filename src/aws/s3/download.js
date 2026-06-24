@@ -1,11 +1,7 @@
-import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { getObject } from './get_object.js';
 
 export const download = async ( client, bucket, key, nativeArgs ) => {
-  const response = await client.send( new GetObjectCommand( {
-    ...nativeArgs,
-    Bucket: bucket,
-    Key: key
-  } ) );
+  const response = await getObject( client, bucket, key, nativeArgs );
   const stream = response.Body;
   return Buffer.concat( await stream.toArray() ).toString( 'utf-8' );
 };

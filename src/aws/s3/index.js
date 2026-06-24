@@ -1,5 +1,6 @@
 import { copy } from './copy.js';
 import { download } from './download.js';
+import { getObject } from './get_object.js';
 import { getSignedDownloadUrl } from './get_signed_download_url.js';
 import { getSignedPostUrl } from './get_signed_post_url.js';
 import { getSignedUploadUrl } from './get_signed_upload_url.js';
@@ -13,6 +14,7 @@ import { createInstance } from '../core/create_instance.js';
 const methods = {
   copy,
   download,
+  getObject,
   getSignedDownloadUrl,
   getSignedPostUrl,
   getSignedUploadUrl,
