@@ -1,11 +1,11 @@
 import { describe, it, mock, beforeEach, afterEach } from 'node:test';
 import { strictEqual, deepStrictEqual } from 'node:assert';
 
-const getMock = mock.fn();
+const getObjectMock = mock.fn();
 
-mock.module( './get.js', {
+mock.module( './get_object.js', {
   namedExports: {
-    get: getMock
+    getObject: getObjectMock
   }
 } );
 
@@ -20,13 +20,13 @@ const key = 'foo/bar';
 
 describe( 'S3 Download Spec', () => {
   beforeEach( () => {
-    getMock.mock.mockImplementation( () => {} );
+    getObjectMock.mock.mockImplementation( () => {} );
   } );
 
   afterEach( () => {
     mock.restoreAll();
     client.send.mock.resetCalls();
-    getMock.mock.resetCalls();
+    getObjectMock.mock.resetCalls();
   } );
 
   it( 'Should download a file from S3 and return its content', async () => {
@@ -35,14 +35,14 @@ describe( 'S3 Download Spec', () => {
       toArray: async () => [ Buffer.from( content ) ]
     };
 
-    getMock.mock.mockImplementation( () => ( { Body: httpIncomingMessageMock } ) );
+    getObjectMock.mock.mockImplementation( () => ( { Body: httpIncomingMessageMock } ) );
 
     const result = await download( client, bucket, key, {
       ResponseContentEncoding: 'utf-8'
     } );
 
     strictEqual( result, content );
-    strictEqual( getMock.mock.calls.length, 1 );
-    deepStrictEqual( getMock.mock.calls[0].arguments, [ client, bucket, key, { ResponseContentEncoding: 'utf-8' } ] );
+    strictEqual( getObjectMock.mock.calls.length, 1 );
+    deepStrictEqual( getObjectMock.mock.calls[0].arguments, [ client, bucket, key, { ResponseContentEncoding: 'utf-8' } ] );
   } );
 } );

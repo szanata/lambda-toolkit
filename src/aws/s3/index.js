@@ -1,10 +1,10 @@
 import { copy } from './copy.js';
 import { download } from './download.js';
+import { getObject } from './get_object.js';
 import { getSignedDownloadUrl } from './get_signed_download_url.js';
 import { getSignedPostUrl } from './get_signed_post_url.js';
 import { getSignedUploadUrl } from './get_signed_upload_url.js';
 import { getSignedUrl } from './get_signed_url.js';
-import { get } from './get.js';
 import { head } from './head.js';
 import { upload } from './upload.js';
 import { S3Client } from '@aws-sdk/client-s3';
@@ -14,11 +14,11 @@ import { createInstance } from '../core/create_instance.js';
 const methods = {
   copy,
   download,
+  getObject,
   getSignedDownloadUrl,
   getSignedPostUrl,
   getSignedUploadUrl,
   getSignedUrl,
-  get,
   head,
   upload
 };

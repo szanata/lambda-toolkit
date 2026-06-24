@@ -14,7 +14,7 @@ mock.module( '@aws-sdk/client-s3', {
   }
 } );
 
-const { get } = await import( './get.js' );
+const { getObject } = await import( './get_object.js' );
 
 const client = {
   send: mock.fn()
@@ -23,7 +23,7 @@ const client = {
 const bucket = 'foo-bucket';
 const key = 'foo/bar';
 
-describe( 'S3 Get Spec', () => {
+describe( 'S3 Get Object Spec', () => {
   beforeEach( () => {
     constructorMock.mock.mockImplementation( () => commandInstance );
   } );
@@ -34,7 +34,7 @@ describe( 'S3 Get Spec', () => {
     constructorMock.mock.resetCalls();
   } );
 
-  it( 'Should get a file from S3 and return the raw response', async () => {
+  it( 'Should get an object from S3 and return the raw response', async () => {
     const content = 'Hi there';
     const httpIncomingMessageMock = {
       toArray: async () => [ Buffer.from( content ) ]
@@ -43,7 +43,7 @@ describe( 'S3 Get Spec', () => {
 
     client.send.mock.mockImplementation( () => response );
 
-    const result = await get( client, bucket, key, {
+    const result = await getObject( client, bucket, key, {
       ResponseContentEncoding: 'utf-8'
     } );
 
