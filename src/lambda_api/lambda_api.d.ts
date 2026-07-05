@@ -1,9 +1,49 @@
-import { Event } from './event.js';
-
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD';
-type HandlerFunction = (event: Event) => any;
-type HookFunction = (event: Event) => Promise<void> | void;
 type TransformFunction = 'camelcase' | 'snakecase' | false | null;
+
+/**
+ * Parsed HTTP request event passed to handlers.
+ * Created by LambdaApi from raw AWS ApiGateway event.
+ */
+export interface LambdaApiEvent {
+  /** HTTP method (GET, POST, etc.) */
+  method: string;
+  /** Resource route */
+  route: string;
+  /** Resource path */
+  path: string;
+  /** Request headers */
+  headers: Record<string, string>;
+  /** Route parameters */
+  params: Record<string, any>;
+  /** Query string parameters */
+  queryString: Record<string, any>;
+  /** Request body (JSON parsed or string) */
+  body: any;
+  /** Raw body before parsing */
+  rawBody: string | null;
+  /** Whether body is base64 encoded */
+  isBase64Encoded: boolean;
+  /** Authorizer context from API Gateway */
+  authorizer?: Record<string, any>;
+  /** Lambda context object */
+  context: Record<string, any>;
+}
+
+/**
+ * Valid handler return values.
+ * Maps to HTTP responses with status code, body, headers, and encoding.
+ */
+export type HandlerResponse =
+  | undefined
+  | null
+  | string
+  | number
+  | [statusCode: number, body?: any, headers?: Record<string, string>, isBase64Encoded?: boolean]
+  | { statusCode: number; body?: any; headers?: Record<string, string>; isBase64Encoded?: boolean };
+
+type HandlerFunction = (event: LambdaApiEvent) => HandlerResponse;
+type HookFunction = (event: LambdaApiEvent) => Promise<void> | void;
 
 /**
  * API abstraction for AWS Lambda + ApiGateway.
@@ -77,9 +117,10 @@ export class LambdaApi {
   /**
    * Register an error handler for a specific error type.
    * If a handler throws an error of this type, the response will use the specified code.
+   * errorType can be any constructor that can be used with instanceof.
    */
   addErrorHandler(options: {
-    errorType: new (...args: any[]) => Error;
+    errorType: new (...args: any[]) => any;
     code: number;
     message?: string;
   }): void;
