@@ -81,7 +81,7 @@ describe( 'Validator Spec', () => {
     } );
   }
 
-  const g2 = [ 'matcherPathMatch', 'matcherRouteMatch' ];
+  const g2 = [ 'matcherPathMatches', 'matcherRouteMatches' ];
   for ( const fn of g2 ) {
     describe( fn, () => {
       it( 'Should allow undefined', () => {
