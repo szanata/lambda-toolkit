@@ -256,10 +256,10 @@ const command = new GetObjectCommand( {
   Key: 'foo/bar'
 } );
 
-const response = await s3.getClient.send( command );
+const response = await s3.getClient().send( command );
 ```
 
-In this example `getClient` returns a native `S3Client` instance.
+In this example `getClient()` returns a native `S3Client` instance.
 
 This is true for all modules, except `dynamo`, which has an special behavior:
 

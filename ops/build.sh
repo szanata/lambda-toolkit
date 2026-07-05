@@ -12,6 +12,9 @@ printf "╰───────╯\e[0m\n"
 printf "\e[0;36m(Installing)\e[0m\n"
 pnpm i
 
+printf "\e[0;36m(Typecheck)\e[0m\n"
+pnpm run typecheck
+
 printf "\e[0;36m(Linting)\e[0m\n"
 pnpm run lint
 
