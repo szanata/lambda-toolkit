@@ -60,7 +60,7 @@ describe( 'S3 Get Signed Download Url Spec', () => {
   it( 'Should get a signed download url for a file from S3 with native args and return its content', async () => {
     getSignedUrlMock.mock.mockImplementation( () => response );
 
-    const contentDisposition = 'attachment; filename="test.txt"';
+    const contentDisposition = 'attachment; filename="key"';
     const result = await getSignedDownloadUrl( client, bucket, key, expiration, { ResponseContentDisposition: contentDisposition } );
 
     strictEqual( result, response );
