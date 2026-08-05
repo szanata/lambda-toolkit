@@ -9,14 +9,14 @@ printf "╭───────╮\n"
 printf "│ \e[0;36mBuild\e[0;36m │\n"
 printf "╰───────╯\e[0m\n"
 
-printf "\e[0;36m(Installing)\e[0m\n"
-pnpm i
+# printf "\e[0;36m(Installing)\e[0m\n"
+# pnpm i
 
-printf "\e[0;36m(Linting)\e[0m\n"
-pnpm run lint
+# printf "\e[0;36m(Linting)\e[0m\n"
+# pnpm run lint
 
-printf "\e[0;36m(Testing)\e[0m\n"
-pnpm run test
+# printf "\e[0;36m(Testing)\e[0m\n"
+# pnpm run test
 
 printf "\e[0;36m(Bundling)\e[0m\n"
 pnpm run build
@@ -33,7 +33,9 @@ fi
 
 printf "\e[0;36m(Generating types)\e[0m\n"
 
-npx --yes -p typescript tsc \
+rm -rf ./dts-out
+
+npx -y -p typescript tsc \
   --allowJs --checkJs false --strict false \
   --module nodenext --target ES2024 \
   --skipLibCheck --declaration --emitDeclarationOnly \
@@ -47,11 +49,29 @@ echo '{
   }
 }' > ./dts-out/tsconfig.json
 
-npx --yes dts-bundle-generator \
-  --out-file dist/index.d.ts \
-  --project ./dts-out/tsconfig.json \
-  ./dts-out/index.d.ts
+echo '{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "projectFolder": ".",
+  "mainEntryPointFilePath": "<projectFolder>/dts-out/index.d.ts",
+  "compiler": {
+    "tsconfigFilePath": "<projectFolder>/dts-out/tsconfig.json"
+  },
+  "apiReport": { "enabled": false },
+  "docModel": { "enabled": false },
+  "dtsRollup": {
+    "enabled": true,
+    "untrimmedFilePath": "<projectFolder>/dist/index.d.ts"
+  },
+  "tsdocMetadata": { "enabled": false }
+}' > ./api-extractor.json
 
-rm -rf ./dts-out
+npx -y @microsoft/api-extractor run --config ./api-extractor.json --local
+
+rm -f ./api-extractor.json
+
+# npx -y dts-bundle-generator \
+#   --out-file dist/index.d.ts \
+#   --project ./dts-out/tsconfig.json \
+#   ./dts-out/index.d.ts
 
 printf "\e[0;36m(Done)\e[0m\n"

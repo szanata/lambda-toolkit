@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "build": "webpack --stats errors-only",
-    "test": "node --experimental-test-module-mocks --test",
+    "test": "node --experimental-test-module-mocks --test --test-reporter=spec",
     "lint:fix": "eslint --fix",
     "lint": "eslint"
   },

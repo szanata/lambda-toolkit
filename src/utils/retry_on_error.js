@@ -33,16 +33,25 @@ const execWithRetry = async ( closure, { limit, delay, retryHook, execCount = 0 
 };
 
 /**
- *
- * @param {Function} closure A self contained function that will be invoked
+ * Retry a closure on error
+ * 
+ * @template {any[]} Args
+ * @template T
+ * 
+ * @param {{(...args: Args) => Promise<T> | T}} closure A self contained function that will be invoked
  * @param {Object} config
- * @param {Number} config.limit The max number of retries
- * @param {Number} config.delay The delay between each retry (it will be raised to the power of the number of retries, so it is exponential back-off)
- * @param {Function} config.retryHook A function to be called every time a retry is needed.
- *                             If this functions returns true, the retry flow continues until limit
- *                             If this functions returns false, the retry flow is aborted, returning false
- *                             If this functions throws an error, the retry flow is aborted with that error
- * @returns {*} The closure result
+ * @param {Number} [config.limit=0] The max number of retries
+ * @param {Number} [config.delay=0] The delay between each retry (it will be raised to the power of the number of retries, so it is exponential back-off)
+ * @param {{(error: Error, execCount: number) => Promise<boolean> | boolean}} [config.retryHook=null]
+ *  A function to be called every time a retry is needed.
+ *  - If this functions returns true, the retry flow continues until limit
+ *  - If this functions returns false, the retry flow is aborted, returning false
+ *  - If this functions throws an error, the retry flow is aborted with that error
+ * @returns {Promise<T>} The closure result
  */
-export const retryOnError = async ( closure, { limit = 0, delay = 0, retryHook = null } = {} ) =>
+const retryOnError = async ( closure, { limit = 0, delay = 0, retryHook = null } = {} ) =>
   execWithRetry( closure, { limit, delay, retryHook } );
+
+export {
+  retryOnError
+};
