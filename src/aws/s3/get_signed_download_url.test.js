@@ -56,4 +56,17 @@ describe( 'S3 Get Signed Download Url Spec', () => {
     strictEqual( getSignedUrlMock.mock.calls.length, 1 );
     deepStrictEqual( getSignedUrlMock.mock.calls[0].arguments, [ client, commandInstance, { expiresIn: expiration } ] );
   } );
+
+  it( 'Should get a signed download url for a file from S3 with native args and return its content', async () => {
+    getSignedUrlMock.mock.mockImplementation( () => response );
+
+    const contentDisposition = 'attachment; filename="key"';
+    const result = await getSignedDownloadUrl( client, bucket, key, expiration, { ResponseContentDisposition: contentDisposition } );
+
+    strictEqual( result, response );
+    strictEqual( constructorMock.mock.calls.length, 1 );
+    deepStrictEqual( constructorMock.mock.calls[0].arguments[0], { Key: key, Bucket: bucket, ResponseContentDisposition: contentDisposition } );
+    strictEqual( getSignedUrlMock.mock.calls.length, 1 );
+    deepStrictEqual( getSignedUrlMock.mock.calls[0].arguments, [ client, commandInstance, { expiresIn: expiration } ] );
+  } );
 } );
