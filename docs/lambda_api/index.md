@@ -47,7 +47,9 @@ The LambdaAPI does not throws error. If any error happens within any handler, it
 
 ## HEAD request
 
-Requests using HTTP verb `HEAD` are handled different, they don't try to match handlers, they will always return `204 <empty>`.
+Requests using HTTP verb `HEAD` are handled different by default: if no handler is registered for `HEAD`, they will always return `204 <empty>` without trying to match any other handler.
+
+If you register a handler for `HEAD` (via `.addHandler( { method: 'HEAD', ... } )`), it takes precedence and is invoked normally, just like any other verb.
 
 ## Constructor
 

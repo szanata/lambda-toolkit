@@ -97,12 +97,12 @@ export class LambdaApi {
     const event = new Event( { transform: this.#transformRequest } );
     event.parseFromAwsEvent( awsEvent );
 
-    if ( event.method === 'HEAD' ) {
-      return this.#apiResponse.setContent( 204 ).toJSON();
-    }
-
     const handler = this.#handlers.find( h => h.match( event ) );
     if ( !handler ) {
+      if ( event.method === 'HEAD' ) {
+        return this.#apiResponse.setContent( 204 ).toJSON();
+      }
+
       return this.#apiResponse.setContent( 405, Text.ERROR_405 ).toJSON();
     }
 

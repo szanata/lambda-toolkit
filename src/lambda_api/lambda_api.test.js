@@ -268,4 +268,37 @@ describe( 'Api Spec', () => {
       strictEqual( control.mock.calls.length, 0 );
     } );
   } );
+
+  describe( 'HEAD request', () => {
+    const headEvent = {
+      version: '2.0',
+      requestContext: {
+        http: {
+          method: 'HEAD',
+          path: '/'
+        }
+      }
+    };
+
+    it( 'Should return HTTP 204 by default when no handler is registered for HEAD', async () => {
+      const api = new LambdaApi();
+      api.addHandler( { method: 'GET', fn: _ => 200 } );
+
+      const result = await api.process( headEvent );
+      partialDeepStrictEqual( result, { statusCode: 204 } );
+    } );
+
+    it( 'Should invoke a registered HEAD handler instead of the default response', async () => {
+      const api = new LambdaApi();
+      api.addHandler( { method: 'HEAD', fn: _ => [ 200, '', { 'Content-Length': '42' } ] } );
+
+      const result = await api.process( headEvent );
+      partialDeepStrictEqual( result, {
+        statusCode: 200,
+        headers: {
+          'Content-Length': '42'
+        }
+      } );
+    } );
+  } );
 } );
