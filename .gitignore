@@ -4,5 +4,3 @@ dist/
 .env
 
 .pnpm-store
-
-.copilot-instructions.md
