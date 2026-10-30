@@ -6,6 +6,7 @@ import { getSignedPostUrl } from './get_signed_post_url.js';
 import { getSignedUploadUrl } from './get_signed_upload_url.js';
 import { getSignedUrl } from './get_signed_url.js';
 import { head } from './head.js';
+import { remove } from './remove.js';
 import { upload } from './upload.js';
 import { S3Client } from '@aws-sdk/client-s3';
 import { genericClientProvider } from '../core/generic_client_provider.js';
@@ -20,6 +21,7 @@ const methods = {
   getSignedUploadUrl,
   getSignedUrl,
   head,
+  remove,
   upload
 };
 
