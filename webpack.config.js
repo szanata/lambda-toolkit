@@ -23,12 +23,10 @@ export default [
       library: {
         type: 'module'
       },
+      module: true,
       clean: {
         keep: /\.cjs$/
       }
-    },
-    experiments: {
-      outputModule: true
     }
   },
   {
