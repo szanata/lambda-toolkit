@@ -5,7 +5,7 @@ type TransformFunction = 'camelcase' | 'snakecase' | false | null;
  * Parsed HTTP request event passed to handlers.
  * Created by LambdaApi from raw AWS ApiGateway event.
  */
-export interface LambdaApiEvent {
+export interface LambdaApiEvent<TBody = any> {
   /** HTTP method (GET, POST, etc.) */
   method: string;
   /** Resource route */
@@ -19,7 +19,7 @@ export interface LambdaApiEvent {
   /** Query string parameters */
   queryString: Record<string, any>;
   /** Request body (JSON parsed or string) */
-  body: any;
+  body: TBody;
   /** Raw body before parsing */
   rawBody: string | null;
   /** Whether body is base64 encoded */
@@ -39,10 +39,10 @@ export type HandlerResponse =
   | null
   | string
   | number
-  | [statusCode: number, body?: any, headers?: Record<string, string>, isBase64Encoded?: boolean]
-  | { statusCode: number; body?: any; headers?: Record<string, string>; isBase64Encoded?: boolean };
+  | [statusCode: number, body?: unknown, headers?: Record<string, string>, isBase64Encoded?: boolean]
+  | { statusCode: number; body?: unknown; headers?: Record<string, string>; isBase64Encoded?: boolean };
 
-type HandlerFunction = (event: LambdaApiEvent) => HandlerResponse;
+type HandlerFunction<TBody = any> = (event: LambdaApiEvent<TBody>) => HandlerResponse | Promise<HandlerResponse>;
 type HookFunction = (event: LambdaApiEvent) => Promise<void> | void;
 
 /**
@@ -91,9 +91,9 @@ export class LambdaApi {
    * @param pathNotIncludes Path must not include this string (combinative)
    * @param pathMatches Path must match this RegExp (combinative)
    */
-  addHandler(options: {
+  addHandler<TBody = any>(options: {
     method: HttpMethod;
-    fn: HandlerFunction;
+    fn: HandlerFunction<TBody>;
     route?: string;
     path?: string;
     routeIncludes?: string;

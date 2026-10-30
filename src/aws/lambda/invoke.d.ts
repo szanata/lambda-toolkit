@@ -25,7 +25,7 @@ export type { LambdaError };
  */
 export function invoke(
   name: string,
-  payload?: Record<string, any>,
+  payload: unknown,
   type: 'Event' | 'DryRun'
 ): Promise<true>;
 
@@ -51,8 +51,8 @@ export function invoke(
  * const result2 = await lambda.invoke('my-function', { id: 123 }, 'RequestResponse');
  * ```
  */
-export function invoke(
+export function invoke<T = Record<string, any>>(
   name: string,
-  payload?: Record<string, any>,
+  payload?: unknown,
   type?: 'RequestResponse'
-): Promise<Record<string, any> | Uint8Array>;
+): Promise<T | Uint8Array>;

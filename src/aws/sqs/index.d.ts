@@ -2,7 +2,8 @@ import { SQSClient, SQSClientConfig } from '@aws-sdk/client-sqs';
 import { sendMessage } from './send_message.js';
 import { sendMessageBatch } from './send_message_batch.js';
 import { deleteMessage } from './delete_message.js';
-export type { SendMessageBatchCommandOutput, DeleteMessageCommandOutput } from './send_message_batch.js';
+export type { SendMessageBatchCommandOutput } from './send_message_batch.js';
+export type { DeleteMessageCommandOutput } from './delete_message.js';
 
 /**
  * SQS: Send and receive messages from Amazon SQS queues.

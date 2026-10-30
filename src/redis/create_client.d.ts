@@ -22,9 +22,9 @@
  * });
  * ```
  */
-export function createClient(options: {
-  redis: any;
+export function createClient<C extends { connect(): Promise<unknown>; ping(): Promise<string> }>(options: {
+  redis: { createClient(options: { url: string; socket?: Record<string, unknown> }): C };
   address: string;
   protocol?: string;
   port?: number;
-}): Promise<any>;
+}): Promise<C>;

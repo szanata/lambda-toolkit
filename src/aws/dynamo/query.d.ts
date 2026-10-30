@@ -3,9 +3,9 @@ import { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 /**
  * Query result from DynamoDB.
  */
-export interface DynamoQueryResult {
+export interface DynamoQueryResult<T = Record<string, any>> {
   /** Array of matching items, or null if Select was COUNT */
-  items: Record<string, any>[] | null;
+  items: T[] | null;
   /** Total count of items matching the query */
   count: number;
   /** Pagination token for the next batch (if applicable) */
@@ -53,7 +53,7 @@ export interface DynamoQueryResult {
  * }
  * ```
  */
-export function query(
+export function query<T = Record<string, any>>(
   args: Partial<QueryCommandInput>,
   options?: { recursive?: boolean; paginationToken?: string | null }
-): Promise<DynamoQueryResult>;
+): Promise<DynamoQueryResult<T>>;

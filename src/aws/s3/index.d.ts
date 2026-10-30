@@ -8,13 +8,11 @@ import { getSignedUploadUrl } from './get_signed_upload_url.js';
 import { getSignedUrl } from './get_signed_url.js';
 import { head } from './head.js';
 import { upload } from './upload.js';
-export type {
-  CopyObjectCommandOutput,
-  GetObjectCommandOutput,
-  PutObjectCommandOutput,
-  HeadObjectCommandOutput,
-  PresignedPost
-} from './copy.js';
+export type { CopyObjectCommandOutput } from './copy.js';
+export type { GetObjectCommandOutput } from './get_object.js';
+export type { PutObjectCommandOutput } from './upload.js';
+export type { HeadObjectCommandOutput } from './head.js';
+export type { PresignedPost } from './get_signed_post_url.js';
 
 /**
  * S3: Upload, download, and manage objects in S3 buckets.

@@ -1,3 +1,5 @@
+import { DeleteCommandInput } from '@aws-sdk/lib-dynamodb';
+
 /**
  * Delete multiple items from a DynamoDB table in batches.
  *
@@ -25,5 +27,5 @@
  */
 export function removeBatch(
   tableName: string,
-  keys: Record<string, any>[]
+  keys: NonNullable<DeleteCommandInput['Key']>[]
 ): Promise<true>;

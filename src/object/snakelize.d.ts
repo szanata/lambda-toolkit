@@ -1,7 +1,6 @@
 /**
  * Transform each key in an object to snake_case. Converts nested keys recursively, even inside arrays.
  * 
- * @template T The type of the input object
  * @param obj The object to convert
  * @param options The options object
  * @param options.keepAllCaps Keep all caps keys as-is (default: false)
@@ -16,7 +15,7 @@
  * // result: { input_color: 'red' }
  * ```
  */
-export function snakelize<T extends Record<string, any>>(
-  obj: T,
+export function snakelize(
+  obj: Record<string, any>,
   options?: { keepAllCaps?: boolean }
-): T;
+): Record<string, any>;

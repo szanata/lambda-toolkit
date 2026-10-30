@@ -1,4 +1,4 @@
-import { WriteRecordsCommandOutput, RejectedRecords } from '@aws-sdk/client-timestream-write';
+import { WriteRecordsCommandOutput, RejectedRecord, _Record } from '@aws-sdk/client-timestream-write';
 
 export type { WriteRecordsCommandOutput };
 
@@ -19,7 +19,7 @@ export interface WriteRecordsRejected {
   /**
    * Array of records that were rejected.
    */
-  rejectedRecords: RejectedRecords[];
+  rejectedRecords: RejectedRecord[];
 }
 
 /**
@@ -59,7 +59,7 @@ export function writeRecords(
   options: {
     database: string;
     table: string;
-    records: Record<string, any>[];
+    records: _Record[];
     ignoreRejections?: false;
   }
 ): Promise<WriteRecordsResult>;
@@ -68,7 +68,7 @@ export function writeRecords(
   options: {
     database: string;
     table: string;
-    records: Record<string, any>[];
+    records: _Record[];
     ignoreRejections: true;
   }
 ): Promise<WriteRecordsResult | WriteRecordsRejected>;

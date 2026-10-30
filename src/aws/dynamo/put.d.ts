@@ -30,10 +30,10 @@ import { PutCommandInput } from '@aws-sdk/lib-dynamodb';
  * });
  * ```
  */
-export function put(
+export function put<T extends Record<string, any> = Record<string, any>>(
   tableName: string,
-  item: Record<string, any>
-): Promise<Record<string, any>>;
+  item: T
+): Promise<T>;
 
 /**
  * Put an item into a DynamoDB table using full PutCommandInput.
@@ -41,4 +41,4 @@ export function put(
  * @param nativeArgs Full PutCommandInput configuration
  * @returns The item that was put, or Attributes if ReturnValues specified
  */
-export function put(nativeArgs: Partial<PutCommandInput>): Promise<Record<string, any>>;
+export function put<T = Record<string, any>>(nativeArgs: Partial<PutCommandInput>): Promise<T>;

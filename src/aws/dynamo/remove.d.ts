@@ -25,10 +25,10 @@ import { DeleteCommandInput } from '@aws-sdk/lib-dynamodb';
  * });
  * ```
  */
-export function remove(
+export function remove<T = Record<string, any>>(
   tableName: string,
-  key: Record<string, any>
-): Promise<Record<string, any> | undefined>;
+  key: NonNullable<DeleteCommandInput['Key']>
+): Promise<T | undefined>;
 
 /**
  * Delete a single item from a DynamoDB table using full DeleteCommandInput.
@@ -36,4 +36,4 @@ export function remove(
  * @param nativeArgs Full DeleteCommandInput configuration
  * @returns The deleted item attributes (if ReturnValues specified)
  */
-export function remove(nativeArgs: Partial<DeleteCommandInput>): Promise<Record<string, any> | undefined>;
+export function remove<T = Record<string, any>>(nativeArgs: Partial<DeleteCommandInput>): Promise<T | undefined>;

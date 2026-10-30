@@ -1,3 +1,5 @@
+import { UpdateCommandInput } from '@aws-sdk/lib-dynamodb';
+
 /**
  * Smart update an item in DynamoDB with automatic expression building.
  *
@@ -42,8 +44,8 @@
  * }
  * ```
  */
-export function smartUpdate(
+export function smartUpdate<T = Record<string, any>>(
   tableName: string,
-  key: Record<string, any>,
+  key: NonNullable<UpdateCommandInput['Key']>,
   updates: Record<string, any>
-): Promise<Record<string, any> | null>;
+): Promise<T | null>;

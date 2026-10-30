@@ -5,11 +5,11 @@ export type { StartQueryExecutionInput };
 /**
  * Result of an Athena query.
  */
-export interface AthenaQueryResult {
+export interface AthenaQueryResult<T = Record<string, any>> {
   /**
    * Array of parsed result rows as camelized JavaScript objects.
    */
-  items: Record<string, any>[];
+  items: T[];
   /**
    * Pagination token for fetching the next page of results (only when recursive=false).
    */
@@ -48,11 +48,11 @@ export interface AthenaQueryResult {
  * console.log(result.items);
  * ```
  */
-export function query(
+export function query<T = Record<string, any>>(
   nativeArgs: Partial<StartQueryExecutionInput>,
   options?: {
     recursive?: boolean;
     paginationToken?: string;
     maxResults?: number;
   }
-): Promise<AthenaQueryResult>;
+): Promise<AthenaQueryResult<T>>;

@@ -23,7 +23,7 @@
  * console.log('All items written');
  * ```
  */
-export function putBatch(
+export function putBatch<T extends Record<string, any> = Record<string, any>>(
   tableName: string,
-  items: Record<string, any>[]
+  items: T[]
 ): Promise<true>;

@@ -1,6 +1,5 @@
 import { LambdaClient, LambdaClientConfig } from '@aws-sdk/client-lambda';
 import { invoke } from './invoke.js';
-export type { LambdaError } from './invoke.js';
 export { LambdaError } from './lambda_error.js';
 
 /**

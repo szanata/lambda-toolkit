@@ -4,11 +4,11 @@
     "module": "Node16",
     "moduleResolution": "node16",
     "strict": true,
-    "skipLibCheck": true,
     "noEmit": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "6.0",
+    "types": ["node"]
   },
   "include": ["src/**/*.d.ts"],
   "exclude": ["node_modules"]

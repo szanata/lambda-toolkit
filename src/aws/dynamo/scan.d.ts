@@ -3,9 +3,9 @@ import { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 /**
  * Scan result from DynamoDB.
  */
-export interface DynamoScanResult {
+export interface DynamoScanResult<T = Record<string, any>> {
   /** Array of matching items, or null if Select was COUNT */
-  items: Record<string, any>[] | null;
+  items: T[] | null;
   /** Total count of items scanned */
   count: number;
   /** Pagination token for the next batch (if applicable) */
@@ -52,7 +52,7 @@ export interface DynamoScanResult {
  * }
  * ```
  */
-export function scan(
+export function scan<T = Record<string, any>>(
   args: Partial<ScanCommandInput>,
   options?: { recursive?: boolean; paginationToken?: string | null }
-): Promise<DynamoScanResult>;
+): Promise<DynamoScanResult<T>>;
