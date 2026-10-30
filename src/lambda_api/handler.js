@@ -18,11 +18,11 @@ export class Handler {
     Validator.matcherRoute( matchers.route );
     Validator.matcherRouteIncludes( matchers.routeIncludes );
     Validator.matcherRouteNotIncludes( matchers.routeNotIncludes );
-    Validator.matcherRouteMatch( matchers.routeMatch );
+    Validator.matcherRouteMatches( matchers.routeMatches );
     Validator.matcherPath( matchers.path );
     Validator.matcherPathIncludes( matchers.pathIncludes );
     Validator.matcherPathNotIncludes( matchers.pathNotIncludes );
-    Validator.matcherPathMatch( matchers.pathMatch );
+    Validator.matcherPathMatches( matchers.pathMatches );
 
     this.#method = method;
     this.#fn = fn;
