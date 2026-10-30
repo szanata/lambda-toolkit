@@ -7,12 +7,14 @@ import { getSignedPostUrl } from './get_signed_post_url.js';
 import { getSignedUploadUrl } from './get_signed_upload_url.js';
 import { getSignedUrl } from './get_signed_url.js';
 import { head } from './head.js';
+import { remove } from './remove.js';
 import { upload } from './upload.js';
 export type { CopyObjectCommandOutput } from './copy.js';
 export type { GetObjectCommandOutput } from './get_object.js';
 export type { PutObjectCommandOutput } from './upload.js';
 export type { HeadObjectCommandOutput } from './head.js';
 export type { PresignedPost } from './get_signed_post_url.js';
+export type { DeleteObjectCommandOutput } from './remove.js';
 
 /**
  * S3: Upload, download, and manage objects in S3 buckets.
@@ -62,6 +64,11 @@ export interface S3 {
    * Get metadata about an object without downloading it.
    */
   head: typeof head;
+
+  /**
+   * Delete an object.
+   */
+  remove: typeof remove;
 
   /**
    * Access the underlying S3 client for advanced usage.
