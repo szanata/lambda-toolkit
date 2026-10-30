@@ -40,6 +40,6 @@ import { UpdateCommandInput } from '@aws-sdk/lib-dynamodb';
  * });
  * ```
  */
-export function update(
+export function update<T = Record<string, any>>(
   nativeArgs: Partial<UpdateCommandInput>
-): Promise<Record<string, any>>;
+): Promise<T>;

@@ -25,10 +25,10 @@ import { GetCommandInput } from '@aws-sdk/lib-dynamodb';
  * });
  * ```
  */
-export function get(
+export function get<T = Record<string, any>>(
   tableName: string,
-  key: Record<string, any>
-): Promise<Record<string, any> | undefined>;
+  key: NonNullable<GetCommandInput['Key']>
+): Promise<T | undefined>;
 
 /**
  * Get a single item from a DynamoDB table using full GetCommandInput.
@@ -36,4 +36,4 @@ export function get(
  * @param nativeArgs Full GetCommandInput configuration
  * @returns The item if found, or undefined if not found
  */
-export function get(nativeArgs: Partial<GetCommandInput>): Promise<Record<string, any> | undefined>;
+export function get<T = Record<string, any>>(nativeArgs: Partial<GetCommandInput>): Promise<T | undefined>;

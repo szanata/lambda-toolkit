@@ -5,11 +5,11 @@ export type { StartQueryCommandInput };
 /**
  * Result of a CloudWatch Logs Insights query.
  */
-export interface CloudWatchLogsQueryResult {
+export interface CloudWatchLogsQueryResult<T = Record<string, any>> {
   /**
    * Array of parsed result rows as camelized JavaScript objects.
    */
-  items: Record<string, any>[];
+  items: T[];
   /**
    * Total number of results returned.
    */
@@ -50,7 +50,7 @@ export interface CloudWatchLogsQueryResult {
  * console.log(results.count, results.items);
  * ```
  */
-export function query(
+export function query<T = Record<string, any>>(
   nativeArgs: Partial<StartQueryCommandInput>,
   options?: {
     range?: {
@@ -58,4 +58,4 @@ export function query(
       to: number;
     };
   }
-): Promise<CloudWatchLogsQueryResult>;
+): Promise<CloudWatchLogsQueryResult<T>>;

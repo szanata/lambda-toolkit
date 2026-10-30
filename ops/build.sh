@@ -33,5 +33,13 @@ if [ ! -f ./dist/index.mjs ]; then
   printf "\e[31mMissing .mjs build\e[0m\n"
   exit 1
 fi
+if [ ! -f ./dist/index.d.ts ]; then
+  printf "\e[31mMissing .d.ts build\e[0m\n"
+  exit 1
+fi
+if [ ! -f ./dist/index.d.cts ]; then
+  printf "\e[31mMissing .d.cts build\e[0m\n"
+  exit 1
+fi
 
 printf "\e[0;36m(Done)\e[0m\n"

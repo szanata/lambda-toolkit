@@ -1,4 +1,4 @@
-import { PresignedPost } from '@aws-sdk/s3-presigned-post';
+import { PresignedPost, PresignedPostOptions } from '@aws-sdk/s3-presigned-post';
 
 export type { PresignedPost };
 
@@ -24,5 +24,5 @@ export function getSignedPostUrl(
   bucket: string,
   key: string,
   expiration?: number,
-  nativeArgs?: Record<string, any>
+  nativeArgs?: Partial<PresignedPostOptions>
 ): Promise<PresignedPost>;

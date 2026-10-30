@@ -21,9 +21,16 @@
     "./dist"
   ],
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs",
-    "import": "./dist/index.mjs"
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    },
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
+    }
   },
   "author": {
     "name": "Stéfano Zanata",
@@ -35,9 +42,9 @@
     }
   ],
   "scripts": {
-    "build": "webpack --stats errors-only",
+    "build": "webpack --stats errors-only && api-extractor run --local && cp dist/index.d.ts dist/index.d.cts",
     "test": "node --experimental-test-module-mocks --test",
-    "typecheck": "npx tsc --noEmit --skipLibCheck --strict",
+    "typecheck": "tsc --noEmit",
     "lint:fix": "eslint --fix",
     "lint": "eslint"
   },
@@ -64,7 +71,13 @@
     "@aws-sdk/client-timestream-write": ">=3.900.0 <4.0.0",
     "@aws-sdk/lib-dynamodb": ">=3.900.0 <4.0.0",
     "@aws-sdk/s3-presigned-post": ">=3.900.0 <4.0.0",
-    "@aws-sdk/s3-request-presigner": ">=3.900.0 <4.0.0"
+    "@aws-sdk/s3-request-presigner": ">=3.900.0 <4.0.0",
+    "@types/node": ">=24"
+  },
+  "peerDependenciesMeta": {
+    "@types/node": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@aws-sdk/client-athena": "3.1018.0",
@@ -82,7 +95,9 @@
     "@aws-sdk/s3-presigned-post": "3.1018.0",
     "@aws-sdk/s3-request-presigner": "3.1018.0",
     "@eslint/js": "10.0.1",
+    "@microsoft/api-extractor": "7.59.4",
     "@stylistic/eslint-plugin": "5.10.0",
+    "@types/node": "^24.19.2",
     "eslint": "10.1.0",
     "globals": "17.4.0",
     "typescript": "6.0.3",

@@ -1,3 +1,5 @@
+/// <reference types="node" preserve="true" />
+
 // Lambda API (default export)
 export * from './lambda_api/index.js';
 

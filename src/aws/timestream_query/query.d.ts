@@ -5,11 +5,11 @@ export type { QueryCommandOutput };
 /**
  * Parsed Timestream query result.
  */
-export interface TimestreamQueryResult {
+export interface TimestreamQueryResult<T = Record<string, any>> {
   /**
    * Array of parsed result rows as camelized JavaScript objects.
    */
-  items: Record<string, any>[];
+  items: T[];
   /**
    * Total number of rows in this response.
    */
@@ -48,7 +48,7 @@ export interface TimestreamQueryResult {
  * console.log(results.count, results.items);
  * ```
  */
-export function query(
+export function query<T = Record<string, any>>(
   queryString: string,
   options?: {
     recursive?: boolean;
@@ -56,7 +56,7 @@ export function query(
     maxRows?: number;
     rawResponse?: false;
   }
-): Promise<TimestreamQueryResult>;
+): Promise<TimestreamQueryResult<T>>;
 
 export function query(
   queryString: string,

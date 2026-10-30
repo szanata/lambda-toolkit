@@ -1,4 +1,6 @@
-import { TransactWriteCommandOutput, TransactItem } from '@aws-sdk/lib-dynamodb';
+import { TransactWriteCommandInput, TransactWriteCommandOutput } from '@aws-sdk/lib-dynamodb';
+
+type TransactItem = NonNullable<TransactWriteCommandInput['TransactItems']>[number];
 
 /**
  * Perform transactional writes to DynamoDB.
