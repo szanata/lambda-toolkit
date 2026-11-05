@@ -10,10 +10,10 @@ export const Text = {
   INVALID_MATCHER_ROUTE: 'Argument "route" must be either undefined or an string with length greater than 0',
   INVALID_MATCHER_ROUTE_INCLUDES: 'Argument "routeIncludes" must be either undefined or an string with length greater than 0',
   INVALID_MATCHER_ROUTE_NOT_INCLUDES: 'Argument "routeNotIncludes" must be either undefined or an string with length greater than 0',
-  INVALID_MATCHER_ROUTE_MATCH: 'Argument "routeMatch" must be either undefined or type RegExp',
+  INVALID_MATCHER_ROUTE_MATCH: 'Argument "routeMatches" must be either undefined or type RegExp',
   INVALID_MATCHER_PATH: 'Argument "path" must be either undefined or an string with length greater than 0',
   INVALID_MATCHER_PATH_INCLUDES: 'Argument "pathIncludes" must be either undefined or an string with length greater than 0',
   INVALID_MATCHER_PATH_NOT_INCLUDES: 'Argument "pathNotIncludes" must be either undefined or an string with length greater than 0',
-  INVALID_MATCHER_PATH_MATCH: 'Argument "pathMatch" must be either undefined or type RegExp',
+  INVALID_MATCHER_PATH_MATCH: 'Argument "pathMatches" must be either undefined or type RegExp',
   INVALID_USER_RESPONSE: 'Function return must be a number, a string, an array (where p=0 is a number) or an object (where .statusCode is a number)'
 };

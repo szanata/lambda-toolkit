@@ -12,6 +12,9 @@ printf "╰───────╯\e[0m\n"
 printf "\e[0;36m(Installing)\e[0m\n"
 pnpm i
 
+printf "\e[0;36m(Typecheck)\e[0m\n"
+pnpm run typecheck
+
 printf "\e[0;36m(Linting)\e[0m\n"
 pnpm run lint
 
@@ -28,6 +31,14 @@ if [ ! -f ./dist/index.cjs ]; then
 fi
 if [ ! -f ./dist/index.mjs ]; then
   printf "\e[31mMissing .mjs build\e[0m\n"
+  exit 1
+fi
+if [ ! -f ./dist/index.d.ts ]; then
+  printf "\e[31mMissing .d.ts build\e[0m\n"
+  exit 1
+fi
+if [ ! -f ./dist/index.d.cts ]; then
+  printf "\e[31mMissing .d.cts build\e[0m\n"
   exit 1
 fi
 
