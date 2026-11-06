@@ -46,7 +46,8 @@ export interface S3 {
   getSignedUploadUrl: typeof getSignedUploadUrl;
 
   /**
-   * Generate a generic signed URL for S3 operations.
+   * Generate a signed URL for downloading an object.
+   * @deprecated Use getSignedDownloadUrl instead.
    */
   getSignedUrl: typeof getSignedUrl;
 
