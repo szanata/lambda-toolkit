@@ -1,9 +1,12 @@
+import { PutObjectCommandInput } from '@aws-sdk/client-s3';
+
 /**
  * Generate a signed URL for uploading an object to S3.
  *
  * @param bucket Bucket name
  * @param key Object key
  * @param expiration URL expiration time in seconds (default: 3600)
+ * @param nativeArgs Additional PutObjectCommand arguments (optional)
  * @returns A signed URL string that can be used to upload the object
  *
  * @example
@@ -18,5 +21,6 @@
 export function getSignedUploadUrl(
   bucket: string,
   key: string,
-  expiration?: number
+  expiration?: number,
+  nativeArgs?: Partial<PutObjectCommandInput>
 ): Promise<string>;
