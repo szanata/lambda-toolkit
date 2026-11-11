@@ -11,7 +11,19 @@ Namespace: `aws.ses.`
 
 ## Client
 
-The SDK's SESv2 client is instantiated with no options.
+The SDK's SESv2 client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+// CJS
+const { aws: { ses } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { ses } = aws;
+
+const client = ses( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

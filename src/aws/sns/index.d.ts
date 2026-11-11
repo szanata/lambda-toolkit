@@ -25,9 +25,9 @@ export interface SNS {
   getClient(): SNSClient;
 
   /**
-   * Create a new SNS instance with custom client configuration.
+   * Create a new SNS instance with custom client configuration in an argument array.
    */
-  (config?: SNSClientConfig): SNS;
+  (args?: [SNSClientConfig]): SNS;
 }
 
 /**

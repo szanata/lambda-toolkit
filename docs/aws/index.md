@@ -85,7 +85,7 @@ You notice that there is no explicit `new` operator involved, but it indeed used
 
 ### Configuration
 
-Since there is no explicit instantiation, what parameters are used to create each client? It varies per module, but mostly they use the default parameters, and the credentials from the env variables (as they would in the AWS Lambda), but sometimes there will be cases where custom configurations are necessary. There is a feature for that: each module object is also a _factory_ function, which takes the native arguments used to initialize the SDK clients:
+Since there is no explicit instantiation, what parameters are used to create each client? It varies per module, but mostly they use the default parameters, and the credentials from the env variables (as they would in the AWS Lambda), but sometimes there will be cases where custom configurations are necessary. There is a feature for that: each module object is also a _factory_ function. For services using the generic client provider, pass an array of native SDK constructor arguments (usually a single configuration object). Dynamo and Timestream instead take the configuration object directly.
 
 ```js
 // CJS
@@ -95,7 +95,7 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-const client = sqs( { endpoint: 'custom-endpoint' } );
+const client = sqs( [ { endpoint: 'custom-endpoint' } ] );
 
 await client.sendMessage( queueName, message );
 ```
@@ -112,7 +112,7 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } );
+const client1 = sqs( [ { endpoint: 'my-custom-endpoint-1' } ] );
 
 assert.notDeepEqual( sqs, client );
 ```
@@ -127,8 +127,8 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } );
-const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } );
+const client1 = sqs( [ { endpoint: 'my-custom-endpoint-1' } ] );
+const client2 = sqs( [ { endpoint: 'my-custom-endpoint-2' } ] );
 
 
 assert.notDeepEqual( client1, client2 );
@@ -203,10 +203,10 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-const client = sqs( { endpoint: 'my-custom-endpoint' } ); // saves sqs({endpoint:'my-custom-endpoint'}) to the cache
+const client = sqs( [ { endpoint: 'my-custom-endpoint' } ] ); // saves sqs([{endpoint:'my-custom-endpoint'}]) to the cache
 await sqs.sendMessage( queueName, message ); // sqs sqs(default) to the cache
 
-client.sendMessage( queueName, message ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
+client.sendMessage( queueName, message ); // re-uses sqs([{endpoint:'my-custom-endpoint'}]) from cache
 await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
 ```
 
@@ -220,7 +220,7 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-const client = sqs( { endpoint: 'my-custom-endpoint' } ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
+const client = sqs( [ { endpoint: 'my-custom-endpoint' } ] ); // re-uses sqs([{endpoint:'my-custom-endpoint'}]) from cache
 await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
 ```
 
@@ -234,8 +234,8 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } ); // saves sqs({endpoint:'my-custom-endpoint-1'}) to the cache
-const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } ); // saves sqs({endpoint:'my-custom-endpoint-1'}) to the cache
+const client1 = sqs( [ { endpoint: 'my-custom-endpoint-1' } ] ); // saves sqs([{endpoint:'my-custom-endpoint-1'}]) to the cache
+const client2 = sqs( [ { endpoint: 'my-custom-endpoint-2' } ] ); // saves sqs([{endpoint:'my-custom-endpoint-2'}]) to the cache
 ```
 
 ### Native client

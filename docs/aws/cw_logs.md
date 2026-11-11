@@ -10,7 +10,19 @@ Namespace: `aws.cw_logs.`
 
 ## Client
 
-The SDK's CloudWatchLogs client is instantiated with no options.
+The SDK's CloudWatchLogs client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+// CJS
+const { aws: { cwLogs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { cwLogs } = aws;
+
+const client = cwLogs( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

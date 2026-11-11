@@ -17,9 +17,9 @@ export interface Lambda {
   getClient(): LambdaClient;
 
   /**
-   * Create a new Lambda instance with custom client configuration.
+   * Create a new Lambda instance with custom client configuration in an argument array.
    */
-  (config?: LambdaClientConfig): Lambda;
+  (args?: [LambdaClientConfig]): Lambda;
 }
 
 /**

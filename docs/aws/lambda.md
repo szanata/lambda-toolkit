@@ -10,7 +10,19 @@ Namespace: `aws.lambda.`
 
 ## Client
 
-The SDK Lambda client is instantiated with no options.
+The SDK Lambda client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+// CJS
+const { aws: { lambda } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { lambda } = aws;
+
+const client = lambda( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

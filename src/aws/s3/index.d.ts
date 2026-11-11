@@ -77,9 +77,9 @@ export interface S3 {
   getClient(): S3Client;
 
   /**
-   * Create a new S3 instance with custom client configuration.
+   * Create a new S3 instance with custom client configuration in an argument array.
    */
-  (config?: S3ClientConfig): S3;
+  (args?: [S3ClientConfig]): S3;
 }
 
 /**

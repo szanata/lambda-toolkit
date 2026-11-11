@@ -24,9 +24,9 @@ export interface SES {
   getClient(): SESv2Client;
 
   /**
-   * Create a new SES instance with custom client configuration.
+   * Create a new SES instance with custom client configuration in an argument array.
    */
-  (config?: SESv2ClientConfig): SES;
+  (args?: [SESv2ClientConfig]): SES;
 }
 
 /**

@@ -11,7 +11,19 @@ Namespace: `aws.sns.`
 
 ## Client
 
-The SDK's SNS client is instantiated with no options.
+The SDK's SNS client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+// CJS
+const { aws: { sns } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sns } = aws;
+
+const client = sns( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

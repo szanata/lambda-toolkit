@@ -18,9 +18,9 @@ export interface CloudWatchLogs {
   getClient(): CloudWatchLogsClient;
 
   /**
-   * Create a new CloudWatch Logs instance with custom client configuration.
+   * Create a new CloudWatch Logs instance with custom client configuration in an argument array.
    */
-  (config?: CloudWatchLogsClientConfig): CloudWatchLogs;
+  (args?: [CloudWatchLogsClientConfig]): CloudWatchLogs;
 }
 
 /**
