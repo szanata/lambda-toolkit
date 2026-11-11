@@ -14,8 +14,14 @@ The SDK Lambda client is instantiated with no options by default. To configure i
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const lambda = aws.lambda( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { lambda } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { lambda } = aws;
+
+const client = lambda( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members

@@ -14,8 +14,14 @@ The SDK's Athena client is instantiated with no options by default. To configure
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const athena = aws.athena( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { athena } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { athena } = aws;
+
+const client = athena( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members

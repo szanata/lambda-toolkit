@@ -15,8 +15,14 @@ The SDK's SNS client is instantiated with no options by default. To configure it
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const sns = aws.sns( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { sns } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sns } = aws;
+
+const client = sns( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members

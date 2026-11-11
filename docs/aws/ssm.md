@@ -14,8 +14,14 @@ The SDK's SSM client is instantiated with no options by default. To configure it
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const ssm = aws.ssm( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { ssm } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { ssm } = aws;
+
+const client = ssm( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members

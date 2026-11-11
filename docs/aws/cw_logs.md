@@ -14,8 +14,14 @@ The SDK's CloudWatchLogs client is instantiated with no options by default. To c
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const cwLogs = aws.cwLogs( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { cwLogs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { cwLogs } = aws;
+
+const client = cwLogs( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members

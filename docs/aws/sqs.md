@@ -16,8 +16,14 @@ The SDK's SQS client is instantiated with no options by default. To configure it
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const sqs = aws.sqs( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { sqs } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { sqs } = aws;
+
+const client = sqs( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members

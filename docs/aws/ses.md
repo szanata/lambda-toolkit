@@ -15,8 +15,14 @@ The SDK's SESv2 client is instantiated with no options by default. To configure 
 client configuration in an argument array:
 
 ```js
-const { aws } = require( 'lambda-toolkit' );
-const ses = aws.ses( [ { region: 'eu-west-1' } ] );
+// CJS
+const { aws: { ses } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { ses } = aws;
+
+const client = ses( [ { region: 'eu-west-1' } ] );
 ```
 
 ## Members
