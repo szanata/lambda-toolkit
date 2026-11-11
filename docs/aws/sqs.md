@@ -12,7 +12,13 @@ Namespace: `aws.sqs.`
 
 ## Client
 
-The SDK's SQS client is instantiated with no options.
+The SDK's SQS client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+const { aws } = require( 'lambda-toolkit' );
+const sqs = aws.sqs( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

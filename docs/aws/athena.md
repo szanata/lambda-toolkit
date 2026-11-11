@@ -10,7 +10,13 @@ Namespace: `aws.athena.`
 
 ## Client
 
-The SDK's Athena client is instantiated with no options.
+The SDK's Athena client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+const { aws } = require( 'lambda-toolkit' );
+const athena = aws.athena( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

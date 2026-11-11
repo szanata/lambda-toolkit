@@ -30,9 +30,9 @@ export interface SQS {
   getClient(): SQSClient;
 
   /**
-   * Create a new SQS instance with custom client configuration.
+   * Create a new SQS instance with custom client configuration in an argument array.
    */
-  (config?: SQSClientConfig): SQS;
+  (args?: [SQSClientConfig]): SQS;
 }
 
 /**

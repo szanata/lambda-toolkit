@@ -10,7 +10,13 @@ Namespace: `aws.ssm.`
 
 ## Client
 
-The SDK's SSM client is instantiated with no options.
+The SDK's SSM client is instantiated with no options by default. To configure it, pass the
+client configuration in an argument array:
+
+```js
+const { aws } = require( 'lambda-toolkit' );
+const ssm = aws.ssm( [ { region: 'eu-west-1' } ] );
+```
 
 ## Members
 

@@ -17,9 +17,9 @@ export interface Athena {
   getClient(): AthenaClient;
 
   /**
-   * Create a new Athena instance with custom client configuration.
+   * Create a new Athena instance with custom client configuration in an argument array.
    */
-  (config?: AthenaClientConfig): Athena;
+  (args?: [AthenaClientConfig]): Athena;
 }
 
 /**

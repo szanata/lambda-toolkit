@@ -18,9 +18,9 @@ export interface SSM {
   getClient(): SSMClient;
 
   /**
-   * Create a new SSM instance with custom client configuration.
+   * Create a new SSM instance with custom client configuration in an argument array.
    */
-  (config?: SSMClientConfig): SSM;
+  (args?: [SSMClientConfig]): SSM;
 }
 
 /**
