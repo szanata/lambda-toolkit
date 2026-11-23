@@ -28,3 +28,7 @@ This codebase is written in ESM, but both ESM and CJS builds are provided. When 
 ## Documentation
 
 Full documentation is available under [docs/](https://github.com/szanata/lambda-toolkit/blob/master/docs/index.md) at the repo.
+
+## Releasing
+
+See [RELEASING.md](./RELEASING.md).

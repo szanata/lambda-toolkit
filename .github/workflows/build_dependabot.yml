@@ -2,7 +2,7 @@ name: Dependabot Build
 
 on:
   pull_request_target:
-    branches: [master]
+    branches: [master, 'release/**']
 
 jobs:
   main:

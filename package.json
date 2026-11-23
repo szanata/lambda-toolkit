@@ -94,6 +94,8 @@
     "@aws-sdk/lib-dynamodb": "3.1018.0",
     "@aws-sdk/s3-presigned-post": "3.1018.0",
     "@aws-sdk/s3-request-presigner": "3.1018.0",
+    "@changesets/changelog-github": "1.0.1",
+    "@changesets/cli": "3.0.3",
     "@eslint/js": "10.0.1",
     "@microsoft/api-extractor": "7.59.4",
     "@stylistic/eslint-plugin": "5.10.0",

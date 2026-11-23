@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    branches: [master, 'release/**']
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  main:
+    name: Version or Publish
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    container:
+      image: node:24.22.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Build
+        run: ./ops/build.sh
+
+      # Hotfixes on an older release line must not move the npm "latest" tag.
+      - name: Resolve npm dist-tag
+        id: dist-tag
+        run: ./ops/npm_dist_tag.sh >> "$GITHUB_OUTPUT"
+
+      - name: Create version PR or publish
+        uses: changesets/action@v2
+        with:
+          publish-script: pnpm changeset publish --tag ${{ steps.dist-tag.outputs.tag }}
+          pr-title: 'chore: release'
+          commit-message: 'chore: release'
+          create-github-releases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
