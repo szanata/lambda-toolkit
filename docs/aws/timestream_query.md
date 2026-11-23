@@ -18,6 +18,18 @@ The SDK's TimeStream Query client is instantiated with the following options:
 };
 ```
 
+To configure it, call the module as a _factory_ passing the client configuration (see [configuration](./index.md#configuration)). The given configuration is merged on top of the defaults above:
+```js
+// CJS
+const { aws: { timestreamQuery } } = require( 'lambda-toolkit' );
+
+// ESM
+import { aws } from 'lambda-toolkit';
+const { timestreamQuery } = aws;
+
+const client = timestreamQuery( { region: 'eu-west-1' } );
+```
+
 ## Members
 
 ### `fn` query

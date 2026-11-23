@@ -1,5 +1,5 @@
 import { describe, it, mock, afterEach } from 'node:test';
-import { strictEqual, deepStrictEqual } from 'node:assert';
+import { strictEqual, deepStrictEqual, ok } from 'node:assert';
 
 const cacheStorageMock = {
   set: mock.fn(),
@@ -53,13 +53,38 @@ describe( 'Generic Client Provider', () => {
     it( 'Should initialize constructor with arguments and save to cache', () => {
       const args = [ { option: 'none' }, 2, '3' ];
 
-      const result = genericClientProvider( ProxiedMockClass, args );
+      const result = genericClientProvider( ProxiedMockClass, ...args );
 
       const key = 'MockClass({"option":"none"},2,"3")';
       strictEqual( result, instance );
       strictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], key );
       deepStrictEqual( cacheStorageMock.set.mock.calls[0].arguments, [ key, instance ] );
       deepStrictEqual( constructorMock.mock.calls[0].arguments, args );
+    } );
+  } );
+
+  describe( 'Deprecated array syntax', () => {
+    it( 'Should unwrap the array, warn and use the same cache key as the direct syntax', () => {
+      const warn = mock.method( console, 'warn', () => {} );
+      const config = { option: 'none' };
+
+      const result = genericClientProvider( ProxiedMockClass, [ config ] );
+
+      const key = 'MockClass({"option":"none"})';
+      strictEqual( result, instance );
+      strictEqual( cacheStorageMock.get.mock.calls[0].arguments[0], key );
+      deepStrictEqual( cacheStorageMock.set.mock.calls[0].arguments, [ key, instance ] );
+      deepStrictEqual( constructorMock.mock.calls[0].arguments, [ config ] );
+      strictEqual( warn.mock.calls.length, 1 );
+      ok( warn.mock.calls[0].arguments[0].includes( 'MockClass' ) );
+    } );
+
+    it( 'Should not warn when using the direct syntax', () => {
+      const warn = mock.method( console, 'warn', () => {} );
+
+      genericClientProvider( ProxiedMockClass, { option: 'none' } );
+
+      strictEqual( warn.mock.calls.length, 0 );
     } );
   } );
 } );
