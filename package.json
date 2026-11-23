@@ -102,7 +102,7 @@
     "@types/node": "^24.19.2",
     "eslint": "10.1.0",
     "globals": "17.4.0",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "webpack": "5.105.4",
     "webpack-cli": "7.0.2"
   },
