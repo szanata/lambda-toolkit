@@ -53,7 +53,7 @@ describe( 'Generic Client Provider', () => {
     it( 'Should initialize constructor with arguments and save to cache', () => {
       const args = [ { option: 'none' }, 2, '3' ];
 
-      const result = genericClientProvider( ProxiedMockClass, args );
+      const result = genericClientProvider( ProxiedMockClass, ...args );
 
       const key = 'MockClass({"option":"none"},2,"3")';
       strictEqual( result, instance );

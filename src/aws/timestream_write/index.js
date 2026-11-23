@@ -11,4 +11,4 @@ const defaultArgs = {
 };
 
 export const timestreamWrite =
-  createInstance( args => genericClientProvider( TimestreamWriteClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );
+  createInstance( args => genericClientProvider( TimestreamWriteClient, Object.assign( {}, defaultArgs, args ) ), methods );

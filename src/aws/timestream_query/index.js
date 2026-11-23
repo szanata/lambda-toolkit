@@ -11,4 +11,4 @@ const defaultArgs = {
 };
 
 export const timestreamQuery =
-  createInstance( args => genericClientProvider( TimestreamQueryClient, [ Object.assign( {}, defaultArgs, args ) ] ), methods );
+  createInstance( args => genericClientProvider( TimestreamQueryClient, Object.assign( {}, defaultArgs, args ) ), methods );
