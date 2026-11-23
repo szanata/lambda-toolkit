@@ -1,7 +1,15 @@
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    target-branch: "master"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+
   - package-ecosystem: "npm"
-    target-branch: "main"
+    target-branch: "master"
     directory: "/"
     schedule:
       interval: "weekly"
