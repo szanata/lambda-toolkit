@@ -235,7 +235,7 @@ import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
 const client1 = sqs( { endpoint: 'my-custom-endpoint-1' } ); // saves sqs({endpoint:'my-custom-endpoint-1'}) to the cache
-const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } ); // saves sqs({endpoint:'my-custom-endpoint-1'}) to the cache
+const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } ); // saves sqs({endpoint:'my-custom-endpoint-2'}) to the cache
 ```
 
 ### Native client
