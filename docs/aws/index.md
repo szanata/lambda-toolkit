@@ -2,7 +2,7 @@
 
 These are functions to make it simpler and convenient to interact with some AWS services using the SDK v3.
 
-They abstract instantiations  and re-usage of clients, usage and data parsing for some operations. Keep in minds only a handful of operations are covered here.
+They abstract instantiations and re-usage of clients, usage and data parsing for some operations. Keep in mind only a handful of operations are covered here.
 
 Namespace: `aws`.
 
@@ -17,7 +17,7 @@ Namespace: `aws`.
 - [Modules List](#modules-list)
 
 ## Basics
-First, lets look how to an operation with the SDK v3 itself, lets use dynamo.
+First, let's look at how to do an operation with the SDK v3 itself, using dynamo.
 
 ```js
 // CJS
@@ -60,7 +60,7 @@ console.log( item ); // the actual row
 
 As you can see the operation was greatly simplified, without any instantiations and with query syntax sugar.
 
-All the functions were designed with easy of use first. Overall the method name matches the name of the native SDK operation, but not always, like in the example above `getItem` is `find` in the library. See individual modules for documentation.
+All the functions were designed with ease of use first. Overall the method name matches the name of the native SDK operation, but not always, like in the example above `getItem` is `find` in the library. See individual modules for documentation.
 
 ## Architecture
 
@@ -100,9 +100,9 @@ const client = sqs( { endpoint: 'custom-endpoint' } );
 await client.sendMessage( queueName, message );
 ```
 
-In the example above the call to `sqs()` as a function returned a client, this client is not the native client, it is the same as the `sqs` object, with the same methods, just it was instantiated a that precised line with those precise parameters.
+In the example above the call to `sqs()` as a function returned a client, this client is not the native client, it is the same as the `sqs` object, with the same methods, just it was instantiated at that precise line with those precise parameters.
 
-These custom clients are not the same as the default object. They are a new instance, explicit created, so:
+These custom clients are not the same as the default object. They are a new instance, explicitly created, so:
 
 ```js
 // CJS
@@ -151,7 +151,7 @@ assert.deepEqual( sqs, client );
 
 ### Caching
 
-After calling one method of the object, causing the client it initialization, further calls will re-use the same client, so to not initialize the client again:
+After calling one method of the object, causing the client's initialization, further calls will re-use the same client, so to not initialize the client again:
 
 ```js
 // CJS
@@ -165,7 +165,7 @@ await sqs.sendMessage( queueName, message ); // causes the underlying initializa
 await sqs.sendMessage( queueName, message ); // uses from cache
 ```
 
-But how about lambdas warm starts? In summary during a warm start the lambda re-uses its container and will reuse global defined variables and instances. So, to take advantage of that all clients are cached globally at the moment of its initialization, so if the lambda is invoked with a reused environment, the clients are already available: 
+But how about lambdas warm starts? In summary during a warm start the lambda re-uses its container and will reuse globally defined variables and instances. So, to take advantage of that all clients are cached globally at the moment of its initialization, so if the lambda is invoked with a reused environment, the clients are already available: 
 
 Example on a lambda __COLD__ start
 ```js
@@ -193,7 +193,7 @@ await sqs.sendMessage( queueName, message ); // from cache
 await sqs.sendMessage( queueName, message ); // from cache
 ```
 
-And how about custom [configurations](#configuration), how them affect cache? The cache key of the client is not only the client name, but also the configs used to create it, so if a client is initialized using the _factory_ feature with different arguments it will occupy a different cache position then the other client:
+And how about custom [configurations](#configuration), how do they affect the cache? The cache key of the client is not only the client name, but also the configs used to create it, so if a client is initialized using the _factory_ feature with different arguments it will occupy a different cache position than the other client:
 
 ```js
 // CJS
@@ -239,7 +239,7 @@ const client2 = sqs( { endpoint: 'my-custom-endpoint-2' } ); // saves sqs({endpo
 ```
 
 ### Native client
-Of course this library is not a one size fits all, and some times you need to use the native SDK. This library has a convenient way to expose you the native AWS client without you actually needing to instantiate it and also benefiting from the [cache](#caching):
+Of course this library is not a one size fits all, and sometimes you need to use the native SDK. This library has a convenient way to expose you the native AWS client without you actually needing to instantiate it and also benefiting from the [cache](#caching):
 
 ```js
 // CJS
@@ -261,7 +261,7 @@ const response = await s3.getClient().send( command );
 
 In this example `getClient()` returns a native `S3Client` instance.
 
-This is true for all modules, except `dynamo`, which has an special behavior:
+This is true for all modules, except `dynamo`, which has a special behavior:
 
 ```js
 // CJS
@@ -286,7 +286,7 @@ const response = await dynamo.getClient().send( command );
 
 In this example `getClient()` returns a `DynamoDBDocumentClient` instance, but it also instantiated the underlying `DynamoDBClient`.
 
-This because the `DynamoDBDocumentClient` makes much more convenient to work with data operations and this abstraction was conceived for just that. So the `.getClient` will always return it. However as it seem you send any command from `@aws-sdk/client-dynamodb` to it, not only those from `@aws-sdk/lib-dynamodb`, as both extends the default [AWS client with the same configs](https://github.com/aws/aws-sdk-js-v3/blob/cdd7ff75f23aad2225de7f423aa9238bf0e0fa3c/lib/lib-dynamodb/src/DynamoDBDocumentClient.ts#L82).
+This is because the `DynamoDBDocumentClient` makes it much more convenient to work with data operations and this abstraction was conceived for just that. So the `.getClient` will always return it. However, you can send any command from `@aws-sdk/client-dynamodb` to it, not only those from `@aws-sdk/lib-dynamodb`, as both extend the default [AWS client with the same configs](https://github.com/aws/aws-sdk-js-v3/blob/cdd7ff75f23aad2225de7f423aa9238bf0e0fa3c/lib/lib-dynamodb/src/DynamoDBDocumentClient.ts#L82).
 
 ## Modules List
 

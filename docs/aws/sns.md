@@ -48,7 +48,7 @@ await sns.publish( 'my-topic', {
 |Name|Type|Description|Default|
 |---|---|---|---|
 |topicArn|String|The arn of the topic to publish the message||
-|message|String,Object|The content of the message, if it is not an String, it will be cast using `JSON.stringify`||
+|message|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |nativeArgs|Object|All `client-sns` SDK [PublishCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Class/PublishCommand/) except `TopicArn` and `Message`, which are defined by the previous arguments||
 
 #### Return
@@ -109,13 +109,13 @@ await sns.publishBatch( 'my-topic', [
 |---|---|---|---|
 |topicArn|String|The arn of the topic to publish the message||
 |messages|Array<Object>|Array of messages to publish, see each property below. The maximum allowed length is 10.||
-|messages.*.body|String,Object|The content of the message, if it is not an String, it will be cast using `JSON.stringify`||
+|messages.*.body|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |messages.*.id|String|The id of the message in the batch, if not present it will be created as `message_` + index of the message||
 |messages.*..._rest_|Object|Native properties that each `PublishBatchRequestEntry` in the `client-sns` SDK [PublishBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Class/PublishBatchCommand/) accepts, except `Id` and `Message`, which are defined by the previous arguments||
 
 #### Error Handling
 
-If any messages in the batch fails, a error is thrown.
+If any message in the batch fails, an error is thrown.
 
 #### Return
 

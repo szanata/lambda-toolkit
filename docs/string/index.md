@@ -25,7 +25,7 @@ Transform a string to "camelCase". It will convert each sequence bound by spaces
 
 #### Return
 
-A new string which the value is the converted input.
+A new string whose value is the converted input.
 
 #### Transformation Chart
 |Input|Output|Description|
@@ -54,7 +54,7 @@ assert.deepEqual( result, 'fooBar' );
 
 ### `fn` capitalizeWords
 
-Given a string capitalize each word bound by space delimiters
+Given a string, capitalize each word bound by space delimiters.
 
 #### Arguments
 
@@ -66,7 +66,7 @@ Given a string capitalize each word bound by space delimiters
 
 #### Return
 
-A new string which the value is the converted input.
+A new string whose value is the converted input.
 
 #### Example
 
@@ -96,7 +96,7 @@ Transform a string to "snake_case". It will convert each sequence bound by space
 
 #### Return
 
-A new string which the value is the converted input.
+A new string whose value is the converted input.
 
 #### Transformation Chart
 |Input|Output|Description|

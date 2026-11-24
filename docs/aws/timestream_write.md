@@ -10,7 +10,7 @@ Namespace: `aws.timestream_write.`
 
 ## Client
 
-The SDK's TimeStream Write client is instantiated with the following options:
+The SDK's Timestream Write client is instantiated with the following options:
 ```js
 {
   maxRetries: 10,
@@ -34,7 +34,7 @@ const client = timestreamWrite( { region: 'eu-west-1' } );
 
 ### `fn` writeRecords
 
-Sends a query to TimeStream and return the result, parsed. Abstracts the `QueryCommand`.
+Sends a query to Timestream and return the result, parsed. Abstracts the `QueryCommand`.
 
 Example:
 ```js
@@ -69,7 +69,7 @@ const { items } = await timestreamWrite.writeRecords( {
 |options.database|String|The name of the Timestream database to insert data to||
 |options.table|String|The name of the Timestream table to insert data to||
 |options.record|Array<Object>|The records to insert. Each value of the array is a records have to comply to [_Records](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/_Record/) interface as expected by the SDK.||
-|options.ignoreRejections|Boolean|Fi set to `true`, [`RejectedRecordsException`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Class/RejectedRecordsException/) will not be throws, instead the function will return the [rejectedRecords](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/RejectedRecord/).|false|
+|options.ignoreRejections|Boolean|If set to `true`, [`RejectedRecordsException`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Class/RejectedRecordsException/) will not be thrown, instead the function will return the [rejectedRecords](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/RejectedRecord/).|false|
 
 #### Return
 

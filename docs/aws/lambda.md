@@ -52,17 +52,17 @@ const responsePayload = await lambda.invoke( functionName, payload, 'RequestResp
 
 If the invocation type was "Event", return `true`.
 
-But, if the invocation type was "RequestResponse", return the the response payload of the lambda, parse to JSON.
+But, if the invocation type was "RequestResponse", return the response payload of the lambda, parsed from JSON.
 
 ### Error handling
 
-Any errors that the invoked function throws are normalized to a the error type `LambdaError`, which extends `Error` and has the following properties:
+Any errors that the invoked function throws are normalized to the error type `LambdaError`, which extends `Error` and has the following properties:
 
 |Property|Description|
 |---|---|
-|statusCode|The HTTP status code of the the lambda invocation.|
-|lambdaErrorType|The type of the error threw by the invocated function.|
-|lambdaErrorMessage|The message from the error threw by the invocated function.|
+|statusCode|The HTTP status code of the lambda invocation.|
+|lambdaErrorType|The type of the error thrown by the invoked function.|
+|lambdaErrorMessage|The message from the error thrown by the invoked function.|
 
 #### Permissions needed
 

@@ -76,7 +76,7 @@ The AWS policy statement to use this function is:
 
 ### `fn` sendMessage
 
-Sends a message to an queue. Abstracts the `SendMessageCommand`.
+Sends a message to a queue. Abstracts the `SendMessageCommand`.
 
 Example:
 ```js
@@ -97,7 +97,7 @@ await sqs.sendMessage( 'my-queue', {
 |Name|Type|Description|Default|
 |---|---|---|---|
 |queue|String|The name of the SQS queue to send the message to||
-|message|String,Object|The content of the message, if it is not an String, it will be cast using `JSON.stringify`||
+|message|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |nativeArgs|Object|All `client-sqs` SDK [SendMessageCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Class/SendMessageCommand/) except `QueueUrl` and `MessageBody`, which are defined by the previous arguments||
 
 #### Sanitization
@@ -131,7 +131,7 @@ The AWS policy statement to use this function is:
 
 ### `fn` sendMessageBatch
 
-Sends a batch of messages to an queue. Abstracts the `SendMessageBatchCommand`.
+Sends a batch of messages to a queue. Abstracts the `SendMessageBatchCommand`.
 
 Example:
 ```js
@@ -161,13 +161,13 @@ await sqs.sendMessageBatch( 'my-queue', [
 |---|---|---|---|
 |queue|String|The name of the SQS queue to send the messages to||
 |messages|Array<Object>|Array of messages to send, see each property below. The maximum allowed length is 10.||
-|messages.*.body|String,Object|The content of the message, if it is not an String, it will be cast using `JSON.stringify`||
+|messages.*.body|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |messages.*.id|String|The id of the message in the batch, if not present it will be created as `message_` + index of the message||
 |messages.*..._rest_|Object|Native properties that each `SendMessageBatchRequestEntry` in the `client-sqs` SDK [SendMessageBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Class/SendMessageBatchCommand/) accepts, except `Id` and `MessageBody`, which are defined by the previous arguments||
 
 #### Error Handling
 
-If any messages in the batch fails, a error is thrown.
+If any message in the batch fails, an error is thrown.
 
 #### Return
 

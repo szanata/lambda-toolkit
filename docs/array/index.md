@@ -25,7 +25,7 @@ Joins n arrays using a custom function that generates a deduplication key for ea
 
 #### Return
 
-A single array containing each unique item from each array determined by the `key` functions.
+A single array containing each unique item from each array determined by the `key` function.
 
 #### Example
 
@@ -85,7 +85,7 @@ Breaks an array into many arrays of the same size.
 
 #### Return
 
-An array with _n_ arrays inside, each having _x_ size except the last, which's size will be in the range of _[1,x]_.
+An array with _n_ arrays inside, each having _x_ size except the last, whose size will be in the range of _[1,x]_.
 
 #### Example
 

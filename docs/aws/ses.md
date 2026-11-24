@@ -27,7 +27,7 @@ const client = ses( { region: 'eu-west-1' } );
 
 ### `fn` deleteSuppressedDestination
 
-Removes and address from the account suppression list. Abstracts the `DeleteSuppressedDestination`.
+Removes an address from the account suppression list. Abstracts the `DeleteSuppressedDestination`.
 
 Example:
 ```js
@@ -103,7 +103,7 @@ await ses.sendEmail( {
 |object.to|Array<String>|Array of destination addresses||
 |object.from|String|The sender address||
 |object.html|String|The HTML code of the email||
-|object.subject|String|The subject line of the email address||
+|object.subject|String|The subject line of the email||
 |nativeArgs|Object|All `client-sesv2` SDK [SendEmailCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sesv2/Class/SendEmailCommand/) except `Destination`, `Content` and `FromEmailAddress`, which are defined by the previous arguments||
 
 #### Return

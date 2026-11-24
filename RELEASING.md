@@ -50,7 +50,7 @@ Example: `2.6.1` is live, `master` is already at `2.8.0` (or has a pending relea
    - if `2.6.2` is newer than the current npm `latest`, it is published as `latest`;
    - otherwise it is published under `release-2.6`, so `npm install lambda-toolkit` keeps resolving to the newest line while users on `^2.6` still receive the fix.
 
-5. **Forward-port the fix to `master`.** Open a PR from `release/2.6.x` (or cherry-pick the fix commit) against `master`, with its own `patch` changeset. Resolve conflicts in `package.json` / `CHANGELOG.md` in favour of `master`. This makes sure the next regular release also contains the fix.
+5. **Forward-port the fix to `master`.** Open a PR from `release/2.6.x` (or cherry-pick the fix commit) against `master`, with its own `patch` changeset. Resolve conflicts in `package.json` / `CHANGELOG.md` in favor of `master`. This makes sure the next regular release also contains the fix.
 
 6. Optionally delete `release/2.6.x`; it can be recreated from `v2.6.2` later.
 

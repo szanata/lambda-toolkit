@@ -14,7 +14,7 @@ Namespace: `object`.
 
 ### `fn` camelize
 
-Transform each key in a object to "camelCase". It will convert nested keys, even inside arrays.
+Transform each key in an object to "camelCase". It will convert nested keys, even inside arrays.
 
 #### Arguments
 
@@ -105,7 +105,7 @@ assert.deepEqual( result, { id: 1, values: [ '1' ], config: { items: [] } } );
 
 ### `fn` snakelize
 
-Transform each key in a object to "snake_case". It will convert nested keys, even inside arrays.
+Transform each key in an object to "snake_case". It will convert nested keys, even inside arrays.
 
 #### Arguments
 

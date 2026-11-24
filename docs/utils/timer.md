@@ -8,12 +8,12 @@ Creates a stopwatch-like object.
 
 #### Returns
 
-`Number`: The number milliseconds elapsed since the Timer started or until it stopped.
+`Number`: The number of milliseconds elapsed since the Timer started or until it stopped.
 
 ### `get` running
 
 #### Returns
-`Boolean`: `true` if the Timers is started, `false` otherwise.
+`Boolean`: `true` if the Timer is started, `false` otherwise.
 
 ### `fn` start
 
