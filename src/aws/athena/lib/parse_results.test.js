@@ -35,4 +35,14 @@ describe( 'Parse Results Spec', () => {
       year: 2024
     } ] );
   } );
+
+  it( 'Should keep the first row when it is not a header row (pages after the first)', () => {
+    const resultSet = {
+      ResultSetMetadata: { ColumnInfo: [ { Name: 'n', Type: 'int' } ] },
+      Rows: [ { Data: [ { VarCharValue: '3' } ] }, { Data: [ { VarCharValue: '4' } ] } ]
+    };
+
+    deepStrictEqual( parseResults( resultSet, { hasHeaderRow: false } ), [ { n: 3 }, { n: 4 } ] );
+    deepStrictEqual( parseResults( resultSet ), [ { n: 4 } ] );
+  } );
 } );
