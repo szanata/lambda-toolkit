@@ -15,6 +15,18 @@ long-lived branch, `master`. Every published version is tagged `v<version>`.
    full test suite, publishes to npm, pushes the `v<version>` tag and creates a
    GitHub release.
 
+> [!WARNING]
+> Never bump `version` in `package.json` by hand. If `master` holds a version that
+> is not on npm and there are no pending changesets, the `Release` workflow
+> publishes it right away, without a CHANGELOG entry or a GitHub release. The
+> `Build` workflow fails any PR that changes the version (`ops/check_version.sh`),
+> except the `chore: release` PR.
+
+If the changesets behind an open release PR leave the branch (e.g. the PR that
+added them is reverted), the `Release` workflow closes the now stale release PR
+(`ops/close_stale_release_pr.sh`). Never merge a release PR whose changesets are
+no longer on the branch.
+
 ## Hotfix for an already released version
 
 Use this when `master` already contains unreleased (or newer released) work and
@@ -42,7 +54,7 @@ release PR), and `2.6.1` has a bug.
    "lambda-toolkit": patch
    ---
 
-   Fix <what> in <where>.
+   Fixed <what> in <where>.
    ```
 
    The regular `Build` workflow runs on PRs targeting `release/**`.
@@ -54,7 +66,7 @@ release PR), and `2.6.1` has a bug.
 4. **Merge the release PR.** The workflow publishes `2.6.2`, tags `v2.6.2` and
    creates the GitHub release.
 
-   The npm dist-tag is chosen by `ops/npm_dist_tag.sh`:
+   The npm dist-tag is chosen by `ops/resolve_npm_dist_tag.sh`:
    - if `2.6.2` is newer than the current npm `latest`, it is published as
      `latest`;
    - otherwise it is published under `release-2.6`, so `npm install
