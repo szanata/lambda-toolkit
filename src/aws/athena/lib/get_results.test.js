@@ -111,6 +111,48 @@ describe( 'Get Results Spec', () => {
     strictEqual( client.send.mock.calls.length, 6 );
   } );
 
+  it( 'Should only discard the header row on the first page when recursive', async () => {
+    const responses = [
+      { QueryExecution: { Status: { State: 'SUCCEEDED' } } },
+      { ResultSet: 'page-1', NextToken: '1' },
+      { ResultSet: 'page-2', NextToken: '2' },
+      { ResultSet: 'page-3' }
+    ];
+    client.send.mock.mockImplementation( () => responses.shift() );
+
+    await getResults( { client, queryExecutionId: queryId, recursive: true } );
+
+    deepStrictEqual( parseResults.mock.calls.map( c => c.arguments ), [
+      [ 'page-1', { hasHeaderRow: true } ],
+      [ 'page-2', { hasHeaderRow: false } ],
+      [ 'page-3', { hasHeaderRow: false } ]
+    ] );
+  } );
+
+  it( 'Should not discard a header row when resuming from a pagination token', async () => {
+    const responses = [
+      { QueryExecution: { Status: { State: 'SUCCEEDED' } } },
+      { ResultSet: 'page-2', NextToken: '2' }
+    ];
+    client.send.mock.mockImplementation( () => responses.shift() );
+
+    await getResults( { client, queryExecutionId: queryId, token: '1' } );
+
+    deepStrictEqual( parseResults.mock.calls[0].arguments, [ 'page-2', { hasHeaderRow: false } ] );
+  } );
+
+  it( 'Should discard the header row on the first page when not recursive', async () => {
+    const responses = [
+      { QueryExecution: { Status: { State: 'SUCCEEDED' } } },
+      { ResultSet: 'page-1', NextToken: '1' }
+    ];
+    client.send.mock.mockImplementation( () => responses.shift() );
+
+    await getResults( { client, queryExecutionId: queryId } );
+
+    deepStrictEqual( parseResults.mock.calls[0].arguments, [ 'page-1', { hasHeaderRow: true } ] );
+  } );
+
   it( 'Should throw error when the query fails', async () => {
     const responses = [
       { QueryExecution: { Status: { State: 'QUEUED' } } },

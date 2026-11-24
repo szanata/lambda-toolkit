@@ -11,7 +11,7 @@ const getQueryResults = async ( { client, queryExecutionId, maxResults, token } 
     ...( token ? { NextToken: token } : {} )
   } ) );
 
-  return { nextToken, items: parseResults( ResultSet ) };
+  return { nextToken, items: parseResults( ResultSet, { hasHeaderRow: !token } ) };
 };
 const getQueryResultsRecursive = async ( { client, queryExecutionId, token } ) => {
   const { nextToken, items } = await getQueryResults( { client, queryExecutionId, token } );
