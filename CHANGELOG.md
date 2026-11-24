@@ -1,5 +1,11 @@
 # lambda-toolkit
 
+## 2.7.1
+
+### Patch Changes
+
+- [#100](https://github.com/szanata/lambda-toolkit/pull/100) Updated the `fast-xml-parser` transitive dependency pulled in by the AWS SDK clients to `5.12.0`, resolving [GHSA-474x-hrwr-fgx4](https://github.com/advisories/GHSA-474x-hrwr-fgx4) (CVE-2026-126066, low severity). Thanks [@szanata](https://github.com/szanata)!
+
 ## 2.7.0
 
 ### Minor Changes
