@@ -97,7 +97,7 @@ const { sqs } = aws;
 
 const client = sqs( { endpoint: 'custom-endpoint' } );
 
-await client.sendMessage( queueName, message );
+await client.sendMessage( queueUrl, message );
 ```
 
 In the example above the call to `sqs()` as a function returned a client, this client is not the native client, it is the same as the `sqs` object, with the same methods, just it was instantiated at that precise line with those precise parameters.
@@ -161,8 +161,8 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-await sqs.sendMessage( queueName, message ); // causes the underlying initialization
-await sqs.sendMessage( queueName, message ); // uses from cache
+await sqs.sendMessage( queueUrl, message ); // causes the underlying initialization
+await sqs.sendMessage( queueUrl, message ); // uses from cache
 ```
 
 But how about lambdas warm starts? In summary during a warm start the lambda re-uses its container and will reuse globally defined variables and instances. So, to take advantage of that all clients are cached globally at the moment of its initialization, so if the lambda is invoked with a reused environment, the clients are already available: 
@@ -176,8 +176,8 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-await sqs.sendMessage( queueName, message ); // causes initialization
-await sqs.sendMessage( queueName, message ); // from cache
+await sqs.sendMessage( queueUrl, message ); // causes initialization
+await sqs.sendMessage( queueUrl, message ); // from cache
 ```
 
 Example on a lambda __HOT__ start
@@ -189,8 +189,8 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-await sqs.sendMessage( queueName, message ); // from cache
-await sqs.sendMessage( queueName, message ); // from cache
+await sqs.sendMessage( queueUrl, message ); // from cache
+await sqs.sendMessage( queueUrl, message ); // from cache
 ```
 
 And how about custom [configurations](#configuration), how do they affect the cache? The cache key of the client is not only the client name, but also the configs used to create it, so if a client is initialized using the _factory_ feature with different arguments it will occupy a different cache position than the other client:
@@ -204,10 +204,10 @@ import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
 const client = sqs( { endpoint: 'my-custom-endpoint' } ); // saves sqs({endpoint:'my-custom-endpoint'}) to the cache
-await sqs.sendMessage( queueName, message ); // saves sqs(default) to the cache
+await sqs.sendMessage( queueUrl, message ); // saves sqs(default) to the cache
 
-client.sendMessage( queueName, message ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
-await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
+client.sendMessage( queueUrl, message ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
+await sqs.sendMessage( queueUrl, message ); // re-uses sqs(default) from cache
 ```
 
 And the same goes for __WARM__ starts:
@@ -221,7 +221,7 @@ import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
 const client = sqs( { endpoint: 'my-custom-endpoint' } ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
-await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache
+await sqs.sendMessage( queueUrl, message ); // re-uses sqs(default) from cache
 ```
 
 The entire used configuration is part of the key, so different configs result in different cache positions:
