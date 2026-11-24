@@ -10,7 +10,7 @@ Namespace: `aws.timestream_query.`
 
 ## Client
 
-The SDK's TimeStream Query client is instantiated with the following options:
+The SDK's Timestream Query client is instantiated with the following options:
 ```js
 {
   maxRetries: 10,
@@ -34,7 +34,7 @@ const client = timestreamQuery( { region: 'eu-west-1' } );
 
 ### `fn` query
 
-Sends a query to TimeStream and return the result, parsed. Abstracts the `QueryCommand`.
+Sends a query to Timestream and returns the result, parsed. Abstracts the `QueryCommand`.
 
 Example:
 ```js
@@ -54,10 +54,10 @@ const { items } = await timestreamQuery.query( 'SELECT* FROM "table"', { paginat
 |---|---|---|---|
 |queryString|String|The name of the SSM Parameter to retrieve the value||
 |options|Object|Additional options for the query. See below||
-|options.recursive|Boolean|When the query needs pagination, if this option is `true` the function will paginate itself until the last page and return all results, otherwise it will return the first page only  and the pagination token|false|
+|options.recursive|Boolean|When the query needs pagination, if this option is `true` the function will paginate itself until the last page and return all results, otherwise it will return the first page only and the pagination token|false|
 |options.paginationToken|String|The value of the token to resume a previous query. Uses the `NextToken` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandInput/)|null|
 |options.maxRows|Number|The maximum number of rows to return. Uses the `MaxRows` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandInput/)|null|
-|options.rawResponse|Boolean|If `true`, returns the raw response [object](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandOutput/). Only work when `recursive` is `false`. Useful for debug purposes|false|
+|options.rawResponse|Boolean|If `true`, returns the raw response [object](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandOutput/). Only works when `recursive` is `false`. Useful for debug purposes|false|
 
 #### Paginate
 If the query needs pagination a token is returned with the response and it can be used to resume the operation, retrieving the next page:
@@ -77,7 +77,7 @@ If pagination is necessary but you want the function to recursively handle it, u
 const { items } = await timestreamQuery.query( 'SELECT* FROM "table"', { recursive: true } );
 ```
 
-The function will internally repeat the operation as many times as necessary until there is no more result pages to retrieve. It will then combine all results into a single array of items and return it. __Note that this can potentially lead to a timeout error if the recursion takes too long or to an "out of memory" error if there are simple too many records.__
+The function will internally repeat the operation as many times as necessary until there are no more result pages to retrieve. It will then combine all results into a single array of items and return it. __Note that this can potentially lead to a timeout error if the recursion takes too long or to an "out of memory" error if there are simply too many records.__
 
 #### Return
 
@@ -85,16 +85,16 @@ An object containing the data:
 
 |Property|Type|Description|
 |-|-|-|
-|items|Array\<Object\>|The query result rows, parsed from the TimeStream format to plain JS|
-|count|Number|the number of results.|
-|nextToken|String|If the query still have more result pages, this will have the token to continue it|
-|queryStatus|Object|The status of the query, its a copy of [`QueryStatus`](https://docs.aws.amazon.com/timestream/latest/developerguide/API_query_QueryStatus.html) from the response, just camelized|
+|items|Array\<Object\>|The query result rows, parsed from the Timestream format to plain JS|
+|count|Number|The number of results.|
+|nextToken|String|If the query still has more result pages, this will have the token to continue it|
+|queryStatus|Object|The status of the query, it's a copy of [`QueryStatus`](https://docs.aws.amazon.com/timestream/latest/developerguide/API_query_QueryStatus.html) from the response, just camelized|
 
 About the rows parsing, this is how the raw data is converted:
 
-|Time Stream Type|JS Types|Time Stream Value|JS Value|
+|Timestream Type|JS Types|Timestream Value|JS Value|
 |-|-|-|-|
-|_*Scala Types*_|
+|_*Scalar Types*_|
 |BOOLEAN|Boolean|`"true"`|`true`|
 |DOUBLE|Number|`"2.232434"`|`2.232434`|
 |TIMESTAMP|Date|`"2025-01-01 10:12:30.333000000"`|`new Date( '2025-01-01T10:12:30.333Z )`|

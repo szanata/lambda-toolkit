@@ -119,7 +119,7 @@ Untar a gz file containing only json files in memory and return an array contain
 
 #### Return
 
-An array were each position is the content of each file parsed.
+An array where each position is the content of each file parsed.
 
 #### Example
 

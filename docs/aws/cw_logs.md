@@ -26,9 +26,9 @@ const client = cwLogs( { region: 'eu-west-1' } );
 
 ### `fn` query
 
-Executes an CloudWatch Log Insights query and returns the result. This abstraction combines: `StartQueryCommand`, `GetQueryResultsCommand` in just one async call.
+Executes a CloudWatch Log Insights query and returns the result. This abstraction combines: `StartQueryCommand`, `GetQueryResultsCommand` in just one async call.
 
-This commands starts a CloudWatch query and waits it to complete, finally returning the results.
+This command starts a CloudWatch query and waits for it to complete, finally returning the results.
 
 Example:
 ```js
@@ -61,7 +61,7 @@ const { items } = await cwLogs.query( {
 
 #### Return
 
-A query result object containing the data returned by Cloudwatch, parsed.
+A query result object containing the data returned by CloudWatch, parsed.
 
 The query result object has this structure:
 |Property|Type|Description|
@@ -71,7 +71,7 @@ The query result object has this structure:
 
 #### Data parsing
 
-The query results from Cloudwatch are converted to an array of plain objects, where the key comes from each returned item "field", and the value from "value". Since all returned values are string, some are converted to JS primitives.
+The query results from CloudWatch are converted to an array of plain objects, where the key comes from each returned item "field", and the value from "value". Since all returned values are string, some are converted to JS primitives.
 
 Given this query result:
 ```json
@@ -113,9 +113,9 @@ The parsed results are simply:
 }
 ```
 
-As for the values conversion, it follows this rules:
+As for the values conversion, it follows these rules:
 
-|Cloudwatch Value|Converted Type|
+|CloudWatch Value|Converted Type|
 |-|-|
 |`"false"`, `"true"`|Boolean|
 |`null`, `undefined`|undefined|
@@ -126,7 +126,7 @@ As for the values conversion, it follows this rules:
 
 #### Pagination
 
-There is no pagination. The query will return once all results in the range are found or the limit is reach.
+There is no pagination. The query will return once all results in the range are found or the limit is reached.
 
 #### Permissions needed
 

@@ -25,7 +25,7 @@ Follow semver, with documented exceptions:
 
 - `patch`: bug fixes and dependency fixes that reach users; no API change.
 - `minor`: new features, new options and deprecations; existing calls keep working.
-- `major`: removals, renamed or retyped API, and behaviour changes that break documented usage.
+- `major`: removals, renamed or retyped API, and behavior changes that break documented usage.
 
 A breaking change may ship in a `minor` only as an exception, decided per case in the PR. It qualifies when all of these hold:
 
@@ -41,7 +41,7 @@ The description is copied verbatim into `CHANGELOG.md` and the GitHub release, s
 
 The changelog renders each changeset as one list item: the first line of the description becomes the item text (rendered as `- [#PR] <first line> Thanks @author!`, see the `template` in `config.json`), and every following line is nested under it. So:
 
-- Start with a single plain sentence summarising the change, on one line (do not hard-wrap it, the rest would drop into the nested part). Do not start it with `-` or a heading.
+- Start with a single plain sentence summarizing the change, on one line (do not hard-wrap it, the rest would drop into the nested part). Do not start it with `-` or a heading.
 - Below it, one bullet per user-facing change.
 - Write every line, the summary included (except **Breaking changes**), in changelog language: start with an action verb in the past tense (`Added`, `Changed`, `Fixed`, `Removed`, `Deprecated`, `Updated`). When the change is a new capability ("accepts", "supports", "allows"), phrase it as `Added support for …` or `Changed X to …` rather than past-tensing the capability verb (`Accepted …` reads wrong).
 - Name the public API involved (module, function, option) and what changed for the caller, not how it was implemented.
@@ -49,7 +49,7 @@ The changelog renders each changeset as one list item: the first line of the des
 - Mention deprecations and their replacement; say when the deprecated path will be removed if known.
 - Leave out internal refactors, test changes and anything already covered by the bump type (do not write "minor release").
 
-Code snippets are allowed only to show a new or changed calling syntax, or the migration for a breaking change. Write them as two short `js` blocks labelled *before* and *after*, without imports, setup or output. The prose bullet comes first; the snippet illustrates it, it does not replace it. Behaviour fixes, new options and deprecation notices do not need a snippet.
+Code snippets are allowed only to show a new or changed calling syntax, or the migration for a breaking change. Write them as two short `js` blocks labeled *before* and *after*, without imports, setup or output. The prose bullet comes first; the snippet illustrates it, it does not replace it. Behavior fixes, new options and deprecation notices do not need a snippet.
 
 ````md
 ---

@@ -157,7 +157,7 @@ assert.deepEqual( result, 1 );
 
 ### `fn` round
 
-Round a number using another number as reference instead of number of places. Eg. 11 by 2 is 10.
+Round a number using another number as reference instead of number of places. E.g., 11 by 2 is 10.
 The underlying formula is _`n - ( n mod t)`_.
 
 #### Arguments

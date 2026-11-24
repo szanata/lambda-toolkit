@@ -28,7 +28,7 @@ const client = athena( { region: 'eu-west-1' } );
 
 Executes an Athena query and returns the result. This abstraction combines: `StartQueryExecutionCommand`, `GetQueryExecutionCommand`, `GetQueryResultsCommand` in just one async call.
 
-This commands starts the Athena query, waits it to complete and return the results. The query native arg `ClientRequestToken` is created automatically, but this can be overwritten by the arguments..
+This command starts the Athena query, waits for it to complete and returns the results. The query native arg `ClientRequestToken` is created automatically, but this can be overwritten by the arguments.
 
 Example:
 ```js
@@ -54,7 +54,7 @@ SORT BY date ASC;`,
 |---|---|---|---|
 |nativeArgs|Object|The native SDK [StartQueryCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/athena/command/StartQueryExecutionCommand/)||
 |options|Object|Extra options||
-|options.recursive|Boolean|Whether to recursive query all results or to return a paginationToken after each page|false|
+|options.recursive|Boolean|Whether to recursively query all results or to return a paginationToken after each page|false|
 |options.paginationToken|String|The pagination token received in the previous call to resume the query (only used when recursive = false)|null|
 |options.maxResults|Number|The maximum number of results per page (only when using pagination token)|null|
 
@@ -174,9 +174,9 @@ Converting type:
 
 #### Pagination
 
-This functions works in two ways, recursive or paginated.
+This function works in two ways, recursive or paginated.
 
-Paginated, which is the default, will return as soon as the Athena query returns the first page of results, it will also return the `nextToken`, which can be used to continued the query for the next page by calling it again with the same arguments plus the option `paginationToken` with the value of the `nextToken`.
+Paginated, which is the default, will return as soon as the Athena query returns the first page of results, it will also return the `nextToken`, which can be used to continue the query for the next page by calling it again with the same arguments plus the option `paginationToken` with the value of the `nextToken`.
 
 Finally, this function can work recursively, using the `recursive=true` option. This will internally paginate the query results by itself and only return to the user when all data from all pages are gathered.
 

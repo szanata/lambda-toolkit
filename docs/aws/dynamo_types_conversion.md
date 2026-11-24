@@ -27,7 +27,7 @@ This guide shows how different JS data types are converted to DynamoDB data type
 - Class instance Objects
 
 ## Conversion Sheet
-The following sheet shows the original JS data type and value (pre writing to ddb), the marshalled data type and value (how the data stored it) and the un-marshalled data type (after getting the value back from ddb). Also if it throws error, how to prevent it and some observations
+The following sheet shows the original JS data type and value (pre writing to ddb), the marshalled data type and value (how the data is stored) and the un-marshalled data type (after getting the value back from ddb). Also if it throws error, how to prevent it and some observations
 
 | Value | JS before | DynamoDB | JS after | Error | Config | Obs |
 |---|---|---|---|---|---|---|
@@ -70,7 +70,7 @@ The following sheet shows the original JS data type and value (pre writing to dd
 
 ### Dog class definition
 ```js
-// Dog class definitiion
+// Dog class definition
 class Dog {
   constructor ( name ) {
     this.name = name;
@@ -81,7 +81,7 @@ class Dog {
 ### Config table
 | Property | Values | Description |
 |---|---|---|
-| <span id="c1">`convertClassInstanceToMap`</span>|`true` or `false`|JS classes will be serialized or will throw errors. Excluding plan objects and Maps, those always serialize|
+| <span id="c1">`convertClassInstanceToMap`</span>|`true` or `false`|JS classes will be serialized or will throw errors. Excluding plain objects and Maps, those always serialize|
 | <span id="c2">`convertEmptyValues`</span>|`true` or `false`|Leave empty strings `''` or convert to null|
 | <span id="c3">`removeUndefinedValues`</span>|`true` or `false`|Removes undefined values|
 

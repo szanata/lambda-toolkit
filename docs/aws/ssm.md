@@ -41,7 +41,7 @@ const value = await ssm.get( 'my-param' );
 console.log( value );
 ```
 
-This functions caches the value, so if the same parameter is retrieved twice, or it is retrieved in a re used environment (warm start), the value will come from cache.
+This function caches the value, so if the same parameter is retrieved twice, or it is retrieved in a reused environment (warm start), the value will come from cache.
 
 ```js
 // CJS
