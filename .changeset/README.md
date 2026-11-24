@@ -22,18 +22,14 @@ The description is copied verbatim into `CHANGELOG.md` and the GitHub release, s
 write it for users of the package, not for reviewers of the PR.
 
 The changelog renders each changeset as one list item: the first line of the
-description becomes the item text (rendered as `- [#PR] <first line> Thanks
-@author!`, see the `template` in `config.json`), and every following line is
-nested under it. So:
+description becomes the item text (prefixed with the PR link), and every following
+line is nested under it. So:
 
 - Start with a single plain sentence summarising the change. Do not start the
   first line with `-` or a heading.
-- Below it, one bullet per user-facing change.
-- Write every line, the summary included, in changelog language: start with an
-  action verb in the past tense (`Added`, `Changed`, `Fixed`, `Removed`,
-  `Deprecated`, `Updated`). When the change is a new capability ("accepts",
-  "supports", "allows"), phrase it as `Added support for …` or `Changed X to …`
-  rather than past-tensing the capability verb (`Accepted …` reads wrong).
+- Below it, use changelog language: one bullet per user-facing change, starting
+  with a verb in the past tense (`Added`, `Fixed`, `Changed`, `Removed`,
+  `Deprecated`).
 - Name the public API involved (module, function, option) and what changed for the
   caller, not how it was implemented.
 - Put breaking changes in a **Breaking changes** section at the end, each bullet
@@ -54,7 +50,7 @@ options and deprecation notices do not need a snippet.
 "lambda-toolkit": minor
 ---
 
-Changed the AWS namespace factories to take options directly.
+Accept options directly when calling an AWS namespace as a factory.
 
 - Added support for `aws.s3({ region })` instead of `aws.s3([{ region }])`.
 - Deprecated the array form; it still works but logs a warning and will be removed
