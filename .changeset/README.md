@@ -135,6 +135,16 @@ published. So:
   in the user's tree. Release only if the peer range minimum is raised to exclude
   the vulnerable versions, and describe that change.
 
+Each AWS SDK client is listed twice in `package.json`: as a `peerDependencies` range (what users may install, e.g. `>=3.900.0 <4.0.0`) and as a pinned `devDependencies` version (what the tests run against). Bumping the pinned dev version while the peer range stays the same, which is what the monthly Dependabot `aws-sdk` PR does, needs **no changeset**: users already resolve any version in the range. It only confirms the package still works with a newer SDK.
+
+Change the peer range only when the code needs it, and then add a changeset:
+
+- **Raised minimum**: `patch` when it only excludes vulnerable versions (see above), `minor` when the code needs a feature from a newer SDK. Either way, users on an older SDK must upgrade, so state the new minimum.
+- **Raised maximum** (supporting a new SDK major): `minor`.
+- **Lowered maximum or dropped support** for an SDK major: `major`.
+
+When raising the minimum, also bump the pinned dev version to at least that minimum so the tests cover it.
+
 Reference each advisory by its GitHub Advisory Database link (the ID `npm audit`
 and Dependabot report), followed by the CVE ID and the severity GitHub assigns.
 
