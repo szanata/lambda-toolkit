@@ -1,5 +1,13 @@
 # lambda-toolkit
 
+## 2.7.1
+
+### Patch Changes
+
+- [#96](https://github.com/szanata/lambda-toolkit/pull/96) Updated the `fast-xml-parser` transitive dependency to fix a security advisory. Thanks [@szanata](https://github.com/szanata)!
+  
+  - Changed the `fast-xml-parser` dependency pulled in by the AWS SDK clients to `5.12.0`, resolving a low-severity vulnerability.
+
 ## 2.7.0
 
 ### Minor Changes
