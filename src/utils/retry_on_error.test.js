@@ -1,11 +1,15 @@
 import { retryOnError } from './retry_on_error.js';
-import { describe, it } from 'node:test';
-import { strictEqual, ok, rejects } from 'node:assert';
+import { describe, it, mock, afterEach } from 'node:test';
+import { strictEqual, deepStrictEqual, rejects } from 'node:assert';
 
 class RootError extends Error {}
 class HookError extends Error {}
 
 describe( 'Retry On Error Spec', () => {
+  afterEach( () => {
+    mock.restoreAll();
+  } );
+
   it( 'Should execute a sync closure', async () => {
     const result = await retryOnError( _ => 1 );
     strictEqual( result, 1 );
@@ -56,14 +60,12 @@ describe( 'Retry On Error Spec', () => {
 
     it( 'Should delay exponentially the retries using the delay argument as base', async () => {
       const closure = () => { throw new RootError(); };
+      const delays = [];
+      mock.method( globalThis, 'setTimeout', ( fn, ms ) => { delays.push( ms ); fn(); } );
 
-      const startTime = Date.now();
       await rejects( retryOnError( closure, { delay: 5, limit: 3 } ), RootError );
-      const elapsedTime = Date.now() - startTime;
 
-      const uncertainty = 50;
-      ok( elapsedTime > 155 - uncertainty );
-      ok( elapsedTime < 155 + uncertainty );
+      deepStrictEqual( delays, [ 5, 25, 125 ] );
     } );
   } );
 
