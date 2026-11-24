@@ -29,9 +29,7 @@ const getQueryExecutionId = async ( { client, nativeArgs, recursive, paginationT
  * @param {Number=} options.maxResults The maximum number of rows per request (1-1000), applied to every page, including when recursive
  * @returns {Result} The query result
  */
-export const query = async ( client, nativeArgs, options ) => {
-  const { recursive = false, paginationToken, maxResults } = options;
-
+export const query = async ( client, nativeArgs, { recursive = false, paginationToken, maxResults } = {} ) => {
   const { queryExecutionId, token } = await getQueryExecutionId( { client, nativeArgs, recursive, paginationToken } );
 
   const { nextToken, items } = await getResults( { client, queryExecutionId, token, recursive, maxResults } );
