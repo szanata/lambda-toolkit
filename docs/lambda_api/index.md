@@ -276,7 +276,7 @@ The Event is an abstraction of the APIGateway Event payload that lambda receives
 All properties in the object are __read-only__ except `context`. The `context` is, by default, an empty object (`{}`) and it can be modified or re-assigned to hold any value. It is used when the "before" hooks want to send data to the handler or other hooks, or the handler wants to append data for the "after" hooks.
 
 ### Attributes
-|Property|Description|Field on payload V1|Field on payload v2|Tye|
+|Property|Description|Field on payload V1|Field on payload v2|Type|
 |-|-|-|-|-|
 |authorizer|The Gateway authorizer context|`requestContext.authorizer`(1)|`requestContext.authorizer`(1)|Object|
 |body|The HTTP request body|`body`(2)|`body`(2)|Object or String|

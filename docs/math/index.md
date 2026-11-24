@@ -18,7 +18,7 @@ Namespace: `math`.
 
 ### `fn` calcMean
 
-Given a sequence of numbers, calculate the mean of them. Reference [https://en.wikipedia.org/wiki/Mean#Arithmetic_mean_(AM)](here).
+Given a sequence of numbers, calculate the mean of them. Reference [here](https://en.wikipedia.org/wiki/Arithmetic_mean).
 
 #### Arguments
 
@@ -46,7 +46,7 @@ assert.equal( result, 2.5 );
 
 ### `fn` calcMedian
 
-Given a sequence of numbers, calculate the median of them. Reference [https://en.wikipedia.org/wiki/Median](here).
+Given a sequence of numbers, calculate the median of them. Reference [here](https://en.wikipedia.org/wiki/Median).
 
 #### Arguments
 
@@ -74,7 +74,7 @@ assert.equal( result, 3 );
 
 ### `fn` calcMedianAbsDev
 
-Given a sequence of numbers, calculate the MAD between them. Reference [https://en.wikipedia.org/wiki/Median_absolute_deviation](here).
+Given a sequence of numbers, calculate the MAD between them. Reference [here](https://en.wikipedia.org/wiki/Median_absolute_deviation).
 
 #### Arguments
 
@@ -102,7 +102,7 @@ assert.equal( result, 1 );
 
 ### `fn` calcStdDevPopulation
 
-Given a sequence of numbers, calculate the population standard deviation between them. Reference [https://en.wikipedia.org/wiki/Standard_deviation#Uncorrected_sample_standard_deviation](here).
+Given a sequence of numbers, calculate the population standard deviation between them. Reference [here](https://en.wikipedia.org/wiki/Standard_deviation#Uncorrected_sample_standard_deviation).
 
 #### Arguments
 
@@ -130,7 +130,7 @@ assert.equal( result, 2 );
 
 ### `fn` calcStdDevSample
 
-Given a sequence of numbers, calculate the sample standard deviation between them. Reference [https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation](here).
+Given a sequence of numbers, calculate the sample standard deviation between them. Reference [here](https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation).
 
 #### Arguments
 
@@ -158,7 +158,7 @@ assert.equal( result, 1 );
 ```
 ### `fn` calcZScore
 
-Given a sample, the mean and the standard deviation, calculate the z score (standard score) for the sample. Reference [https://en.wikipedia.org/wiki/Standard_score](here).
+Given a sample, the mean and the standard deviation, calculate the z score (standard score) for the sample. Reference [here](https://en.wikipedia.org/wiki/Standard_score).
 
 #### Arguments
 
@@ -188,7 +188,7 @@ assert.equal( result, 0.4 );
 
 ### `fn` roundStandard
 
-Given a numbers, round using a given precision. Reference [https://en.wikipedia.org/wiki/Rounding#Rounding_to_a_specified_multiple](here) and [https://en.wikipedia.org/wiki/Rounding#Rounding_to_the_nearest_integer](here²).
+Given a number, round it using a given precision. Reference [here](https://en.wikipedia.org/wiki/Rounding#Rounding_to_a_specified_multiple) and [here](https://en.wikipedia.org/wiki/Rounding#Rounding_to_the_nearest_integer).
 
 #### Arguments
 
@@ -217,7 +217,7 @@ assert.equal( result, 2.55 );
 ```
 ### `fn` roundGaussian
 
-Given a number, round it using the Gaussian (Banking) method. Reference [https://en.wikipedia.org/wiki/Rounding#Rounding_half_away_from_zero](here).
+Given a number, round it using the Gaussian (banker's) method, which rounds halves to the nearest even digit. Reference [here](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even).
 
 #### Arguments
 

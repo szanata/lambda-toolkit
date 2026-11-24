@@ -49,11 +49,11 @@ await sns.publish( 'my-topic', {
 |---|---|---|---|
 |topicArn|String|The arn of the topic to publish the message||
 |message|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
-|nativeArgs|Object|All `client-sns` SDK [PublishCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Class/PublishCommand/) except `TopicArn` and `Message`, which are defined by the previous arguments||
+|nativeArgs|Object|All `client-sns` SDK [PublishCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sns/command/PublishCommand/) except `TopicArn` and `Message`, which are defined by the previous arguments||
 
 #### Return
 
-The `MessageId` attribute from the SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Interface/PublishCommandOutput/).
+The `MessageId` attribute from the SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sns/command/PublishCommand/).
 
 #### Permissions needed
 
@@ -91,12 +91,12 @@ const { sns } = aws;
 
 await sns.publishBatch( 'my-topic', [
   {
-    message: {
+    body: {
       title: 'The 7th Voyage of Sinbad'
     }
   },
   {
-    message: {
+    body: {
       title: 'The Golden Voyage of Sinbad'
     }
   },
@@ -111,7 +111,7 @@ await sns.publishBatch( 'my-topic', [
 |messages|Array<Object>|Array of messages to publish, see each property below. The maximum allowed length is 10.||
 |messages.*.body|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |messages.*.id|String|The id of the message in the batch, if not present it will be created as `message_` + index of the message||
-|messages.*..._rest_|Object|Native properties that each `PublishBatchRequestEntry` in the `client-sns` SDK [PublishBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sns/Class/PublishBatchCommand/) accepts, except `Id` and `Message`, which are defined by the previous arguments||
+|messages.*.nativeArgs|Object|Native properties that each `PublishBatchRequestEntry` in the `client-sns` SDK [PublishBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sns/command/PublishBatchCommand/) accepts, except `Id` and `Message`, which are defined by the previous arguments||
 
 #### Error Handling
 
@@ -119,7 +119,7 @@ If any message in the batch fails, an error is thrown.
 
 #### Return
 
-The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Interface/SendMessageBatchCommandOutput/).
+The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sns/command/PublishBatchCommand/).
 
 #### Permissions needed
 

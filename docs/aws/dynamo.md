@@ -1,6 +1,6 @@
 # Dynamo
 
-Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib/dynamodb`.
+Abstraction over `@aws-sdk/client-dynamodb` and `@aws-sdk/lib-dynamodb`.
 
 Namespace: `aws.dynamo.`
 
@@ -19,12 +19,12 @@ Namespace: `aws.dynamo.`
 
 ## Client
 
-This module uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. The former is instantiated with no options. The second is initialized with the following [configuration](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1):
+This module uses two clients, `DynamoDBClient` and `DynamoDBDocumentClient`. The former is instantiated with no options. The second is initialized with the following [configuration](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/TypeAlias/TranslateConfig/):
 
 - `marshallOptions.convertEmptyValues = true`, which will convert empty strings, blobs and sets to null;
 - `marshallOptions.removeUndefinedValues = true`, which will remove undefined values while marshalling.
 - `marshallOptions.convertClassInstanceToMap = true` Convert object to "map" attribute.
-- `unmarshallOption.wrapNumbers = false` Return numbers as native JavaScript numbers.
+- `unmarshallOptions.wrapNumbers = false` Return numbers as native JavaScript numbers.
 
 Keep in mind that `.getClient` method that is exposed here, as well as in all other modules, will return a `DynamoDBDocumentClient` instance.
 
@@ -69,7 +69,7 @@ const item = await dynamo.get( 'my-table', {
 
 The dynamodb row or null if it was not found.
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -122,7 +122,7 @@ It is possible to pass any number of items to upsert, the function will manage t
 
 No return.
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -178,7 +178,7 @@ await dynamo.put( {
 
 It returns the inserted item.
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -235,7 +235,7 @@ It is possible to pass any number of items to remove, the function will manage t
 
 No return.
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -256,7 +256,7 @@ The AWS policy statement to use this function is:
 
 ### `fn` remove
 
-This function is an abstraction for DynamoDB's `remove` action, using `DeleteCommand`. It will remove a single record by its key, either with a convenient syntax sugar, or with the native arguments.
+This function is an abstraction for DynamoDB's `deleteItem` action, using `DeleteCommand`. It will remove a single record by its key, either with a convenient syntax sugar, or with the native arguments.
 
 ```js
 // CJS
@@ -292,7 +292,7 @@ const removedItem = await dynamo.remove( {
 - When using the syntax sugar, returns the removed item, if any, or undefined
 - When using the native args, returns what is specified in the `ReturnValues` field
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -338,7 +338,7 @@ const { items, count } = await dynamo.scan( {
 |nativeArgs|Object|The `lib-dynamodb` SDK [ScanCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/Class/ScanCommand/)||
 |options|Object|An object containing extra options||
 |options.recursive|Boolean|If true the operation will retrieve all results, otherwise just the first page|false|
-|options.paginationToken|String|If recursive is false this can provide the token to resume the operation from the previous page. Keep in mind that native arguments `ExplicitStartKey` will be overwritten by this value if provided.||
+|options.paginationToken|String|If recursive is false this can provide the token to resume the operation from the previous page. Keep in mind that native argument `ExclusiveStartKey` will be overwritten by this value if provided.||
 
 #### Return
 
@@ -388,7 +388,7 @@ const { items } = await dynamo.scan( {
 
 In the above operation, it will scan the whole table until it finds at least 10 records that match the filter. __Keep in mind it will possibly return up to `(Limit * 2)` records.__
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -505,7 +505,7 @@ Any of those features can be combined together as well.
 
 The `Attributes` of the updated item.
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 
@@ -538,7 +538,7 @@ This function is an abstraction for DynamoDB's `transactWrite` action, using `Tr
 
 The raw response from the database.
 
-#### Permission
+#### Permissions needed
 
 Depends on the operations used.
 
@@ -575,7 +575,7 @@ await dynamo.update( {
 
 The `Attributes` property of the SDK results.
 
-#### Permission
+#### Permissions needed
 
 The AWS policy statement to use this function is:
 

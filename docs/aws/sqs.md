@@ -51,7 +51,7 @@ await sqs.deleteMessage( 'my-queue', 'receipt-handle' );
 
 #### Return
 
-The raw `DeleteMessageCommand` command (response)[https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Interface/DeleteMessageCommandOutput/].
+The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/DeleteMessageCommand/).
 
 #### Permissions needed
 
@@ -98,15 +98,15 @@ await sqs.sendMessage( 'my-queue', {
 |---|---|---|---|
 |queue|String|The name of the SQS queue to send the message to||
 |message|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
-|nativeArgs|Object|All `client-sqs` SDK [SendMessageCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Class/SendMessageCommand/) except `QueueUrl` and `MessageBody`, which are defined by the previous arguments||
+|nativeArgs|Object|All `client-sqs` SDK [SendMessageCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/SendMessageCommand/) except `QueueUrl` and `MessageBody`, which are defined by the previous arguments||
 
 #### Sanitization
 
-The messages will be sanitized to remove invalid characters like `#x9` from the message. For reference check the (documentation)[https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html] or this (StackOverflow)[#https://stackoverflow.com/questions/58809098/remove-invalid-characters-from-message-sent-to-aws-amazon-sqs] thread.
+The messages will be sanitized to remove invalid characters like `#x9` from the message. For reference check the [documentation](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html) or this [StackOverflow](https://stackoverflow.com/questions/58809098/remove-invalid-characters-from-message-sent-to-aws-amazon-sqs) thread.
 
 #### Return
 
-The `MessageId` attribute from the SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Interface/SendMessageCommandOutput/).
+The `MessageId` attribute from the SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/SendMessageCommand/).
 
 #### Permissions needed
 
@@ -163,7 +163,7 @@ await sqs.sendMessageBatch( 'my-queue', [
 |messages|Array<Object>|Array of messages to send, see each property below. The maximum allowed length is 10.||
 |messages.*.body|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |messages.*.id|String|The id of the message in the batch, if not present it will be created as `message_` + index of the message||
-|messages.*..._rest_|Object|Native properties that each `SendMessageBatchRequestEntry` in the `client-sqs` SDK [SendMessageBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Class/SendMessageBatchCommand/) accepts, except `Id` and `MessageBody`, which are defined by the previous arguments||
+|messages.*.nativeArgs|Object|Native properties that each `SendMessageBatchRequestEntry` in the `client-sqs` SDK [SendMessageBatchCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/SendMessageBatchCommand/) accepts, except `Id` and `MessageBody`, which are defined by the previous arguments||
 
 #### Error Handling
 
@@ -171,7 +171,7 @@ If any message in the batch fails, an error is thrown.
 
 #### Return
 
-The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-sqs/Interface/SendMessageBatchCommandOutput/).
+The raw SDK [response](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/SendMessageBatchCommand/).
 
 #### Permissions needed
 

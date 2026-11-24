@@ -101,8 +101,8 @@ A new string whose value is the converted input.
 #### Transformation Chart
 |Input|Output|Description|
 |---|---|---|
-|fromCamelCase|from_camel_case|"snake_case" is converted|
-|PascalCase|pascal_case|"pascal_case" is converted|
+|fromCamelCase|from_camel_case|"camelCase" is converted|
+|PascalCase|pascal_case|"PascalCase" is converted|
 |ALL_CAPS|all_caps|"ALL_CAPS" is converted|
 |ALL_CAPS|ALL_CAPS|"ALL_CAPS" are kept if using "keepAllCaps" option|
 |fromCamelCase-and-kebab-case|from_camel_case_and_kebab_case|Mixed cases are converted|

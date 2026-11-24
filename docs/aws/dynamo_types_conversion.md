@@ -33,27 +33,27 @@ The following sheet shows the original JS data type and value (pre writing to dd
 |---|---|---|---|---|---|---|
 | Array | `[ 1, 'a', true ]` | `{"L":[{"N":"1"},{"S":"a"},{"BOOL":true}]}` | `[1,'a',true ]` ||||
 | Array: empty | `[]` | `{"L":[]}` | `[]` ||||
-| Buffer | `Buffer.from( 'a' )` | `{"B":"YQ=="}` | `Uint8Array(1) [97]` |||Convert `Unit8Array` with `Buffer.from`|
+| Buffer | `Buffer.from( 'a' )` | `{"B":"YQ=="}` | `Uint8Array(1) [97]` |||Convert `Uint8Array` with `Buffer.from`|
 | Buffer: empty | `Buffer.from( '' )` | `{"NULL":true}` | `null` ||||
 | Object: Class instance | `new Dog( 'Rex' )`[*](#dog-class-definition)|`{"M":{"name":{"S":"Rex"}}}`|`{ name: 'Rex' }`|[🚨5](#5)|[🔧c1](#c1) <`true`>|Becomes plain object|
 | Object: Empty | `{}` | `{"M": {}}`| `{}`||||
 | Object: NaN | `NaN` |||[🚨1](#1)|||
-| Object: Native Date | `new Date()`|`{"M":{}`|`{}`||[🔧c1](#c1) <`true`>|Serialize with `JSON.stringify()`|
-| Object: Native RegExp | `/^foo$/`|`{"M":{}`|`{}`||[🔧c1](#c1) <`true`>|Serialize with `JSON.stringify()`|
+| Object: Native Date | `new Date()`|`{"M":{}}`|`{}`||[🔧c1](#c1) <`true`>|Serialize with `JSON.stringify()`|
+| Object: Native RegExp | `/^foo$/`|`{"M":{}}`|`{}`||[🔧c1](#c1) <`true`>|Serialize with `JSON.stringify()`|
 | Object: Notation | `{ foo: 'bar' }` | `{"M":{"foo":{"S":"bar"}}}`| `{ foo: 'bar'}` ||||
 | Object: Map | `new Map( [ [ 0, 1 ], [ 'b', 'c'] ] )` | `{"M":{"0":{"N": "1"},"b":{"S": "c"}}}`| `{ '0': 1, b: 'c' }` |||Becomes plain object|
 | Object: Symbol | `Symbol( 1 )` |||[🚨6](#6)|||
-| Primitive: String | `'foo'` | `{"S":"test"}` | `'foo'` ||||
-| Primitive: String empty | `''` | `{"S":""}` | `''` ||[🔧c2](#c2) <`false>`||
+| Primitive: String | `'foo'` | `{"S":"foo"}` | `'foo'` ||||
+| Primitive: String empty | `''` | `{"S":""}` | `''` ||[🔧c2](#c2) <`false`>||
 | Primitive: String empty | `''` | `{"NULL":true}` | `null` ||[🔧c2](#c2) <`true`>||
 | Primitive: number | `42` | `{"N":"42"}` | `42` ||||
 | Primitive: boolean: true | `true` | `{"BOOL":true}` | `true` ||||
 | Primitive: boolean: false | `false` | `{"BOOL":false}` | `false` ||||
 | Primitive: null | `null` | `{"NULL":true}` | `null` ||||
 | Primitive: undefined | `undefined` |||[🚨3](#3)|[🔧c3](#c3) <`true`>||
-| Set: Numbers | `new Set( [ 1, 2, 3 ] )` | `{"NS":["3","2","1"]}` | `Set(3) { 1, 2, 3 } )` ||||
+| Set: Numbers | `new Set( [ 1, 2, 3 ] )` | `{"NS":["3","2","1"]}` | `Set(3) { 1, 2, 3 }` ||||
 | Set: Strings | `new Set( [ 'a', 'b', 'c'] )` | `{"SS":["a","b","c"]}` | `Set(3) { 'a', 'b', 'c' }` ||||
-| Set: Buffer | `new Set( [ Buffer.from('a') ] )` | `{"BS":["YQ=="]}`| `Set(1) { Uint8Array(1) [97] }` ||| Convert `Unit8Array` with `Buffer.from` |
+| Set: Buffer | `new Set( [ Buffer.from('a') ] )` | `{"BS":["YQ=="]}`| `Set(1) { Uint8Array(1) [97] }` ||| Convert `Uint8Array` with `Buffer.from` |
 | Set: Other Types | `new Set( [ true, false ] )` |||[🚨2](#2)|||
 | Set: Empty | `new Set()` | `{"NULL":true}` | `null` |[🚨3](#3)|[🔧c3](#c3) <`true`>||
 | Set: Mixed Types | `new Set( [ 1, 'a'] )` |||[🚨4](#4)||The first value dictates the type|
@@ -87,4 +87,4 @@ class Dog {
 
 ## Refs
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html
-- https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1
+- https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/TypeAlias/TranslateConfig/
