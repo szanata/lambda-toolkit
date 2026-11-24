@@ -9,11 +9,11 @@ const sendQuery = async ( client, queryString, { prevItems = [], recursive, pagi
   }
 
   const nextToken = response.NextToken;
+  const items = prevItems.concat( parseItems( response ) );
   if ( nextToken && recursive ) {
-    return sendQuery( client, queryString, { prevItems: parseItems( response ), recursive, paginationToken: nextToken, maxRows } );
+    return sendQuery( client, queryString, { prevItems: items, recursive, paginationToken: nextToken, maxRows } );
   }
 
-  const items = prevItems.concat( parseItems( response ) );
   return { nextToken, count: items.length, items, queryStatus: camelize( response.QueryStatus ) };
 };
 
