@@ -1,5 +1,7 @@
 # Lambda Toolkit Documentation
 
+New here? Start with [Getting started](./getting_started.md).
+
 - [Array](./array/index.md)
 - [AWS](./aws/index.md)
 - [Epoch](./epoch/index.md)

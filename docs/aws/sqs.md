@@ -39,14 +39,14 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-await sqs.deleteMessage( 'my-queue', 'receipt-handle' );
+await sqs.deleteMessage( 'https://sqs.us-east-1.amazonaws.com/123456789/my-queue', 'receipt-handle' );
 ```
 
 #### Arguments
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|queue|String|The name of the SQS queue to delete the message from||
+|queue|String|The URL of the SQS queue to delete the message from||
 |receiptHandle|String|The code provided by SQS when a message is received||
 
 #### Return
@@ -87,7 +87,7 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-await sqs.sendMessage( 'my-queue', {
+await sqs.sendMessage( 'https://sqs.us-east-1.amazonaws.com/123456789/my-queue', {
   title: 'Warlords of Atlantis'
 } );
 ```
@@ -96,7 +96,7 @@ await sqs.sendMessage( 'my-queue', {
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|queue|String|The name of the SQS queue to send the message to||
+|queue|String|The URL of the SQS queue to send the message to||
 |message|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |nativeArgs|Object|All `client-sqs` SDK [SendMessageCommand arguments](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/sqs/command/SendMessageCommand/) except `QueueUrl` and `MessageBody`, which are defined by the previous arguments||
 
@@ -142,7 +142,7 @@ const { aws: { sqs } } = require( 'lambda-toolkit' );
 import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
-await sqs.sendMessageBatch( 'my-queue', [
+await sqs.sendMessageBatch( 'https://sqs.us-east-1.amazonaws.com/123456789/my-queue', [
   {
     body: {
       title: 'The Land That time Forgot'
@@ -159,7 +159,7 @@ await sqs.sendMessageBatch( 'my-queue', [
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|queue|String|The name of the SQS queue to send the messages to||
+|queue|String|The URL of the SQS queue to send the messages to||
 |messages|Array<Object>|Array of messages to send, see each property below. The maximum allowed length is 10.||
 |messages.*.body|String,Object|The content of the message, if it is not a String, it will be cast using `JSON.stringify`||
 |messages.*.id|String|The id of the message in the batch, if not present it will be created as `message_` + index of the message||

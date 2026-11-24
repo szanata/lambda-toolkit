@@ -2,6 +2,21 @@
 
 A set of tools to simplify Node.js code development specific for AWS Lambdas, including common functions and AWS SDK v3 abstractions.
 
+## Quick start
+
+```sh
+npm install lambda-toolkit
+```
+
+```js
+import { aws } from 'lambda-toolkit';
+
+const order = await aws.dynamo.get( 'orders', { id: '123' } );
+await aws.sqs.sendMessage( process.env.QUEUE_URL, { orderId: order.id } );
+```
+
+No client setup: each AWS module creates and caches its SDK client on first use. See the [Getting started](https://github.com/szanata/lambda-toolkit/blob/master/docs/getting_started.md) guide for installing the AWS SDK peer dependencies, a full Lambda handler and the core concepts.
+
 ## Origin
 
 This project was created based on my personal experience after I have been working with lambdas for almost 10 years. The need to abstract the AWS SDK integration for common day-to-day tasks led me to create this library, first as a private re-usable piece of code, now as a public package. I also added together some common functions I needed the most over the years. The goal of this library is to make the developer's life easier.
@@ -27,7 +42,7 @@ This codebase is written in ESM, but both ESM and CJS builds are provided. When 
 
 ## Documentation
 
-Full documentation is available under [docs/](https://github.com/szanata/lambda-toolkit/blob/master/docs/index.md) at the repo.
+Start with [Getting started](https://github.com/szanata/lambda-toolkit/blob/master/docs/getting_started.md). Full documentation is available under [docs/](https://github.com/szanata/lambda-toolkit/blob/master/docs/index.md) at the repo.
 
 ## Releasing
 
