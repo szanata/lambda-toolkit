@@ -1,5 +1,14 @@
 # lambda-toolkit
 
+## 2.7.1
+
+### Patch Changes
+
+- [#117](https://github.com/szanata/lambda-toolkit/pull/117) Fixed `aws.athena.query` throwing a `TypeError` when called without the `options` argument. Thanks [@szanata](https://github.com/szanata)!
+- [#115](https://github.com/szanata/lambda-toolkit/pull/115) Fixed `aws.athena.query` dropping the first row of every result page after the first, both with `recursive: true` and when paginating with `paginationToken`. Thanks [@szanata](https://github.com/szanata)!
+- [#116](https://github.com/szanata/lambda-toolkit/pull/116) Fixed `aws.athena.query` ignoring `maxResults` when `recursive` is `true`; it is now used as the page size of every request. Thanks [@szanata](https://github.com/szanata)!
+- [#113](https://github.com/szanata/lambda-toolkit/pull/113) Fixed `aws.timestreamQuery.query` with `recursive: true` returning only the last two pages of results when a query spans more than two pages. Thanks [@szanata](https://github.com/szanata)!
+
 ## 2.7.0
 
 ### Minor Changes
