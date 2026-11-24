@@ -25,10 +25,11 @@ When a client is created it is also saved to a cache object. Every time a client
 
 |Name|Type|Description|Default|
 |---|---|---|---|
+|{}|Object|Named parameter root object||
 |redis|Redis|The NodeJS Redis lib||
-|text|address|The database address||
-|text|protocol|The connection protocol|Defaults to `rediss`|
-|text|port|The database connection port|Defaults to `6379`|
+|address|String|The database address||
+|protocol|String|The connection protocol|`rediss`|
+|port|Number|The database connection port|`6379`|
 
 #### Return
 
@@ -42,10 +43,10 @@ const redis = require( 'redis' );
 const { redis: { createClient } } = require( 'lambda-toolkit' );
 
 // ESM
-import { redis } from 'redis';
+import * as redis from 'redis';
 import { redis as redisToolkit } from 'lambda-toolkit';
 const { createClient } = redisToolkit;
 
-const client = createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
+const client = await createClient( { redis, address: 'main.base.uuid.euw1.cache.amazonaws.com' } );
 assert.equal( typeof client.send, 'function' );
 ```

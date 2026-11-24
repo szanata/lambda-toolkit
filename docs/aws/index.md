@@ -204,7 +204,7 @@ import { aws } from 'lambda-toolkit';
 const { sqs } = aws;
 
 const client = sqs( { endpoint: 'my-custom-endpoint' } ); // saves sqs({endpoint:'my-custom-endpoint'}) to the cache
-await sqs.sendMessage( queueName, message ); // sqs sqs(default) to the cache
+await sqs.sendMessage( queueName, message ); // saves sqs(default) to the cache
 
 client.sendMessage( queueName, message ); // re-uses sqs({endpoint:'my-custom-endpoint'}) from cache
 await sqs.sendMessage( queueName, message ); // re-uses sqs(default) from cache

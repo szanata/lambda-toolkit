@@ -34,7 +34,7 @@ const client = timestreamWrite( { region: 'eu-west-1' } );
 
 ### `fn` writeRecords
 
-Sends a query to Timestream and return the result, parsed. Abstracts the `QueryCommand`.
+Writes records to a Timestream table. Abstracts the `WriteRecordsCommand`.
 
 Example:
 ```js
@@ -68,12 +68,12 @@ const { items } = await timestreamWrite.writeRecords( {
 |options|Object|The root object with all the arguments. See below||
 |options.database|String|The name of the Timestream database to insert data to||
 |options.table|String|The name of the Timestream table to insert data to||
-|options.record|Array<Object>|The records to insert. Each value of the array is a records have to comply to [_Records](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/_Record/) interface as expected by the SDK.||
+|options.records|Array<Object>|The records to insert. Each record must comply with the [`_Record`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/_Record/) interface expected by the SDK.||
 |options.ignoreRejections|Boolean|If set to `true`, [`RejectedRecordsException`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Class/RejectedRecordsException/) will not be thrown, instead the function will return the [rejectedRecords](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/RejectedRecord/).|false|
 
 #### Return
 
-Either an object with `recordsIngested` property, which is the same as [`RecordsIngestions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Interface/WriteRecordsCommandOutput/) from SDK, or an object with `rejectedRecords`, with the value from [`RejectRecordsException`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Class/RejectedRecordsException/) if this exception is thrown and `ignoreRejections` was set to `true`.
+Either an object with `recordsIngested` property, which is the same as [`RecordsIngested`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/timestream-write/command/WriteRecordsCommand/) from SDK, or an object with `rejectedRecords`, with the value from [`RejectedRecordsException`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-write/Class/RejectedRecordsException/) if this exception is thrown and `ignoreRejections` was set to `true`.
 
 #### Permissions needed
 

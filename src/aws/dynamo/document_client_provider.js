@@ -5,7 +5,7 @@ import { CacheStorage } from '../core/cache_storage.js';
 export const documentClientProvider = nativeArgs => {
   const translateConfig = {
     // Yes I copied those from the docs, read more here:
-    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_lib_dynamodb.html#dynamodbdocumentclientresolvedconfig-1
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-lib-dynamodb/TypeAlias/TranslateConfig/
     marshallOptions: {
       // Whether to automatically convert empty strings, blobs, and sets to `null`.
       convertEmptyValues: true, // false, by default.

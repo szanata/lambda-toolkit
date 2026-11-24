@@ -52,12 +52,12 @@ const { items } = await timestreamQuery.query( 'SELECT* FROM "table"', { paginat
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|queryString|String|The name of the SSM Parameter to retrieve the value||
+|queryString|String|The SQL query to run||
 |options|Object|Additional options for the query. See below||
 |options.recursive|Boolean|When the query needs pagination, if this option is `true` the function will paginate itself until the last page and return all results, otherwise it will return the first page only and the pagination token|false|
-|options.paginationToken|String|The value of the token to resume a previous query. Uses the `NextToken` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandInput/)|null|
-|options.maxRows|Number|The maximum number of rows to return. Uses the `MaxRows` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandInput/)|null|
-|options.rawResponse|Boolean|If `true`, returns the raw response [object](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-timestream-query/Interface/QueryCommandOutput/). Only works when `recursive` is `false`. Useful for debug purposes|false|
+|options.paginationToken|String|The value of the token to resume a previous query. Uses the `NextToken` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/timestream-query/command/QueryCommand/)|null|
+|options.maxRows|Number|The maximum number of rows to return. Uses the `MaxRows` option from the [`QueryCommandOptions`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/timestream-query/command/QueryCommand/)|null|
+|options.rawResponse|Boolean|If `true`, returns the raw response [object](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/timestream-query/command/QueryCommand/). Only works when `recursive` is `false`. Useful for debug purposes|false|
 
 #### Paginate
 If the query needs pagination a token is returned with the response and it can be used to resume the operation, retrieving the next page:
@@ -97,7 +97,7 @@ About the rows parsing, this is how the raw data is converted:
 |_*Scalar Types*_|
 |BOOLEAN|Boolean|`"true"`|`true`|
 |DOUBLE|Number|`"2.232434"`|`2.232434`|
-|TIMESTAMP|Date|`"2025-01-01 10:12:30.333000000"`|`new Date( '2025-01-01T10:12:30.333Z )`|
+|TIMESTAMP|Date|`"2025-01-01 10:12:30.333000000"`|`new Date( '2025-01-01T10:12:30.333Z' )`|
 |INTEGER|Number|`"10"`|`10`|
 |UNKNOWN|null|`<anything>`|`null`|
 |VARCHAR|String|`"string"`|`"string"`|
@@ -112,7 +112,7 @@ About the rows parsing, this is how the raw data is converted:
 |_*Complex Types*_|
 |ARRAY|Array|`ARRAY[10,10]`|`[ 10, 10 ]`|
 |ROW|Object|`ROW(10,'bar')`|`{ field0: 10, field1: 'bar' }`|
-|TIME_SERIES|Array<Object>|`TIMESERIES(ARRAY[ROW(2025-01-01 10:00:00.000000000,10),ROW(2025-01-01 11:00:00.000000000),12]`|`[ { time: new Date( '2025-01-01T10:00' ), value: 10 }, { time: new Date( '2025-01-01T11:00', value: 12 } ]`|
+|TIME_SERIES|Array<Object>|`TIMESERIES(ARRAY[ROW(2025-01-01 10:00:00.000000000,10),ROW(2025-01-01 11:00:00.000000000,12)])`|`[ { time: new Date( '2025-01-01T10:00' ), value: 10 }, { time: new Date( '2025-01-01T11:00' ), value: 12 } ]`|
 
 *: `BIGINT` will be returned as JS Number if its value lies between `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER` [`-9007199254740991`, `9007199254740991`], otherwise a String representation of the number will be returned.
 
