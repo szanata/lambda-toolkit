@@ -15,8 +15,9 @@ const pages = () => [
   { ResultSet: { ResultSetMetadata: metadata, Rows: [ row( 5 ), row( 6 ) ] } }
 ];
 
-const createClient = resultPages => ( {
+const createClient = ( resultPages, sent = [] ) => ( {
   send: async command => {
+    sent.push( command );
     switch ( command.constructor.name ) {
       case 'StartQueryExecutionCommand': return { QueryExecutionId: 'query-id' };
       case 'GetQueryExecutionCommand': return { QueryExecution: { Status: { State: 'SUCCEEDED' } } };
@@ -29,6 +30,15 @@ describe( 'Athena Query Pagination Spec', () => {
   it( 'Should return every row of every page when recursive', async () => {
     const { items } = await query( createClient( pages() ), { QueryString: 'SELECT n' }, { recursive: true } );
 
+    deepStrictEqual( items, [ { n: 1 }, { n: 2 }, { n: 3 }, { n: 4 }, { n: 5 }, { n: 6 } ] );
+  } );
+
+  it( 'Should send maxResults on every page request when recursive', async () => {
+    const sent = [];
+    const { items } = await query( createClient( pages(), sent ), { QueryString: 'SELECT n' }, { recursive: true, maxResults: 2 } );
+
+    const pageRequests = sent.filter( command => command.constructor.name === 'GetQueryResultsCommand' );
+    deepStrictEqual( pageRequests.map( command => command.input.MaxResults ), [ 2, 2, 2 ] );
     deepStrictEqual( items, [ { n: 1 }, { n: 2 }, { n: 3 }, { n: 4 }, { n: 5 }, { n: 6 } ] );
   } );
 

@@ -26,7 +26,7 @@ const getQueryExecutionId = async ( { client, nativeArgs, recursive, paginationT
  * @param {Object=} options Query configuration
  * @param {Boolean=} [options.recursive=false] If to recursive query all results or to return a paginationToken after each page
  * @param {String=} options.paginationToken The pagination token received in the previous call to resume the query (only used when recursive = false)
- * @param {Number=} options.maxResults The maximum number of results per page (only when using pagination token)
+ * @param {Number=} options.maxResults The maximum number of rows per request (1-1000), applied to every page, including when recursive
  * @returns {Result} The query result
  */
 export const query = async ( client, nativeArgs, options ) => {

@@ -56,7 +56,7 @@ SORT BY date ASC;`,
 |options|Object|Extra options||
 |options.recursive|Boolean|Whether to recursively query all results or to return a paginationToken after each page|false|
 |options.paginationToken|String|The pagination token received in the previous call to resume the query (only used when recursive = false)|null|
-|options.maxResults|Number|The maximum number of results per page (only when using pagination token)|null|
+|options.maxResults|Number|The maximum number of rows per request (1–1000). Applies to every page, including when `recursive` is `true`|null|
 
 #### Return
 

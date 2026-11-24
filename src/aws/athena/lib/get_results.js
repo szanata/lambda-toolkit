@@ -13,11 +13,11 @@ const getQueryResults = async ( { client, queryExecutionId, maxResults, token } 
 
   return { nextToken, items: parseResults( ResultSet, { hasHeaderRow: !token } ) };
 };
-const getQueryResultsRecursive = async ( { client, queryExecutionId, token } ) => {
-  const { nextToken, items } = await getQueryResults( { client, queryExecutionId, token } );
+const getQueryResultsRecursive = async ( { client, queryExecutionId, token, maxResults } ) => {
+  const { nextToken, items } = await getQueryResults( { client, queryExecutionId, token, maxResults } );
 
   if ( nextToken ) {
-    return { items: items.concat( ( await getQueryResultsRecursive( { client, queryExecutionId, token: nextToken } ) ).items ) };
+    return { items: items.concat( ( await getQueryResultsRecursive( { client, queryExecutionId, token: nextToken, maxResults } ) ).items ) };
   }
   return { items };
 };

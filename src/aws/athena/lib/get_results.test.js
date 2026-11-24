@@ -129,6 +129,24 @@ describe( 'Get Results Spec', () => {
     ] );
   } );
 
+  it( 'Should use maxResults as the page size of every request when recursive', async () => {
+    const responses = [
+      { QueryExecution: { Status: { State: 'SUCCEEDED' } } },
+      { ResultSet: 'page-1', NextToken: '1' },
+      { ResultSet: 'page-2', NextToken: '2' },
+      { ResultSet: 'page-3' }
+    ];
+    client.send.mock.mockImplementation( () => responses.shift() );
+
+    await getResults( { client, queryExecutionId: queryId, recursive: true, maxResults: 2 } );
+
+    deepStrictEqual( getQueryResultsCommand.mock.calls.map( c => c.arguments[0] ), [
+      { QueryExecutionId: queryId, MaxResults: 2 },
+      { QueryExecutionId: queryId, MaxResults: 2, NextToken: '1' },
+      { QueryExecutionId: queryId, MaxResults: 2, NextToken: '2' }
+    ] );
+  } );
+
   it( 'Should not discard a header row when resuming from a pagination token', async () => {
     const responses = [
       { QueryExecution: { Status: { State: 'SUCCEEDED' } } },
