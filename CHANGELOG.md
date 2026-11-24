@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#86](https://github.com/szanata/lambda-toolkit/pull/86) Added support for passing client arguments directly when calling an AWS namespace as a factory. Thanks [@szanata](https://github.com/szanata)!
+- [#86](https://github.com/szanata/lambda-toolkit/pull/86) Thanks [@szanata](https://github.com/szanata)! - Accept client arguments directly when calling an AWS namespace as a factory.
   
   - Changed AWS namespace factories (`aws.s3(...)`, `aws.sqs(...)`, etc.) to take the SDK client arguments as native arguments instead of a single array.
   - Changed `aws.timestreamQuery(...)` and `aws.timestreamWrite(...)` to accept client arguments through the same factory syntax, merged on top of their defaults.
