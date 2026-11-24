@@ -42,6 +42,15 @@ describe( 'Athena Query Pagination Spec', () => {
     deepStrictEqual( items, [ { n: 1 }, { n: 2 }, { n: 3 }, { n: 4 }, { n: 5 }, { n: 6 } ] );
   } );
 
+  it( 'Should return the first page and a pagination token when called without options', async () => {
+    const sent = [];
+    const { items, paginationToken } = await query( createClient( pages(), sent ), { QueryString: 'SELECT n' } );
+
+    deepStrictEqual( items, [ { n: 1 }, { n: 2 } ] );
+    deepStrictEqual( typeof paginationToken, 'string' );
+    deepStrictEqual( sent.filter( command => command.constructor.name === 'GetQueryResultsCommand' ).length, 1 );
+  } );
+
   it( 'Should return every row of every page when paginating with the pagination token', async () => {
     const resultPages = pages();
     const client = createClient( resultPages );

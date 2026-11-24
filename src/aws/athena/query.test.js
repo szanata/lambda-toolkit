@@ -59,4 +59,17 @@ describe( 'Query Athena Spec', () => {
     partialDeepStrictEqual( getResults.mock.calls[0].arguments[0], { client, queryExecutionId, token, recursive: false } );
     ok( startQuery.mock.calls.length === 0 );
   } );
+
+  it( 'Should start a new non recursive query when called without options', async () => {
+    startQuery.mock.mockImplementation( () => queryExecutionId );
+    getResults.mock.mockImplementation( () => ( { items } ) );
+
+    const result = await query( client, nativeQueryArgs );
+
+    deepStrictEqual( result, { items, paginationToken: undefined } );
+    ok( startQuery.mock.calls.length === 1 );
+    deepStrictEqual( getResults.mock.calls[0].arguments[0], {
+      client, queryExecutionId, token: undefined, recursive: false, maxResults: undefined
+    } );
+  } );
 } );
