@@ -1,10 +1,21 @@
 version: 2
+
+# Update policy: update only for a vulnerability or a needed feature.
+# - Security updates (enabled in repo settings) cover every dependency. Because
+#   `target-branch` is set, the options below do not apply to them. Keep it set,
+#   or `allow` would also limit security updates to the AWS SDK.
+# - Version updates run only for GitHub Actions and the AWS SDK clients the tests
+#   run against. All other dev tooling is updated by hand when needed.
+
 updates:
   - package-ecosystem: "github-actions"
     target-branch: "master"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    groups:
+      github-actions:
+        patterns: ['*']
     cooldown:
       default-days: 7
 
@@ -12,10 +23,11 @@ updates:
     target-branch: "master"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    allow:
+      - dependency-name: "@aws-sdk/*"
     groups:
-      minor-updates:
-        update-types: ['patch', 'minor']
-        applies-to: 'version-updates'
+      aws-sdk:
+        patterns: ['@aws-sdk/*']
     cooldown:
       default-days: 7
