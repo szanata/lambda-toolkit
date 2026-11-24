@@ -1,6 +1,9 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "szanata/lambda-toolkit" }],
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "szanata/lambda-toolkit", "template": "- {pull} {summary} Thanks {authors}!" }
+  ],
   "commit": false,
   "access": "public",
   "baseBranch": "master",
