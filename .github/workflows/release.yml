@@ -37,9 +37,10 @@ jobs:
       # Hotfixes on an older release line must not move the npm "latest" tag.
       - name: Resolve npm dist-tag
         id: dist-tag
-        run: ./ops/npm_dist_tag.sh >> "$GITHUB_OUTPUT"
+        run: ./ops/resolve_npm_dist_tag.sh >> "$GITHUB_OUTPUT"
 
       - name: Create version PR or publish
+        id: changesets
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
           publish-script: pnpm changeset publish --tag ${{ steps.dist-tag.outputs.tag }}
@@ -48,3 +49,11 @@ jobs:
           create-github-releases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # A revert can remove the changesets a release PR was built from; that PR must not be merged.
+      - name: Close stale release PR
+        if: ${{ steps.changesets.outputs.has-changesets == 'false' }}
+        run: ./ops/close_stale_release_pr.sh "$GITHUB_REF_NAME"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}

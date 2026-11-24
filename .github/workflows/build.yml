@@ -22,5 +22,14 @@ jobs:
       - name: Enable pnpm
         run: corepack enable
 
+      # Only the changesets release PR may bump the version.
+      - name: Check version is unchanged
+        if: ${{ !startsWith(github.head_ref, 'changeset-release/') }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BASE_REF"
+          ./ops/check_version.sh FETCH_HEAD
+
       - name: Build
         run: ./ops/build.sh
