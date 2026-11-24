@@ -1,5 +1,5 @@
 import { describe, it, afterEach, mock } from 'node:test';
-import { deepStrictEqual } from 'node:assert';
+import { deepStrictEqual, strictEqual } from 'node:assert';
 
 const parseItemsMock = mock.fn();
 
@@ -153,5 +153,32 @@ describe( 'TimestreamQuery Query Spec', () => {
       NextToken: 'next-pagination-token',
       MaxRows: undefined
     } );
+  } );
+
+  it( 'Should keep the results of every page when recursively paginating more than two pages', async () => {
+    const pages = [
+      { ColumnInfo: [ {} ], NextToken: 'token-2', Rows: [ {} ], QueryStatus: {} },
+      { ColumnInfo: [ {} ], NextToken: 'token-3', Rows: [ {} ], QueryStatus: {} },
+      { ColumnInfo: [ {} ], NextToken: 'token-4', Rows: [ {} ], QueryStatus: {} },
+      { ColumnInfo: [ {} ], Rows: [ {} ], QueryStatus: { ProgressPercentage: 100 } }
+    ];
+    client.send.mock.mockImplementation( () => pages.shift() );
+
+    const parsedResults = [ [ 1, 2 ], [ 3, 4 ], [ 5 ], [ 6, 7 ] ];
+    parseItemsMock.mock.mockImplementation( () => parsedResults.shift() );
+
+    const result = await query( client, queryString, { recursive: true, maxRows: 2 } );
+
+    deepStrictEqual( result, {
+      count: 7,
+      items: [ 1, 2, 3, 4, 5, 6, 7 ],
+      nextToken: undefined,
+      queryStatus: { progressPercentage: 100 }
+    } );
+    deepStrictEqual(
+      constructorMock.mock.calls.map( call => call.arguments[0].NextToken ),
+      [ undefined, 'token-2', 'token-3', 'token-4' ]
+    );
+    strictEqual( constructorMock.mock.calls.every( call => call.arguments[0].MaxRows === 2 ), true );
   } );
 } );
