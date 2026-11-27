@@ -1,0 +1,80 @@
+name: lambda-toolkit-integration
+
+services:
+  ministack:
+    # "full" is the Debian-based image that ships DuckDB (real Athena SQL) and Node (Lambda local executor)
+    image: ministackorg/ministack:1.5.45-full
+    ports:
+      # MiniStack has no auth: bind to localhost only
+      - "127.0.0.1:4566:4566"
+    environment:
+      LOG_LEVEL: INFO
+      # Disposable: every start is empty, Terraform recreates the resources
+      PERSIST_STATE: "0"
+      S3_PERSIST: "0"
+      # Real SQL via DuckDB; fail instead of silently falling back to mock results
+      ATHENA_ENGINE: duckdb
+    healthcheck:
+      # /_ministack/ready returns 200 only after any ready.d scripts have completed
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4566/_ministack/ready')"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+
+  # One-shot job on `up`: provisions MiniStack and exports the outputs the tests read
+  terraform:
+    image: hashicorp/terraform:1.17.2
+    # Shares MiniStack's network namespace, so the provider's http://localhost:4566 endpoints reach it
+    network_mode: service:ministack
+    user: "${HOST_UID:?}:${HOST_GID:?}"
+    depends_on:
+      ministack:
+        condition: service_healthy
+    environment:
+      HOME: /tmp
+      TF_IN_AUTOMATION: "1"
+    volumes:
+      - ./infra:/infra
+    working_dir: /infra/env
+    entrypoint: [ "sh", "-ec" ]
+    command:
+      - |
+        terraform init -input=false
+        terraform apply -input=false -auto-approve
+        terraform output -json > outputs.json
+
+  # Long-lived: installs the dependencies, then the integration tests are exec'd into it
+  node:
+    image: node:24.22.1-alpine3.24
+    network_mode: service:ministack
+    user: "${HOST_UID:?}:${HOST_GID:?}"
+    depends_on:
+      terraform:
+        condition: service_completed_successfully
+    init: true
+    entrypoint: [ "sh", "-ec" ]
+    command:
+      - |
+        rm -f /tmp/ready
+        corepack pnpm install --frozen-lockfile
+        touch /tmp/ready
+        exec sleep infinity
+    healthcheck:
+      # Makes `up --wait` block until the install has finished
+      test: [ "CMD", "test", "-f", "/tmp/ready" ]
+      interval: 2s
+      timeout: 2s
+      retries: 150
+    environment:
+      HOME: /tmp
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+      COREPACK_HOME: /tmp/corepack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_ENDPOINT_URL: http://localhost:4566
+      INFRA_OUTPUTS: /app/ops/integration/infra/env/outputs.json
+    volumes:
+      - ../../:/app
+    working_dir: /app
