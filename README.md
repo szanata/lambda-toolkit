@@ -44,6 +44,10 @@ This codebase is written in ESM, but both ESM and CJS builds are provided. When 
 
 Start with [Getting started](https://github.com/szanata/lambda-toolkit/blob/master/docs/getting_started.md). Full documentation is available under [docs/](https://github.com/szanata/lambda-toolkit/blob/master/docs/index.md) at the repo.
 
+## Integration tests
+
+The library is tested against a local AWS emulator ([MiniStack](https://ministack.org)). See [test/integration](https://github.com/szanata/lambda-toolkit/blob/master/test/integration/README.md) for how the tests work and [ops/integration](https://github.com/szanata/lambda-toolkit/blob/master/ops/integration/README.md) to run them.
+
 ## Releasing
 
 See [RELEASING.md](./RELEASING.md).

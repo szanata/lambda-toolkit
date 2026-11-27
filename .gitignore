@@ -4,3 +4,10 @@ dist/
 .env
 
 .pnpm-store
+
+# Terraform (local infra)
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+ops/integration/infra/env/outputs.json
