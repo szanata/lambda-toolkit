@@ -3,7 +3,7 @@ set -e
 
 cmd=$1
 
-infra_image=meltwater/node-terraform-aws:latest
+infra_image=meltwater/node-terraform-aws:chromium-2026-10-22
 node_image=node:24.22.1-alpine3.24
 
 print_title() {
